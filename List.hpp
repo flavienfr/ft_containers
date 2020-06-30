@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   List.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:38:19 by user42            #+#    #+#             */
-/*   Updated: 2020/06/26 17:24:04 by user42           ###   ########.fr       */
+/*   Updated: 2020/06/26 18:17:54 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 namespace ft {
 
+template < class T, class Alloc = std::allocator<T> >
 class List
 {
 private:
