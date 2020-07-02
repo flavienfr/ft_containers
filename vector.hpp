@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/06/30 20:32:47 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/02 22:03:53 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,19 @@ public:
 	/*
 	**	Capacity
 	*/
-	/*size_type	size() const;
+	size_type	size() const;
 	size_type	max_size() const;
 	void		resize(size_type n, value_type val = value_type());
 	size_type	capacity() const;
-	bool		empty() const;
+	/*bool		empty() const;
 	void		reserve (size_type n);*/
 
 	/*
 	**	Element access
 	*/
-	/*reference		operator[](size_type n);
+	reference		operator[](size_type n);
 	const_reference	operator[](size_type n) const;
-	reference 		at(size_type n);
+	/*reference 		at(size_type n);
 	const_reference at(size_type n) const;
 	reference 		front();
 	const_reference front() const;
@@ -92,34 +92,105 @@ public:
 */
 template <typename T, typename Alloc> // default (1)
 vector<T, Alloc>::vector(const allocator_type &alloc) :
-_size(0), _capacity(0), _alloc(alloc),_vector(NULL)
+_vector(NULL), _size(0), _capacity(0), _alloc(alloc)
 {
 }
 
 template <typename T, typename Alloc> // fill (2)
 vector<T, Alloc>::vector(size_type n, const value_type &val, const allocator_type &alloc) :
-_size(n), _capacity(n * _memGrowth), _alloc(alloc)
+_size(n), _capacity(n), _alloc(alloc)
 {
 	_vector = _alloc.allocate(_capacity);
 
-	for (int i = 0; i < _size; i++)
-		_vector[i] = val;
+	for (size_type i = 0; i < _size; i++)
+		_alloc.construct(_vector + i, val);
 }
 
 template <typename T, typename Alloc> // copy (4)
 vector<T, Alloc>::vector(const vector &x) :
-_size(x._size), _capacity(x._capacity), _alloc(x._alloc)//is that correct get private value without geter ?
+_size(x._size), _capacity(x._capacity), _alloc(x._alloc)
 {
 	_vector = _alloc.allocate(_capacity);
 
-	for (int i = 0; i < _size; i++)
-		_vector[i] = x._vector[i];
+	for (size_type i = 0; i < _size; i++)
+		_alloc.construct(_vector + i, x.vector + i);
 }
 
 template <typename T, typename Alloc> // destructor
 vector<T, Alloc>::~vector()
 {
+	//delete _vector;
+	for (size_type i = 0; i < _size; i++)
+		_alloc.destroy(_vector + i);
+	_alloc.deallocate(_vector, _capacity);
 }
+
+/*
+**	Capacity
+*/
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::size_type	vector<T, Alloc>::size() const
+{
+	return (_size);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
+{
+	return (_alloc.max_size());
+}
+
+template <typename T, typename Alloc>
+void	vector<T, Alloc>::resize(size_type n, value_type val)
+{
+	if (n > _size)
+	{
+		if (n > _capacity)
+		{
+			//an automatic reallocation of the allocated storage space takes place.
+		}
+		else
+		{
+			//the content is expanded by inserting at the end as many elements as needed to reach a size of n. If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
+		}
+	}
+	else
+	{
+		//allocator::deallocate
+		//the content is reduced to its first n elements, removing those beyond (and destroying them).
+	}
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::size_type	vector<T, Alloc>::capacity() const
+{
+	return (_capacity);
+}
+
+/*bool		empty() const;
+void		reserve (size_type n);*/
+
+/*
+**	Element access
+*/
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::reference		vector<T, Alloc>::operator[](size_type n)
+{
+	return (_vector[n]);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::const_reference	vector<T, Alloc>::operator[](size_type n) const
+{
+	return (_vector[n]);
+}
+/*reference 		at(size_type n);
+const_reference at(size_type n) const;
+reference 		front();
+const_reference front() const;
+reference		back();
+const_reference	back() const;*/
+
 
 } // namespace
 
