@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/02 22:03:53 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/03 21:48:29 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ public:
 	reference		back();
 	const_reference	back() const;*/
 
+	/*
+	**	Modifiers
+	*/
+	//assign
+	void	push_back(const value_type& val);
+
 };
 
 /*
@@ -141,23 +147,44 @@ typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
 }
 
 template <typename T, typename Alloc>
-void	vector<T, Alloc>::resize(size_type n, value_type val)
+void	vector<T, Alloc>::resize(size_type n, value_type val)//iterator
 {
 	if (n > _size)
 	{
 		if (n > _capacity)
 		{
 			//an automatic reallocation of the allocated storage space takes place.
+			T *tmp;
+
+			tmp = _alloc.allocate(n);//is size = capacity when resize ?
+			for (size_type i = 0; i < _size; i++)
+			{
+				_alloc.construct(tmp + i, _vector[i]);
+				_alloc.destroy(_vector + i);
+			}
+			for (size_type i = _size; i < n; i++)
+				_alloc.construct(tmp + i, val);
+			_alloc.deallocate(_vector, _capacity);
+			_capacity = n;//is size = capacity when resize ?
+			_size = n;
+			_vector = tmp;
 		}
 		else
 		{
-			//the content is expanded by inserting at the end as many elements as needed to reach a size of n. If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
+			//the content is expanded by inserting at the end as many elements as needed 
+			//to reach a size of n. If val is specified, the new elements are initialized
+			//as copies of val, otherwise, they are value-initialized.
+			for (size_type i = _size; i < n; i++)
+				_alloc.construct(_vector + i, val);
+			_size = n;
 		}
 	}
 	else
 	{
-		//allocator::deallocate
 		//the content is reduced to its first n elements, removing those beyond (and destroying them).
+		for (size_type i = n; i < _capacity; i++)
+			_alloc.destroy(_vector + i);
+		_size = n;
 	}
 }
 
@@ -190,6 +217,36 @@ reference 		front();
 const_reference front() const;
 reference		back();
 const_reference	back() const;*/
+
+/*
+**	Modifiers
+*/
+//assign
+template <typename T, typename Alloc>
+void	vector<T, Alloc>::push_back(const value_type &val)//iterator
+{
+	if (_size + 1 > _capacity)
+	{
+		T *tmp;
+
+		_capacity = (_capacity != 0) ? (_capacity * 2) : 1;
+		tmp = _alloc.allocate(_capacity);
+		for (size_type i = 0; i < _size; i++)
+		{
+			_alloc.construct(tmp + i, _vector[i]);
+			_alloc.destroy(_vector + i);
+		}
+		_alloc.construct(tmp + _size, val);
+		_alloc.deallocate(_vector, _capacity);
+		_size++;
+		_vector = tmp;
+	}
+	else
+	{
+		_alloc.construct(_vector + _size, val);
+		_size++;
+	}
+}
 
 
 } // namespace

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/02 21:19:31 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/03 21:48:30 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main()
 	//test_constructor();
 	
 	//Constructor_Destructor_Assignator();
-	Element_access();
+	//Element_access();
 
 	Capacity();
 
@@ -207,10 +207,39 @@ void	ft_capacity()
 		std::cout << "max_size: " << myvector.max_size() << '\n';
 	}
 }
+void	std_resize()
+{
+	std::vector<int> myvector;
+
+	for (int i=1;i<10;i++) myvector.push_back(i);	
+	//myvector.resize(5);
+	//myvector.resize(8,100);
+	myvector.resize(12);
+	
+	std::cout << "myvector contains:";
+	for (size_t i=0; i < myvector.size();i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
+}
+void	ft_resize()
+{
+	ft::vector<int> myvector;
+
+	for (int i=1;i<10;i++) myvector.push_back(i);	
+	//myvector.resize(5);
+	//myvector.resize(8,100);
+	myvector.resize(12);
+	
+	std::cout << "myvector contains:";
+	for (size_t i=0; i < myvector.size();i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
+}
 void	Capacity()
 {
-	tester(std_max_size, ft_max_size, "max_size");
-	tester(std_capacity, ft_capacity, "capacity");
+	//tester(std_max_size, ft_max_size, "max_size");
+	//tester(std_capacity, ft_capacity, "capacity");
+	tester(std_resize, ft_resize, "resize");
 }
 
 /*
@@ -284,7 +313,6 @@ void	Element_access()
 {
 	tester(std_operator_selection, ft_operator_selection, "operator_selection");
 }
-
 
 
 /*
