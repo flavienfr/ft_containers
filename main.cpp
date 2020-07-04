@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/03 21:48:30 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/04 19:09:37 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,6 @@
 
 #include "vector.hpp"
 #include <vector>
-
-void	std_constructor();
-void	ft_constructor();
-void	Constructor_Destructor_Assignator();
-
-void	std_max_size();
-void	ft_max_size();
-void	Capacity();
-
-void	std_operator_selection();
-void	ft_operator_selection();
-void	Element_access();
-
-int main()
-{
-	//SEGFAULT
-	//std::vector<int>test;
-	//std::cout << test[0] << std::endl;
-	//test_constructor();
-	
-	//Constructor_Destructor_Assignator();
-	//Element_access();
-
-	Capacity();
-
-	return 0;
-}
 
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
@@ -65,79 +38,38 @@ void	std_constructor()
 		vect.push_back(20); 
 		vect.push_back(30); 
 
-		for (int x : vect) 
-			std::cout << x << " ";
+		for (size_t i = 0; i < vect.max_size(); i++)
+			std::cout << vect[i] << " ";
 	}
 	{
 		int n = 3;
 		std::vector<int> vect(n, 10); 
 
-		for (int x : vect) 
-			std::cout << x << " "; 
-	}
-	{
-		std::vector<int> vect{ 10, 20, 30 }; 
-
-    	for (int x : vect) 
-    		std::cout << x << " "; 
+		for (size_t i = 0; i < vect.max_size(); i++)
+			std::cout << vect[i] << " ";
 	}
 	{
 		int arr[] = { 10, 20, 30 }; 
 		int n = sizeof(arr) / sizeof(arr[0]); 
 
-		std::vector<int> vect(arr, arr + n); 
+		std::vector<int> vect(arr, arr + n);
 
-		for (int x : vect) 
-			std::cout << x << " "; 
+		for (size_t i = 0; i < vect.max_size(); i++)
+			std::cout << vect[i] << " "; 
 	}
 	{
-		std::vector<int> vect1{ 10, 20, 30 }; 
+		std::vector<int> vect1;
+		vect1.push_back(10);
+		vect1.push_back(20);
+		vect1.push_back(30);
 		std::vector<int> vect2(vect1.begin(), vect1.end());
 
-		for (int x : vect2) 
-			std::cout << x << " ";
+		for (size_t i = 0; i < vect2.max_size(); i++)
+			std::cout << vect2[i] << " ";
 	}
 }
 void	ft_constructor()
 {
-	/*{
-		ft::vector<int> vect;  
-		vect.push_back(10); 
-		vect.push_back(20); 
-		vect.push_back(30); 
-
-		for (int x : vect) 
-			std::cout << x << " ";
-	}
-	{
-		int n = 3;
-		ft::vector<int> vect(n, 10); 
-
-		for (int x : vect) 
-			std::cout << x << " "; 
-	}
-	{
-		ft::vector<int> vect{ 10, 20, 30 }; 
-
-    	for (int x : vect) 
-    		std::cout << x << " "; 
-	}
-	{
-		int arr[] = { 10, 20, 30 }; 
-		int n = sizeof(arr) / sizeof(arr[0]); 
-
-		ft::vector<int> vect(arr, arr + n); 
-
-		for (int x : vect) 
-			std::cout << x << " "; 
-	}
-	{
-		ft::vector<int> vect1{ 10, 20, 30 }; 
-		ft::vector<int> vect2(vect1.begin(), vect1.end());
-
-		for (int x : vect2) 
-			std::cout << x << " "; 
-	}*/
 }
 void	Constructor_Destructor_Assignator()
 {
@@ -173,6 +105,34 @@ void	ft_max_size()
 	ft::vector<bool>vec5;//bool diff
 	std::cout << vec5.max_size();
 }
+void	std_resize()
+{
+	std::vector<int> myvector;
+
+	for (int i=1;i<10;i++) myvector.push_back(i);	
+	//myvector.resize(5);
+	//myvector.resize(8,100);
+	myvector.resize(12);
+	
+	std::cout << "myvector contains:";
+	for (size_t i=0; i < myvector.size();i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
+}
+void	ft_resize()
+{
+	ft::vector<int> myvector;
+
+	for (int i=1;i<10;i++) myvector.push_back(i);	
+	//myvector.resize(5);
+	//myvector.resize(8,100);
+	myvector.resize(12);
+	
+	std::cout << "myvector contains:";
+	for (size_t i=0; i < myvector.size();i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
+}
 void	std_capacity()
 {
 	{
@@ -207,39 +167,129 @@ void	ft_capacity()
 		std::cout << "max_size: " << myvector.max_size() << '\n';
 	}
 }
-void	std_resize()
+void	std_empty()
 {
 	std::vector<int> myvector;
-
-	for (int i=1;i<10;i++) myvector.push_back(i);	
-	//myvector.resize(5);
-	//myvector.resize(8,100);
-	myvector.resize(12);
-	
-	std::cout << "myvector contains:";
-	for (size_t i=0; i < myvector.size();i++)
-		std::cout << ' ' << myvector[i];
-	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
+	int sum (0);
+	for (int i=1;i<=10;i++) myvector.push_back(i);
+	while (!myvector.empty())
+	{
+	   sum += myvector.back();
+	   myvector.pop_back();
+	}
+	std::cout << "total: " << sum;
 }
-void	ft_resize()
-{
+void	ft_empty()
+{/*
 	ft::vector<int> myvector;
+	int sum (0);
+	for (int i=1;i<=10;i++) myvector.push_back(i);
+	while (!myvector.empty())
+	{
+	   sum += myvector.back();
+	   myvector.pop_back();
+	}
+	std::cout << "total: " << sum;
+*/}
+void	std_reserve()
+{
+	std::vector<int>::size_type sz;
 
-	for (int i=1;i<10;i++) myvector.push_back(i);	
-	//myvector.resize(5);
-	//myvector.resize(8,100);
-	myvector.resize(12);
-	
-	std::cout << "myvector contains:";
-	for (size_t i=0; i < myvector.size();i++)
-		std::cout << ' ' << myvector[i];
-	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
+	std::vector<int> foo;
+	sz = foo.capacity();
+	std::cout << "making foo grow:\n";
+	for (int i=0; i<100; ++i)
+	{
+		foo.push_back(i);
+		if (sz!=foo.capacity())
+		{
+			sz = foo.capacity();
+	    	std::cout << "capacity changed: " << sz << '\n';
+		}
+	}
+
+	std::vector<int> bar;
+	sz = bar.capacity();
+	bar.reserve(100); // this is the only difference with foo above
+	std::cout << "making bar grow:\n";
+	for (int i=0; i<100; ++i)
+	{
+		bar.push_back(i);
+		if (sz!=bar.capacity())
+		{
+	    	sz = bar.capacity();
+	    	std::cout << "capacity changed: " << sz << '\n';
+	  }
+	}
+	std::cout << "Do a push_back" << '\n';
+	bar.push_back(9);
+	std::cout << "capacity changed: " << bar.capacity() << '\n';
+	{
+		try
+		{
+   			// vector throws a length_error if resized above max_size
+    		std::vector<int> myvector;
+    		myvector.reserve(myvector.max_size()+1);
+  		}
+		catch (const std::length_error& le)
+		{
+			std::cerr << "Length error: " << le.what();
+  		}
+	}
+}
+void	ft_reserve()
+{
+	ft::vector<int>::size_type sz;
+
+	ft::vector<int> foo;
+	sz = foo.capacity();
+	std::cout << "making foo grow:\n";
+	for (int i=0; i<100; ++i)
+	{
+		foo.push_back(i);
+		if (sz!=foo.capacity())
+		{
+			sz = foo.capacity();
+	    	std::cout << "capacity changed: " << sz << '\n';
+		}
+	}
+
+	ft::vector<int> bar;
+	sz = bar.capacity();
+	bar.reserve(100); // this is the only difference with foo above
+	std::cout << "making bar grow:\n";
+	for (int i=0; i<100; ++i)
+	{
+		bar.push_back(i);
+		if (sz!=bar.capacity())
+		{
+	    	sz = bar.capacity();
+	    	std::cout << "capacity changed: " << sz << '\n';
+	  }
+	}
+	std::cout << "Do a push_back" << '\n';
+	bar.push_back(9);
+	std::cout << "capacity changed: " << bar.capacity() << '\n';
+	{
+		try
+		{
+   			// vector throws a length_error if resized above max_size
+    		ft::vector<int> myvector;
+    		myvector.reserve(myvector.max_size()+1);
+  		}
+		catch (const std::length_error& le)
+		{
+			std::cerr << "Length error: " << le.what();
+  		}
+	}
 }
 void	Capacity()
 {
 	//tester(std_max_size, ft_max_size, "max_size");
 	//tester(std_capacity, ft_capacity, "capacity");
-	tester(std_resize, ft_resize, "resize");
+	//tester(std_resize, ft_resize, "resize");
+	//tester(std_empty, ft_empty, "empty");
+	tester(std_reserve, ft_reserve, "reserve");
 }
 
 /*
@@ -314,6 +364,14 @@ void	Element_access()
 	tester(std_operator_selection, ft_operator_selection, "operator_selection");
 }
 
+int main()
+{
+	//Constructor_Destructor_Assignator();
+	//Element_access();
+	Capacity();
+
+	return 0;
+}
 
 /*
 ID test:

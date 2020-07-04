@@ -11,7 +11,7 @@ public:
     friend std::basic_ostream<a, b>& operator<<(std::basic_ostream<a, b>& s, const center_helper<a, b>& c);
 };
 
-template<typename charT, typename traits = std::char_traits<charT> >
+template<typename charT, typename traits >//= std::char_traits<charT> 
 center_helper<charT, traits> centered(std::basic_string<charT, traits> str) {
     return center_helper<charT, traits>(str);
 }
