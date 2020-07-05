@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/04 19:09:32 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/05 13:03:24 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,58 @@
 
 namespace ft {
 
-class iterator //inherate from baseIterator
+template <typename T>
+class VectorIterator //inherate from baseIterator
 {
 private:
-
+	T *ptr;
 public:
-	iterator() : {}
-	iterator(const iterator &);
-	iterator &operator=(const iterator &);
-	~iterator();
+	typedef T			value_type;
+	typedef ptrdiff_t	difference_type;
+	typedef T *			pointer;
+	typedef T &			reference;
+
+	VectorIterator(); //null ptr ?
+	VectorIterator(const VectorIterator &the_ptr);
+	VectorIterator<T> &operator=(const VectorIterator &the_ptr);
+	~VectorIterator();
+
+	VectorIterator<T> &operator*(VectorIterator<T> *the_ptr);
+	//VectorIterator<>
+
+	VectorIterator &operator*() { return (it->*ptr); };
 };
+
+template <typename T>
+VectorIterator<T>::VectorIterator()
+{
+}
+
+template <typename T>
+VectorIterator<T>::VectorIterator(const VectorIterator &the_ptr) : ptr(the_ptr)
+{
+}
+
+template <typename T>
+VectorIterator<T> &VectorIterator<T>::operator=(const VectorIterator &the_ptr)
+{
+	ptr = the_ptr;
+	return (*this);
+}
+
+template <typename T>
+VectorIterator<T>::~VectorIterator()
+{
+}
+
+template <typename T>
+VectorIterator<T> &VectorIterator<T>::operator*(VectorIterator<T> *it)
+{
+	
+}
+
+
+
 
 template <typename T, typename Alloc = std::allocator<T> >
 class vector
@@ -41,7 +83,7 @@ public:
 	typedef typename allocator_type::const_reference	const_reference;
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
-	//typedef iterator;
+	typedef VectorIterator<T>							iterator;
 	//typedef const_iterator
 	//typedef reverse_iterator
 	//typedef const_reverse_iterator

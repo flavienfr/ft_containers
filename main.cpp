@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/04 19:09:37 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/05 13:02:02 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@ void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
 	std::cout.fill( '-' );
 
-	std::cout << std::setw(50) << centered(text) << std::endl;
-	pf_1();
-	std::cout << std::endl;
-	std::cout << std::setw(50) << centered("STD vs FT") << std::endl;
-	pf_2();
-	std::cout << std::endl;
+	if (pf_1)
+	{
+		std::cout << std::setw(50) << centered(text) << std::endl;
+		pf_1();
+		std::cout << std::endl;
+	}
+	if (pf_2)
+	{
+		std::cout << std::setw(50) << centered("STD vs FT") << std::endl;
+		pf_2();
+		std::cout << std::endl;
+	}
 }
 
 /*
@@ -364,18 +370,79 @@ void	Element_access()
 	tester(std_operator_selection, ft_operator_selection, "operator_selection");
 }
 
+/*
+**	Iterators
+*/
+void	std_Iterators()
+{
+	{
+		std::vector<int>vec;
+
+		vec.push_back(10);
+		vec.push_back(255);
+		vec.push_back(456);
+		std::vector<int>::iterator it;
+		std::vector<int>::iterator it2 = vec.begin();
+		std::cout << "it: " << *it << " it2: " << *it2;
+	}
+	std::cout << std::endl;
+	{
+		std::vector<int>vec;
+
+		vec.push_back(10);
+		vec.push_back(255);
+		vec.push_back(456);
+		std::vector<int>::iterator it = vec.begin();
+		std::vector<int>::iterator it2(it);
+		std::vector<int>::iterator it3;
+		it3 = it;
+		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
+	}
+}
+void	ft_Iterators()
+{
+	{
+		ft::vector<int>vec;
+
+		vec.push_back(10);
+		vec.push_back(255);
+		vec.push_back(456);
+		ft::vector<int>::iterator it;
+		ft::vector<int>::iterator it2;// = vec.begin();
+		std::cout << "it: " << *it << " it2: " << *it2;
+	}/*
+	std::cout << std::endl;
+	{
+		ft::vector<int>vec;
+
+		vec.push_back(10);
+		vec.push_back(255);
+		vec.push_back(456);
+		ft::vector<int>::iterator it = vec.begin();
+		ft::vector<int>::iterator it2(it);
+		ft::vector<int>::iterator it3;
+		it3 = it;
+		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
+	}*/
+}
+void	Iterators()
+{
+	tester(std_Iterators, ft_Iterators, "Iterators");
+}
+
 int main()
 {
 	//Constructor_Destructor_Assignator();
 	//Element_access();
-	Capacity();
+	//Capacity();
+	Iterators();
 
 	return 0;
 }
 
 /*
 ID test:
-- capavity
+- test throw expetion for each function
 - dans test diff les resultat print en vert ok rouge bad
 - template au lieu de deux fonction casi identique
 */
