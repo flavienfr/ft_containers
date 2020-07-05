@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/05 13:02:02 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/05 19:42:04 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,6 +398,8 @@ void	std_Iterators()
 		it3 = it;
 		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
 	}
+	//int *tab;
+	//std::vector<int>::iterator it3(tab);
 }
 void	ft_Iterators()
 {
@@ -408,9 +410,9 @@ void	ft_Iterators()
 		vec.push_back(255);
 		vec.push_back(456);
 		ft::vector<int>::iterator it;
-		ft::vector<int>::iterator it2;// = vec.begin();
+		ft::vector<int>::iterator it2 = vec.begin();
 		std::cout << "it: " << *it << " it2: " << *it2;
-	}/*
+	}
 	std::cout << std::endl;
 	{
 		ft::vector<int>vec;
@@ -423,11 +425,111 @@ void	ft_Iterators()
 		ft::vector<int>::iterator it3;
 		it3 = it;
 		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
+	}
+	//int *tab;
+	//ft::vector<int>::iterator it3(tab);
+}
+void	std_begin()
+{
+	{
+		std::vector<int> myvector;
+		for (int i=1; i<=5; i++) myvector.push_back(i);
+
+		std::cout << "myvector contains:";
+		for (std::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
+			std::cout << ' ' << *it;
+	}
+	std::cout << std::endl;
+	{
+		std::vector<int> myvector;
+		myvector.push_back(10);
+		myvector.push_back(20);
+		std::vector<int>::iterator it = myvector.begin();
+		std::vector<int>::iterator it1 = myvector.end();//-2
+
+		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
+	}
+}
+void	ft_begin()
+{
+	{
+		ft::vector<int> myvector;
+		for (int i=1; i<=5; i++) myvector.push_back(i);
+
+		std::cout << "myvector contains:";
+		for (ft::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
+			std::cout << ' ' << *it;
+	}
+	std::cout << std::endl;
+	{
+		ft::vector<int> myvector;
+		myvector.push_back(10);
+		myvector.push_back(20);
+		ft::vector<int>::iterator it = myvector.begin();
+		ft::vector<int>::iterator it1 = myvector.end();//-2
+
+		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
+	}
+}
+void	std_operator_increment_decrement()
+{
+	{
+		std::vector<float>vec;
+		std::vector<float>::iterator it;
+
+		vec.push_back(10.3);
+		vec.push_back(15.4);
+		vec.push_back(23.5);
+		it = vec.begin();
+
+		std::cout << *(it++) << " ";
+		std::cout << *(++it) << " ";
+	}
+	/*std::cout << "\n";
+	{
+		std::vector<float>vec;
+		std::vector<float>::iterator it;
+
+		vec.push_back(10.3);
+		vec.push_back(12.4);
+		vec.push_back(13.5);
+		it = vec.end();
+		it--;
+		std::cout << *it << " ";
+	}*/
+}void	ft_operator_increment_decrement()
+{
+	{
+		ft::vector<float>vec;
+		ft::vector<float>::iterator it;
+
+		vec.push_back(10.3);
+		vec.push_back(15.4);
+		vec.push_back(23.5);
+		it = vec.begin();
+
+		std::cout << *(it++) << " ";
+		std::cout << *(++it) << " ";
+	}
+	/*std::cout << "\n";
+	{
+		ft::vector<float>vec;
+		ft::vector<float>::iterator it;
+
+		vec.push_back(10.3);
+		vec.push_back(12.4);
+		vec.push_back(13.5);
+		it = vec.end();
+		it--;
+		std::cout << *it << " ";
 	}*/
 }
 void	Iterators()
 {
-	tester(std_Iterators, ft_Iterators, "Iterators");
+	//tester(std_Iterators, ft_Iterators, "Iterators");
+	//tester(std_Iterators, ft_Iterators, "Iterators");
+	//tester(std_begin, ft_begin, "begin");
+	tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
 }
 
 int main()
@@ -445,4 +547,8 @@ ID test:
 - test throw expetion for each function
 - dans test diff les resultat print en vert ok rouge bad
 - template au lieu de deux fonction casi identique
+
+Need more explication:
+- begin return object(comment ca marche)
+- typename
 */

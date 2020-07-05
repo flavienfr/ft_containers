@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 19:00:01 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/04 19:09:36 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/05 13:40:59 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 template <class T>
 struct iterator_traits
 {
-	typedef typename T::value_type value_type
-	typedef typename T::difference_type difference_type
-	typedef typename T::iterator_category iterator_category
-	typedef typename T::pointer pointer
-	typedef typename T::reference reference
+	typedef typename T::value_type value_type;
+	typedef typename T::difference_type difference_type;
+	typedef typename T::iterator_category iterator_category;
+	typedef typename T::pointer pointer;
+	typedef typename T::reference reference;
 };
 
 /*

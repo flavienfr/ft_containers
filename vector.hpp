@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/05 13:03:24 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/05 19:40:36 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,25 @@ template <typename T>
 class VectorIterator //inherate from baseIterator
 {
 private:
-	T *ptr;
+	T *_ptr;
 public:
+	// metre dans iterator trai
 	typedef T			value_type;
 	typedef ptrdiff_t	difference_type;
 	typedef T *			pointer;
 	typedef T &			reference;
 
 	VectorIterator(); //null ptr ?
-	VectorIterator(const VectorIterator &the_ptr);
-	VectorIterator<T> &operator=(const VectorIterator &the_ptr);
+	VectorIterator(T *ptr);// in std is private(friend ?)
+	VectorIterator(const VectorIterator &it);
+	VectorIterator<T> &operator=(const VectorIterator &it);
 	~VectorIterator();
 
-	VectorIterator<T> &operator*(VectorIterator<T> *the_ptr);
-	//VectorIterator<>
+	T *ptr() const;//is exist in true iteraro, lake of security ?
 
-	VectorIterator &operator*() { return (it->*ptr); };
+	T &operator*();//what it retrun ?
+	VectorIterator<T> operator++();
+	VectorIterator<T> operator++(int);
 };
 
 template <typename T>
@@ -48,14 +51,19 @@ VectorIterator<T>::VectorIterator()
 }
 
 template <typename T>
-VectorIterator<T>::VectorIterator(const VectorIterator &the_ptr) : ptr(the_ptr)
+VectorIterator<T>::VectorIterator(T *ptr) : _ptr(ptr)
 {
 }
 
 template <typename T>
-VectorIterator<T> &VectorIterator<T>::operator=(const VectorIterator &the_ptr)
+VectorIterator<T>::VectorIterator(const VectorIterator &it) : _ptr(it._ptr)
 {
-	ptr = the_ptr;
+}
+
+template <typename T>
+VectorIterator<T> &VectorIterator<T>::operator=(const VectorIterator &it)
+{
+	_ptr = it._ptr;
 	return (*this);
 }
 
@@ -65,10 +73,35 @@ VectorIterator<T>::~VectorIterator()
 }
 
 template <typename T>
-VectorIterator<T> &VectorIterator<T>::operator*(VectorIterator<T> *it)
+T *VectorIterator<T>::ptr() const
+{ return (_ptr); }
+
+template <typename T>
+T &VectorIterator<T>::operator*()
+{ return (*_ptr); }
+
+template <typename T>
+VectorIterator<T> VectorIterator<T>::operator++()
 {
-	
+	++_ptr;
+	return (*this);
 }
+
+template <typename T>
+VectorIterator<T> VectorIterator<T>::operator++(int)
+{
+	VectorIterator<T> tmp = *this;//* ou pas
+    ++_ptr;
+    return (tmp);
+}
+
+template <typename T>//friend it ?
+bool operator==(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
+{ return (lhs.ptr() == rhs.ptr()); }
+
+template <typename T>//friend it ?
+bool operator!=(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
+{ return (lhs.ptr() != rhs.ptr()); }
 
 
 
@@ -109,6 +142,14 @@ public:
 	vector(const vector &x); //copy (4)
 	vector &operator=(const vector &x);
 	~vector();
+
+	/*
+	**	Iterators
+	*/
+	iterator begin();
+	//const_iterator begin() const;
+	iterator end();
+	//const_iterator end() const;
 
 	/*
 	**	Capacity
@@ -187,6 +228,17 @@ vector<T, Alloc>::~vector()
 /*
 **	Iterators
 */
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator	vector<T, Alloc>::begin()
+{
+	return (iterator(_vector));
+}
+//constiterator
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::end()
+{
+	return (iterator(_vector + _size));
+}
 
 /*
 **	Capacity
