@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/05 19:42:04 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/06 18:59:47 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,62 +373,6 @@ void	Element_access()
 /*
 **	Iterators
 */
-void	std_Iterators()
-{
-	{
-		std::vector<int>vec;
-
-		vec.push_back(10);
-		vec.push_back(255);
-		vec.push_back(456);
-		std::vector<int>::iterator it;
-		std::vector<int>::iterator it2 = vec.begin();
-		std::cout << "it: " << *it << " it2: " << *it2;
-	}
-	std::cout << std::endl;
-	{
-		std::vector<int>vec;
-
-		vec.push_back(10);
-		vec.push_back(255);
-		vec.push_back(456);
-		std::vector<int>::iterator it = vec.begin();
-		std::vector<int>::iterator it2(it);
-		std::vector<int>::iterator it3;
-		it3 = it;
-		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
-	}
-	//int *tab;
-	//std::vector<int>::iterator it3(tab);
-}
-void	ft_Iterators()
-{
-	{
-		ft::vector<int>vec;
-
-		vec.push_back(10);
-		vec.push_back(255);
-		vec.push_back(456);
-		ft::vector<int>::iterator it;
-		ft::vector<int>::iterator it2 = vec.begin();
-		std::cout << "it: " << *it << " it2: " << *it2;
-	}
-	std::cout << std::endl;
-	{
-		ft::vector<int>vec;
-
-		vec.push_back(10);
-		vec.push_back(255);
-		vec.push_back(456);
-		ft::vector<int>::iterator it = vec.begin();
-		ft::vector<int>::iterator it2(it);
-		ft::vector<int>::iterator it3;
-		it3 = it;
-		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
-	}
-	//int *tab;
-	//ft::vector<int>::iterator it3(tab);
-}
 void	std_begin()
 {
 	{
@@ -471,6 +415,75 @@ void	ft_begin()
 		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
 	}
 }
+void	Iterators()
+{
+	//tester(std_Iterators, ft_Iterators, "Iterators");
+	//tester(std_Iterators, ft_Iterators, "Iterators");
+	//tester(std_begin, ft_begin, "begin");
+}
+
+
+/*
+**	ClassIterator
+*/
+void	std_construct_assign()
+{
+	{
+		std::vector<int>vec;
+
+		vec.push_back(10);
+		vec.push_back(255);
+		vec.push_back(456);
+		std::vector<int>::iterator it = vec.begin();
+		std::vector<int>::iterator it2(it);
+		std::vector<int>::iterator it3;
+		it3 = it;
+		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
+	}
+}
+void	ft_construct_assign()
+{
+	{
+		ft::vector<int>vec;
+
+		vec.push_back(10);
+		vec.push_back(255);
+		vec.push_back(456);
+		ft::vector<int>::iterator it = vec.begin();
+		ft::vector<int>::iterator it2(it);
+		ft::vector<int>::iterator it3;
+		it3 = it;
+		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
+	}
+}
+void	std_equivalent()
+{
+	std::vector<double>vec;
+	vec.push_back(15.6);
+	std::vector<double>::iterator it = vec.begin();
+	std::vector<double>::iterator it2 = vec.end();
+
+	std::cout<< "it == it2: "<< (it == it2) << std::endl;
+	std::cout<< "it != it2: "<< (it != it2) << std::endl;
+	it2 = vec.begin();
+	std::cout<< "it == it2: "<< (it == it2) << std::endl;
+	std::cout<< "it != it2: "<< (it != it2) << std::endl;
+
+}
+void	ft_equivalent()
+{
+	ft::vector<double>vec;
+	vec.push_back(15.6);
+	ft::vector<double>::iterator it = vec.begin();
+	ft::vector<double>::iterator it2 = vec.end();
+
+	std::cout<< "it == it2: "<< (it == it2) << std::endl;
+	std::cout<< "it != it2: "<< (it != it2) << std::endl;
+	it2 = vec.begin();
+	std::cout<< "it == it2: "<< (it == it2) << std::endl;
+	std::cout<< "it != it2: "<< (it != it2);
+
+}
 void	std_operator_increment_decrement()
 {
 	{
@@ -497,7 +510,8 @@ void	std_operator_increment_decrement()
 		it--;
 		std::cout << *it << " ";
 	}*/
-}void	ft_operator_increment_decrement()
+}
+void	ft_operator_increment_decrement()
 {
 	{
 		ft::vector<float>vec;
@@ -524,12 +538,11 @@ void	std_operator_increment_decrement()
 		std::cout << *it << " ";
 	}*/
 }
-void	Iterators()
+void	ClassIterator()
 {
-	//tester(std_Iterators, ft_Iterators, "Iterators");
-	//tester(std_Iterators, ft_Iterators, "Iterators");
-	//tester(std_begin, ft_begin, "begin");
-	tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
+	//tester(std_construct_assign, ft_construct_assign, "construct_assign");
+	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
+	tester(std_equivalent, ft_equivalent, "equivalent");
 }
 
 int main()
@@ -537,13 +550,15 @@ int main()
 	//Constructor_Destructor_Assignator();
 	//Element_access();
 	//Capacity();
-	Iterators();
+	//Iterators();
+	ClassIterator();
 
 	return 0;
 }
 
 /*
 ID test:
+- test vc.end() after push back 
 - test throw expetion for each function
 - dans test diff les resultat print en vert ok rouge bad
 - template au lieu de deux fonction casi identique

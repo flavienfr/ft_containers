@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/05 19:40:36 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/06 19:01:22 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,20 @@
 namespace ft {
 
 template <typename T>
+class VectorIterator;
+
+template <typename T>
+bool operator==(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs);
+template <typename T>
+bool operator!=(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs);
+
+template <typename T>
 class VectorIterator //inherate from baseIterator
 {
 private:
 	T *_ptr;
 public:
-	// metre dans iterator trai
+	// metre dans iterator traits
 	typedef T			value_type;
 	typedef ptrdiff_t	difference_type;
 	typedef T *			pointer;
@@ -38,7 +46,8 @@ public:
 	VectorIterator<T> &operator=(const VectorIterator &it);
 	~VectorIterator();
 
-	T *ptr() const;//is exist in true iteraro, lake of security ?
+	friend bool operator== <>(const VectorIterator<T> &lhs, const VectorIterator &rhs);
+	friend bool operator!= <>(const VectorIterator<T> &lhs, const VectorIterator &rhs);
 
 	T &operator*();//what it retrun ?
 	VectorIterator<T> operator++();
@@ -46,7 +55,7 @@ public:
 };
 
 template <typename T>
-VectorIterator<T>::VectorIterator()
+VectorIterator<T>::VectorIterator() : _ptr(NULL)
 {
 }
 
@@ -73,8 +82,12 @@ VectorIterator<T>::~VectorIterator()
 }
 
 template <typename T>
-T *VectorIterator<T>::ptr() const
-{ return (_ptr); }
+bool operator==(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
+{ return (lhs._ptr == rhs._ptr); }
+
+template <typename T>
+bool operator!=(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
+{ return (lhs._ptr != rhs._ptr); }
 
 template <typename T>
 T &VectorIterator<T>::operator*()
@@ -94,14 +107,6 @@ VectorIterator<T> VectorIterator<T>::operator++(int)
     ++_ptr;
     return (tmp);
 }
-
-template <typename T>//friend it ?
-bool operator==(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
-{ return (lhs.ptr() == rhs.ptr()); }
-
-template <typename T>//friend it ?
-bool operator!=(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
-{ return (lhs.ptr() != rhs.ptr()); }
 
 
 
