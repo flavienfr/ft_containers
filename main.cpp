@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/06 18:59:47 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 09:02:43 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,6 +484,32 @@ void	ft_equivalent()
 	std::cout<< "it != it2: "<< (it != it2);
 
 }
+void	std_access()
+{
+	std::vector<int>vecint;
+	vecint.push_back(15);
+	vecint.push_back(15);
+	std::vector<std::vector<int> >vec;
+	vec.push_back(vecint);
+
+	std::vector<std::vector<int> >::iterator it = vec.begin();
+
+
+	std::cout << "it->: " << it->capacity();
+}
+void	ft_access()
+{
+	ft::vector<int>vecint;
+	vecint.push_back(15);
+	vecint.push_back(15);
+	ft::vector<ft::vector<int> >vec;
+	//vec.push_back(vecint);
+
+	//ft::vector<ft::vector<int> >::iterator it = vec.begin();
+
+
+	//std::cout << "it->: " << it->capacity();
+}
 void	std_operator_increment_decrement()
 {
 	{
@@ -495,21 +521,11 @@ void	std_operator_increment_decrement()
 		vec.push_back(23.5);
 		it = vec.begin();
 
-		std::cout << *(it++) << " ";
-		std::cout << *(++it) << " ";
+		std::cout << *it++ << " ";
+		std::cout << *++it << " ";
+		std::cout << *it-- << " ";
+		std::cout << *--it << " ";
 	}
-	/*std::cout << "\n";
-	{
-		std::vector<float>vec;
-		std::vector<float>::iterator it;
-
-		vec.push_back(10.3);
-		vec.push_back(12.4);
-		vec.push_back(13.5);
-		it = vec.end();
-		it--;
-		std::cout << *it << " ";
-	}*/
 }
 void	ft_operator_increment_decrement()
 {
@@ -522,27 +538,48 @@ void	ft_operator_increment_decrement()
 		vec.push_back(23.5);
 		it = vec.begin();
 
-		std::cout << *(it++) << " ";
-		std::cout << *(++it) << " ";
+		std::cout << *it++ << " ";
+		std::cout << *++it << " ";
+		std::cout << *it-- << " ";
+		std::cout << *--it << " ";
 	}
-	/*std::cout << "\n";
-	{
-		ft::vector<float>vec;
-		ft::vector<float>::iterator it;
+}
+void	std_addition_soustraction()
+{
+	std::vector<float>vec;
+	vec.push_back(10.3);
+	vec.push_back(15.4);
+	vec.push_back(23.5);
+	std::vector<float>::iterator it = vec.begin();
+	std::vector<float>::iterator it2 = it + 1;
+	std::cout << "it: " << *it << " it2 : " << *it2;
+	it = 1 + it;
+	std::cout << " it: " << *it << " *(it2 + 1): " << *(it2 + 1) << " *it2 + 1: " << *it2 + 1 << std::endl;
+	it2 += 2;
+	std::cout << " it - 1: " << *(it - 1) << " it2 - 2: " << *(it2 - 2);
+}
+void	ft_addition_soustraction()
+{
+	ft::vector<float>vec;
+	vec.push_back(10.3);
+	vec.push_back(15.4);
+	vec.push_back(23.5);
+	ft::vector<float>::iterator it = vec.begin();
+	ft::vector<float>::iterator it2 = it + 1;
+	std::cout << "it: " << *it << " it2 : " << *it2;
+	it = 1 + it;
+	std::cout << " it: " << *it << " *(it2 + 1): " << *(it2 + 1) << " *it2 + 1: " << *it2 + 1 << std::endl;
+	it2 += 2;
+	std::cout << " it - 1: " << *(it - 1) << " it2 - 2: " << *(it2 - 2);
 
-		vec.push_back(10.3);
-		vec.push_back(12.4);
-		vec.push_back(13.5);
-		it = vec.end();
-		it--;
-		std::cout << *it << " ";
-	}*/
 }
 void	ClassIterator()
 {
 	//tester(std_construct_assign, ft_construct_assign, "construct_assign");
+	//tester(std_equivalent, ft_equivalent, "equivalent");
+	//tester(std_access, NULL, "access");
 	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
-	tester(std_equivalent, ft_equivalent, "equivalent");
+	tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
 }
 
 int main()

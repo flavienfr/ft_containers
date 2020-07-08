@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/06 19:01:22 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 09:02:42 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,17 @@ public:
 	friend bool operator== <>(const VectorIterator<T> &lhs, const VectorIterator &rhs);
 	friend bool operator!= <>(const VectorIterator<T> &lhs, const VectorIterator &rhs);
 
-	T &operator*();//what it retrun ?
+	T &operator*();
+	T *operator->();
+
 	VectorIterator<T> operator++();
 	VectorIterator<T> operator++(int);
+
+	VectorIterator<T> operator--();
+	VectorIterator<T> operator--(int);
+
+	VectorIterator<T> operator+(difference_type n);
+	//VectorIterator<T> operator+(difference_type n);
 };
 
 template <typename T>
@@ -94,6 +102,10 @@ T &VectorIterator<T>::operator*()
 { return (*_ptr); }
 
 template <typename T>
+T *VectorIterator<T>::operator->()
+{ return (_ptr); }
+
+template <typename T>
 VectorIterator<T> VectorIterator<T>::operator++()
 {
 	++_ptr;
@@ -107,6 +119,25 @@ VectorIterator<T> VectorIterator<T>::operator++(int)
     ++_ptr;
     return (tmp);
 }
+
+template <typename T>
+VectorIterator<T> VectorIterator<T>::operator--()
+{
+	--_ptr;
+	return (*this);
+}
+
+template <typename T>
+VectorIterator<T> VectorIterator<T>::operator--(int)
+{
+	VectorIterator<T> tmp = *this;//* ou pas
+    --_ptr;
+    return (tmp);
+}
+
+template <typename T>
+VectorIterator<T> operator+(const VectorIterator<T> &lhs, const VectorIterator<T> &rhs)
+{ return (lhs._ptr + rhs._ptr); }
 
 
 
@@ -142,8 +173,8 @@ public:
 	*/
 	explicit vector(const allocator_type &alloc = allocator_type()); //default (1)
 	explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()); //fill (2)
-	template <class InputIterator> //range (3)
-	vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+	//template <class InputIterator> //range (3)
+	//vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 	vector(const vector &x); //copy (4)
 	vector &operator=(const vector &x);
 	~vector();

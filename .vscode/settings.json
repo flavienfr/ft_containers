@@ -62,6 +62,9 @@
 		"vector": "cpp",
 		"__functional_03": "cpp",
 		"memory_resource": "cpp",
-		"*.tcc": "cpp"
+		"*.tcc": "cpp",
+		"clocale": "cpp",
+		"deque": "cpp",
+		"fstream": "cpp"
 	}
 }
