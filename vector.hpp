@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/08 18:42:47 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 18:52:03 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ public:
 	Iterator &operator--() { --_ptr; return (*this); };
 	Iterator operator--(int) {	Iterator tmp = *this; --_ptr; return (tmp); };
 
-	Iterator operator+(difference_type n) const { _ptr += n; return (*this); };//change
-	friend Iterator operator+(difference_type n, const Iterator &rhs) { rhs._ptr += n; return (*rhs); };//change
-	Iterator operator-(difference_type n) const { _ptr -= n; return (*this); };//change
-	friend Iterator operator-(difference_type n, const Iterator &rhs) { rhs._ptr -= n; return (*rhs); };//change
+	Iterator operator+(difference_type n)  { return (Iterator(_ptr + n)); };
+	friend Iterator operator+(difference_type n, const Iterator &rhs) { return (Iterator(rhs._ptr + n)); };
+	Iterator operator-(difference_type n)  { return (Iterator(_ptr - n)); };
+	friend Iterator operator-(difference_type n, const Iterator &rhs) { return (Iterator(rhs._ptr - n)); };
 
 	bool operator<(const Iterator &rhs) const { return (_ptr < rhs._ptr); };
 	bool operator>(const Iterator &rhs) const { return (_ptr > rhs._ptr); };
 	bool operator<=(const Iterator &rhs) const { return (_ptr <= rhs._ptr); };
 	bool operator>=(const Iterator &rhs) const { return (_ptr >= rhs._ptr); };
 
-	Iterator &operator+=(difference_type n) { _ptr + n; return (*this); };//change
-	Iterator &operator-=(difference_type n) { _ptr - n; return (*this); };//change
+	Iterator &operator+=(difference_type n) { _ptr += n; return (*this); };//change
+	Iterator &operator-=(difference_type n) { _ptr -= n; return (*this); };//change
 
 	T &operator[](difference_type n) { return (_ptr[n]); };
 };

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/08 17:30:17 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 18:44:52 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -806,10 +806,10 @@ void	ClassIterator()
 	//tester(std_equivalent, ft_equivalent, "equivalent");
 	//tester(std_access, NULL, "access");
 	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
-	//tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
+	tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
 	//tester(std_compare, ft_compare, "compare");
 	//tester(std_selector, ft_selector, "selector");
-	tester(std_const_iterator, ft_const_iterator, "const_iterator");
+	//tester(std_const_iterator, ft_const_iterator, "const_iterator");
 }
 
 int main()
