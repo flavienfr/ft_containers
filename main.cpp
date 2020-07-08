@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/08 17:02:45 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 17:30:17 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -741,11 +741,12 @@ void	std_const_iterator()
 		int i = 0;
 		for (std::vector<std::string>::const_iterator iter = vec_const.begin(); iter != vec_const.end(); ++iter)
 		{
+			//*iter = "changement"; Impossible cause const
 			std::cout<< "vector[" << i << "] = " << *iter << " ";
 			i++;
 		}
 	}
-	/*{
+	{
 		std::vector<std::string>vec;
 		
 		vec.push_back("Coucou");
@@ -760,7 +761,7 @@ void	std_const_iterator()
 			std::cout<< "vector[" << i << "] = " << *iter << " ";
 			i++;
 		}
-	}*/
+	}
 }
 void	ft_const_iterator()
 {
@@ -772,16 +773,17 @@ void	ft_const_iterator()
 		vec.push_back("suis");
 		vec.push_back("ovale");
 
-/*		const std::vector<std::string>vec_const(vec);
+		const ft::vector<std::string>vec_const(vec);
 
 		int i = 0;
 		for (ft::vector<std::string>::const_iterator iter = vec_const.begin(); iter != vec_const.end(); ++iter)
 		{
+			//*iter = "changement"; Impossible cause const
 			std::cout<< "vector[" << i << "] = " << *iter << " ";
 			i++;
-		}*/
+		}
 	}
-	/*{
+	{
 		ft::vector<std::string>vec;
 		
 		vec.push_back("Coucou");
@@ -796,7 +798,7 @@ void	ft_const_iterator()
 			std::cout<< "vector[" << i << "] = " << *iter << " ";
 			i++;
 		}
-	}*/
+	}
 }
 void	ClassIterator()
 {
@@ -807,16 +809,16 @@ void	ClassIterator()
 	//tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
 	//tester(std_compare, ft_compare, "compare");
 	//tester(std_selector, ft_selector, "selector");
-	//tester(std_const_iterator, ft_const_iterator, "const_iterator");
+	tester(std_const_iterator, ft_const_iterator, "const_iterator");
 }
 
 int main()
 {
-	Constructor_Destructor_Assignator();
+	//Constructor_Destructor_Assignator();
 	//Element_access();
 	//Capacity();
 	//Iterators();
-	//ClassIterator();
+	ClassIterator();
 
 	return 0;
 }
