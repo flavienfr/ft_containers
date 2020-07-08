@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/08 14:07:38 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 17:04:53 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <memory>		//allocator
 //# include <stdexcept>	//exeption throw
+#include <iostream> // std::cout debug
+
 
 //# include "BaseIterator.hpp"
 
@@ -27,7 +29,6 @@ private:
 	T *_ptr;
 public:
 	// metre dans iterator traits
-	//typedef VectorIterator	self_type;
 	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
 	typedef T *				pointer;
@@ -44,7 +45,7 @@ public:
 
 	T &operator*() { return (*_ptr); };
 	T *operator->() { return (_ptr); };
-	//quand renvoyer des referemce / pointeur
+	//Petit check retour referemce poitneur...
 	VectorIterator operator++() {++_ptr; return (*this); };
 	VectorIterator operator++(int) {	VectorIterator tmp = *this; ++_ptr; return (tmp);};
 
@@ -67,14 +68,51 @@ public:
 	T &operator[](difference_type n) { return (_ptr[n]); };
 };
 
+template <typename T>
+class const_VectorIterator //inherate from baseIterator
+{
+private:
+	T *_ptr;
+public:
+	// metre dans iterator traits
+	typedef T				value_type;
+	typedef ptrdiff_t		difference_type;
+	typedef T *				pointer;
+	typedef T &				reference;
 
-//template <typename T>
-//VectorIterator<T> operator+(typename VectorIterator<T>::difference_type n, const VectorIterator<T> &rhs)
-//{ return (VectorIterator<T>(rhs._ptr + n)); };
+	const_VectorIterator() : _ptr(NULL) { };
+	const_VectorIterator(T *ptr) : _ptr(ptr) { };// in std is private(friend ?)
+	const_VectorIterator(const const_VectorIterator &it) : _ptr(it._ptr) { };
+	const_VectorIterator &operator=(const const_VectorIterator &it) { _ptr = it._ptr; return (*this); };
+	~const_VectorIterator() { };
 
+	friend bool operator==(const const_VectorIterator &lhs, const const_VectorIterator &rhs) { return (lhs._ptr == rhs._ptr); };
+	friend bool operator!=(const const_VectorIterator &lhs, const const_VectorIterator &rhs) { return (lhs._ptr != rhs._ptr); };
 
+	T &operator*() { return (*_ptr); };
+	T *operator->() { return (_ptr); };
+	//Petit check retour referemce poitneur...
+	const_VectorIterator operator++() {++_ptr; return (*this); };
+	const_VectorIterator operator++(int) {	const_VectorIterator tmp = *this; ++_ptr; return (tmp);};
 
+	const_VectorIterator operator--() { --_ptr; return (*this); };
+	const_VectorIterator operator--(int) {	const_VectorIterator tmp = *this; --_ptr; return (tmp); };
 
+	const_VectorIterator operator+(difference_type n) const { return (const_VectorIterator(_ptr + n)); };
+	friend const_VectorIterator operator+(difference_type n, const const_VectorIterator &rhs) { return (const_VectorIterator(rhs._ptr + n)); };
+	const_VectorIterator operator-(difference_type n) const { return (const_VectorIterator(_ptr - n)); };
+	friend const_VectorIterator operator-(difference_type n, const const_VectorIterator &rhs) { return (const_VectorIterator(rhs._ptr - n)); };
+
+	bool operator<(const const_VectorIterator &rhs) const { return (_ptr < rhs._ptr); };
+	bool operator>(const const_VectorIterator &rhs) const { return (_ptr > rhs._ptr); };
+	bool operator<=(const const_VectorIterator &rhs) const { return (_ptr <= rhs._ptr); };
+	bool operator>=(const const_VectorIterator &rhs) const { return (_ptr >= rhs._ptr); };
+
+	const_VectorIterator operator+=(difference_type n) { return (const_VectorIterator(_ptr + n)); };
+	const_VectorIterator operator-=(difference_type n) { return (const_VectorIterator(_ptr - n)); };
+
+	T &operator[](difference_type n) { return (_ptr[n]); };
+};
 
 template <typename T, typename Alloc = std::allocator<T> >
 class vector
@@ -87,7 +125,7 @@ public:
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
 	typedef VectorIterator<T>							iterator;
-	//typedef const_iterator
+	typedef const_VectorIterator<T>						const_iterator;
 	//typedef reverse_iterator
 	//typedef const_reverse_iterator
 	typedef ptrdiff_t									difference_type;//typedef typename allocator_type::size_type       size_type;
@@ -117,7 +155,7 @@ public:
 	**	Iterators
 	*/
 	iterator begin();
-	//const_iterator begin() const;
+	const_iterator begin() const;
 	iterator end();
 	//const_iterator end() const;
 
@@ -175,16 +213,28 @@ _size(n), _capacity(n), _alloc(alloc)
 
 template <typename T, typename Alloc> // copy (4)
 vector<T, Alloc>::vector(const vector &x) :
-_size(x._size), _capacity(x._capacity), _alloc(x._alloc)
+_size(x._size), _capacity(x._size), _alloc(x._alloc)
 {
 	_vector = _alloc.allocate(_capacity);
 
 	for (size_type i = 0; i < _size; i++)
-		_alloc.construct(_vector + i, x.vector + i);
+		_alloc.construct(_vector + i, x._vector[i]);
 }
 
-//template <typename T, typename Alloc>
-//vector &operator=(const vector &x);
+template <typename T, typename Alloc>
+vector<T, Alloc> &vector<T, Alloc>::operator=(const vector &x)
+{
+	for (size_type i = 0; i < _size; i++)
+		_alloc.destroy(_vector + i);
+	_alloc.deallocate(_vector, _capacity);
+
+	_size = x._size;
+	_capacity = _size;
+	_vector = _alloc.allocate(_capacity);
+	for (size_type i = 0; i < _size; i++)
+		_alloc.construct(_vector + i, x._vector[i]);
+	return (*this);
+}
 
 template <typename T, typename Alloc> // destructor
 vector<T, Alloc>::~vector()
@@ -203,6 +253,12 @@ typename vector<T, Alloc>::iterator	vector<T, Alloc>::begin()
 {
 	return (iterator(_vector));
 }
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::const_iterator	vector<T, Alloc>::begin() const
+{
+	return (const_iterator(_vector));
+}
+
 //constiterator
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator vector<T, Alloc>::end()
@@ -239,7 +295,8 @@ void	vector<T, Alloc>::resize(size_type n, value_type val)//iterator
 			for (size_type i = 0; i < _size; i++)
 			{
 				_alloc.construct(tmp + i, _vector[i]);
-				_alloc.destroy(_vector + i);
+				if (_size > i)
+					_alloc.destroy(_vector + i);
 			}
 			for (size_type i = _size; i < n; i++)
 				_alloc.construct(tmp + i, val);
@@ -292,7 +349,8 @@ void	vector<T, Alloc>::reserve(size_type n)//iterator
 		for (size_type i = 0; i < _size; i++)
 		{
 			_alloc.construct(tmp + i, _vector[i]);
-			_alloc.destroy(_vector + i);
+			if (i < _size)
+				_alloc.destroy(_vector + i);
 		}
 		_alloc.deallocate(_vector, _capacity);
 		_capacity = n;

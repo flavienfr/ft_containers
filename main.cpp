@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/08 14:15:15 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 17:02:45 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,100 @@ void	std_constructor()
 void	ft_constructor()
 {
 }
+void	std_assignation()
+{
+	{
+		std::vector<int> vec1;
+		vec1.reserve(100);
+		vec1.push_back(10);
+		vec1.push_back(20);
+		vec1.push_back(30);
+		vec1.push_back(40);
+		vec1.push_back(456);
+		vec1.push_back(45460);
+		//std::vector<int> vec2 = vec1; Like that is copy constructor
+		std::vector<int> vec2;
+		vec2 = vec1;
+		std::cout<< "capacity: " << vec1.capacity() << " size: " << vec1.size();
+		std::cout << " vec1.begin() = " << *vec1.begin() << " vec1.end() = " << *(vec1.end() - 1) << std::endl;
+		vec1.resize(3);
+		std::cout<< "capacity: " << vec2.capacity() << " size: " << vec2.size();
+		std::cout << " vec2.begin() = " << *vec2.begin() << " vec2.end() = " << *(vec2.end() - 1) << std::endl;
+		int i = 0;
+		for (std::vector<int>::iterator it = vec1.begin(); it != vec1.end(); ++it)
+		{
+			std::cout << "vector[" << i << "] = " << *it << " ";
+			i++;
+		}
+		i = 0;
+		std::cout << std::endl;
+		for (std::vector<int>::iterator it = vec2.begin(); it != vec2.end(); ++it)
+		{
+			std::cout << "vector[" << i << "] = " << *it << " ";
+			i++;
+		}
+	}
+	std::cout << std::endl;
+	{
+		std::vector<int> foo (3,0);
+  		std::vector<int> bar (5,0);
+
+  		bar = foo;
+  		foo = std::vector<int>();
+
+  		std::cout << "Size of foo: " << int(foo.size()) << '\n';
+  		std::cout << "Size of bar: " << int(bar.size());
+	}
+}
+void	ft_assignation()
+{
+	{
+		ft::vector<int> vec1;
+		vec1.reserve(100);
+		vec1.push_back(10);
+		vec1.push_back(20);
+		vec1.push_back(30);
+		vec1.push_back(40);
+		vec1.push_back(456);
+		vec1.push_back(45460);
+		//ft::vector<int> vec2 = vec1; Like that is copy constructor
+		ft::vector<int> vec2;
+		vec2 = vec1;
+		std::cout<< "capacity: " << vec1.capacity() << " size: " << vec1.size();
+		std::cout << " vec1.begin() = " << *vec1.begin() << " vec1.end() = " << *(vec1.end() - 1) << std::endl;
+		vec1.resize(3);
+		std::cout<< "capacity: " << vec2.capacity() << " size: " << vec2.size();
+		std::cout << " vec2.begin() = " << *vec2.begin() << " vec2.end() = " << *(vec2.end() - 1) << std::endl;
+		int i = 0;
+		for (ft::vector<int>::iterator it = vec1.begin(); it != vec1.end(); ++it)
+		{
+			std::cout << "vector[" << i << "] = " << *it << " ";
+			i++;
+		}
+		i = 0;
+		std::cout << std::endl;
+		for (ft::vector<int>::iterator it = vec2.begin(); it != vec2.end(); ++it)
+		{
+			std::cout << "vector[" << i << "] = " << *it << " ";
+			i++;
+		}
+	}
+	std::cout << std::endl;
+	{
+		ft::vector<int> foo (3,0);
+  		ft::vector<int> bar (5,0);
+
+  		bar = foo;
+  		foo = ft::vector<int>();
+
+  		std::cout << "Size of foo: " << int(foo.size()) << '\n';
+  		std::cout << "Size of bar: " << int(bar.size());
+	}
+}
 void	Constructor_Destructor_Assignator()
 {
-	tester(std_constructor, ft_constructor, "Constructor");
+	//tester(std_constructor, ft_constructor, "Constructor");
+	tester(std_assignation, ft_assignation, "assignation");
 }
 
 /*
@@ -631,9 +722,81 @@ void	ft_selector()
 	int i = 0;
 	for (it = vec.begin(); it != vec.end(); it++)
 	{
-		std::cout<< "vecttor[" << i << "] = " << *it << " ";
+		std::cout<< "vector[" << i << "] = " << *it << " ";
 		i++;
 	}
+}
+void	std_const_iterator()
+{
+	{
+		std::vector<std::string>vec;
+		
+		vec.push_back("Coucou");
+		vec.push_back("je");
+		vec.push_back("suis");
+		vec.push_back("ovale");
+
+		const std::vector<std::string>vec_const(vec);
+
+		int i = 0;
+		for (std::vector<std::string>::const_iterator iter = vec_const.begin(); iter != vec_const.end(); ++iter)
+		{
+			std::cout<< "vector[" << i << "] = " << *iter << " ";
+			i++;
+		}
+	}
+	/*{
+		std::vector<std::string>vec;
+		
+		vec.push_back("Coucou");
+		vec.push_back("je");
+		vec.push_back("suis");
+		vec.push_back("ovale");
+
+		int i = 0;
+		for (std::vector<std::string>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+		{
+			*iter = "changement";
+			std::cout<< "vector[" << i << "] = " << *iter << " ";
+			i++;
+		}
+	}*/
+}
+void	ft_const_iterator()
+{
+	{
+		ft::vector<std::string>vec;
+		
+		vec.push_back("Coucou");
+		vec.push_back("je");
+		vec.push_back("suis");
+		vec.push_back("ovale");
+
+/*		const std::vector<std::string>vec_const(vec);
+
+		int i = 0;
+		for (ft::vector<std::string>::const_iterator iter = vec_const.begin(); iter != vec_const.end(); ++iter)
+		{
+			std::cout<< "vector[" << i << "] = " << *iter << " ";
+			i++;
+		}*/
+	}
+	/*{
+		ft::vector<std::string>vec;
+		
+		vec.push_back("Coucou");
+		vec.push_back("je");
+		vec.push_back("suis");
+		vec.push_back("ovale");
+
+		int i = 0;
+		for (ft::vector<std::string>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+		{
+			*iter = "changement";
+			std::cout<< "vector[" << i << "] = " << *iter << " ";
+			i++;
+		}
+	}*/
 }
 void	ClassIterator()
 {
@@ -643,16 +806,17 @@ void	ClassIterator()
 	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
 	//tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
 	//tester(std_compare, ft_compare, "compare");
-	tester(std_selector, ft_selector, "selector");
+	//tester(std_selector, ft_selector, "selector");
+	//tester(std_const_iterator, ft_const_iterator, "const_iterator");
 }
 
 int main()
 {
-	//Constructor_Destructor_Assignator();
+	Constructor_Destructor_Assignator();
 	//Element_access();
 	//Capacity();
 	//Iterators();
-	ClassIterator();
+	//ClassIterator();
 
 	return 0;
 }
