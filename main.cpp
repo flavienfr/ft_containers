@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/08 09:02:43 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/08 14:15:15 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -553,7 +553,7 @@ void	std_addition_soustraction()
 	std::vector<float>::iterator it = vec.begin();
 	std::vector<float>::iterator it2 = it + 1;
 	std::cout << "it: " << *it << " it2 : " << *it2;
-	it = 1 + it;
+	it += 1;
 	std::cout << " it: " << *it << " *(it2 + 1): " << *(it2 + 1) << " *it2 + 1: " << *it2 + 1 << std::endl;
 	it2 += 2;
 	std::cout << " it - 1: " << *(it - 1) << " it2 - 2: " << *(it2 - 2);
@@ -567,11 +567,73 @@ void	ft_addition_soustraction()
 	ft::vector<float>::iterator it = vec.begin();
 	ft::vector<float>::iterator it2 = it + 1;
 	std::cout << "it: " << *it << " it2 : " << *it2;
-	it = 1 + it;
+	it += 1;
 	std::cout << " it: " << *it << " *(it2 + 1): " << *(it2 + 1) << " *it2 + 1: " << *it2 + 1 << std::endl;
 	it2 += 2;
 	std::cout << " it - 1: " << *(it - 1) << " it2 - 2: " << *(it2 - 2);
 
+}
+void	std_compare()
+{
+	std::vector<int>vec;
+	vec.push_back(1);
+	vec.push_back(3);
+	vec.push_back(5);
+	vec.push_back(4);
+	std::vector<int>::iterator it = vec.begin();
+	std::vector<int>::iterator it2 = it + 1;
+	std::cout<< "it < it2= " << (it < it2) << " it > it2= " << (it > it2) << std::endl;
+	it2 = it2 - 1; 
+	std::cout<< "it <= it2= " << (it <= it2) << " it >= it2= " << (it >= it2);
+}
+void	ft_compare()
+{
+	ft::vector<int>vec;
+	vec.push_back(1);
+	vec.push_back(3);
+	vec.push_back(5);
+	vec.push_back(4);
+	ft::vector<int>::iterator it = vec.begin();
+	ft::vector<int>::iterator it2 = it + 1;
+	std::cout<< "it < it2= " << (it < it2) << " it > it2= " << (it > it2) << std::endl;
+	it2 = it2 - 1; 
+	std::cout<< "it <= it2= " << (it <= it2) << " it >= it2= " << (it >= it2);
+}
+void	std_selector()
+{
+	std::vector<float>vec;
+	std::vector<float>::iterator it;
+
+	vec.push_back(10.3);
+	vec.push_back(15.4);
+	vec.push_back(23.5);
+	vec.push_back(2131.5);
+	vec.push_back(110.5);
+	it = vec.begin();
+	int i = 0;
+	for (it = vec.begin(); it != vec.end(); it++)
+	{
+		std::cout<< "vecttor[" << i << "] = " << *it << " ";
+		i++;
+	}
+}
+void	ft_selector()
+{
+	ft::vector<float>vec;
+	ft::vector<float>::iterator it;
+
+	vec.push_back(10.3);
+	vec.push_back(15.4);
+	vec.push_back(23.5);
+	vec.push_back(2131.5);
+	vec.push_back(110.5);
+	it = vec.begin();
+	int i = 0;
+	for (it = vec.begin(); it != vec.end(); it++)
+	{
+		std::cout<< "vecttor[" << i << "] = " << *it << " ";
+		i++;
+	}
 }
 void	ClassIterator()
 {
@@ -579,7 +641,9 @@ void	ClassIterator()
 	//tester(std_equivalent, ft_equivalent, "equivalent");
 	//tester(std_access, NULL, "access");
 	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
-	tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
+	//tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
+	//tester(std_compare, ft_compare, "compare");
+	tester(std_selector, ft_selector, "selector");
 }
 
 int main()
