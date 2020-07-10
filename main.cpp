@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/08 18:44:52 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/10 15:37:05 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,19 @@ void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 void	std_constructor()
 {
 	{
-		std::vector<int> vect;  
+		std::vector<int>vect;  
 		vect.push_back(10); 
 		vect.push_back(20); 
 		vect.push_back(30); 
 
-		for (size_t i = 0; i < vect.max_size(); i++)
+		for (size_t i = 0; i < vect.size(); i++)
 			std::cout << vect[i] << " ";
 	}
 	{
 		int n = 3;
 		std::vector<int> vect(n, 10); 
 
-		for (size_t i = 0; i < vect.max_size(); i++)
+		for (size_t i = 0; i < vect.size(); i++)
 			std::cout << vect[i] << " ";
 	}
 	{
@@ -60,7 +60,7 @@ void	std_constructor()
 
 		std::vector<int> vect(arr, arr + n);
 
-		for (size_t i = 0; i < vect.max_size(); i++)
+		for (size_t i = 0; i < vect.size(); i++)
 			std::cout << vect[i] << " "; 
 	}
 	{
@@ -70,12 +70,47 @@ void	std_constructor()
 		vect1.push_back(30);
 		std::vector<int> vect2(vect1.begin(), vect1.end());
 
-		for (size_t i = 0; i < vect2.max_size(); i++)
+		for (size_t i = 0; i < vect2.size(); i++)
 			std::cout << vect2[i] << " ";
 	}
 }
 void	ft_constructor()
 {
+	{
+		ft::vector<int>vect;  
+		vect.push_back(10); 
+		vect.push_back(20); 
+		vect.push_back(30); 
+
+		for (size_t i = 0; i < vect.size(); i++)
+			std::cout << vect[i] << " ";
+	}
+	{
+		int n = 3;
+		ft::vector<int> vect(n, 10); 
+
+		for (size_t i = 0; i < vect.size(); i++)
+			std::cout << vect[i] << " ";
+	}
+	{
+		int arr[] = { 10, 20, 30 }; 
+		int n = sizeof(arr) / sizeof(arr[0]); 
+
+		ft::vector<int> vect(arr, arr + n);
+
+		for (size_t i = 0; i < vect.size(); i++)
+			std::cout << vect[i] << " "; 
+	}
+	{
+		ft::vector<int> vect1;
+		vect1.push_back(10);
+		vect1.push_back(20);
+		vect1.push_back(30);
+		ft::vector<int> vect2(vect1.begin(), vect1.end());
+
+		for (size_t i = 0; i < vect2.size(); i++)
+			std::cout << vect2[i] << " ";
+	}
 }
 void	std_assignation()
 {
@@ -156,21 +191,21 @@ void	ft_assignation()
 		}
 	}
 	std::cout << std::endl;
-	{
-		ft::vector<int> foo (3,0);
-  		ft::vector<int> bar (5,0);
+	/*{
+		ft::vector<int>foo(3,0);
+  		ft::vector<int>bar(5,0);
 
   		bar = foo;
   		foo = ft::vector<int>();
 
   		std::cout << "Size of foo: " << int(foo.size()) << '\n';
   		std::cout << "Size of bar: " << int(bar.size());
-	}
+	}*/
 }
 void	Constructor_Destructor_Assignator()
 {
-	//tester(std_constructor, ft_constructor, "Constructor");
-	tester(std_assignation, ft_assignation, "assignation");
+	tester(std_constructor, ft_constructor, "Constructor");
+	//tester(std_assignation, ft_assignation, "assignation");
 }
 
 /*
@@ -456,9 +491,186 @@ void	ft_operator_selection()
 			std::cout << ' ' << myvector[i];
 	}
 }
+void	std_at()
+{
+	std::vector<int> myvector (10);   // 10 zero-initialized ints
+
+	// assign some values:
+	for (unsigned i=0; i<myvector.size(); i++)
+		myvector.at(i)=i;
+
+	std::cout << "myvector contains:";
+	try
+	{
+		for (unsigned i=0; i<myvector.size() + 1; i++)
+			std::cout << ' ' << myvector.at(i);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
+void	ft_at()
+{
+	ft::vector<int> myvector (10);   // 10 zero-initialized ints
+
+	// assign some values:
+	for (unsigned i=0; i<myvector.size(); i++)
+		myvector.at(i)=i;
+
+	std::cout << "myvector contains:";
+	try
+	{
+		for (unsigned i=0; i<myvector.size() + 1; i++)
+			std::cout << ' ' << myvector.at(i);	
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+}
+void	std_font_back()
+{
+	{
+		std::vector<int> myvector;
+
+		myvector.push_back(78);
+		myvector.push_back(16);
+		// now front equals 78, and back 16
+		myvector.front() -= myvector.back();
+		std::cout << "myvector.front() is now " << myvector.front();
+	}
+	std::cout << '\n';
+	{
+		std::vector<int> myvector;	
+		myvector.push_back(10);	
+		while (myvector.back() != 0)
+		{
+			myvector.push_back ( myvector.back() -1 );
+		}	
+		std::cout << "myvector contains:";
+		for (unsigned i=0; i<myvector.size() ; i++)
+			std::cout << ' ' << myvector[i];
+	}
+}
+void	ft_font_back()
+{
+	{
+		ft::vector<int> myvector;
+
+		myvector.push_back(78);
+		myvector.push_back(16);
+		// now front equals 78, and back 16
+		myvector.front() -= myvector.back();
+		std::cout << "myvector.front() is now " << myvector.front();
+	}
+	std::cout << '\n';
+	{
+		ft::vector<int> myvector;	
+		myvector.push_back(10);	
+		while (myvector.back() != 0)
+		{
+			myvector.push_back ( myvector.back() -1 );
+		}	
+		std::cout << "myvector contains:";
+		for (unsigned i=0; i<myvector.size() ; i++)
+			std::cout << ' ' << myvector[i];
+	}
+}
+void	std_assign()
+{
+	std::vector<int> first;
+	std::vector<int> second;
+	std::vector<int> third;
+
+	first.assign (4000018,100);
+	first.assign (7,100);
+
+	std::vector<int>::iterator it;
+	it=first.begin()+1;
+
+	second.assign (it,first.end()-1); // the 5 central values of first
+
+	int myints[] = {1776,7,4};
+	third.assign (myints,myints+3);   // assigning from array.
+
+	std::cout << "Size of first: " << int (first.size()) << " capacity: " << first.capacity() << '\n';
+	std::cout << "Size of second: " << int (second.size()) << " capacity: " << second.capacity() << '\n';
+	std::cout << "Size of third: " << int (third.size()) << " capacity: " << third.capacity();
+}
+void	ft_assign()
+{
+
+}
+void	std_clear()
+{
+	std::vector<int> myvector;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+	myvector.push_back (300);
+	myvector.push_back (300);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	size_t post_size = myvector.size();
+	std::cout <<"pre clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	myvector.clear();
+	std::cout <<"post clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	
+	std::cout << "my clear vector contains:";
+	for (size_t i=0; i<post_size; i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+	  std::cout << ' ' << myvector[i];
+}
+void	ft_clear()
+{
+	ft::vector<int> myvector;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+	myvector.push_back (300);
+	myvector.push_back (300);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	size_t post_size = myvector.size();
+	std::cout <<"pre clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	myvector.clear();
+	std::cout <<"post clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	
+	std::cout << "my clear vector contains:";
+	for (size_t i=0; i<post_size; i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+	  std::cout << ' ' << myvector[i];
+}
 void	Element_access()
 {
-	tester(std_operator_selection, ft_operator_selection, "operator_selection");
+	//tester(std_operator_selection, ft_operator_selection, "operator_selection");
+	//tester(std_at, ft_at, "at");
+	//tester(std_font_back, ft_font_back, "font_back");
+	//tester(std_assign, NULL, "assign");
+	tester(std_clear, ft_clear, "clear");
 }
 
 /*
@@ -648,6 +860,18 @@ void	std_addition_soustraction()
 	std::cout << " it: " << *it << " *(it2 + 1): " << *(it2 + 1) << " *it2 + 1: " << *it2 + 1 << std::endl;
 	it2 += 2;
 	std::cout << " it - 1: " << *(it - 1) << " it2 - 2: " << *(it2 - 2);
+	{
+		std::vector<float>vec;
+		vec.push_back(10.3);
+		vec.push_back(15.4);
+		vec.push_back(23.5);
+		std::vector<float>::iterator it = vec.begin();
+		std::vector<float>::iterator it2 = vec.end() - 1;
+
+		std::cout << " it2 - it: " << it2 - it;
+		std::cout << " it - it2: " << it - it2;
+		std::cout << " it - it: " << it - it;
+	}
 }
 void	ft_addition_soustraction()
 {
@@ -662,7 +886,19 @@ void	ft_addition_soustraction()
 	std::cout << " it: " << *it << " *(it2 + 1): " << *(it2 + 1) << " *it2 + 1: " << *it2 + 1 << std::endl;
 	it2 += 2;
 	std::cout << " it - 1: " << *(it - 1) << " it2 - 2: " << *(it2 - 2);
+	{
+		ft::vector<float>vec;
+		vec.push_back(10.3);
+		vec.push_back(15.4);
+		vec.push_back(23.5);
+		ft::vector<float>::iterator it = vec.begin();
+		ft::vector<float>::iterator it2 = vec.end() - 1;
 
+		std::cout << " it2 - it: " << it2 - it;
+		std::cout << " it - it2: " << it - it2;
+		std::cout << " it - it: " << it - it;
+	}
+	std::cout << std::endl;
 }
 void	std_compare()
 {
@@ -737,6 +973,8 @@ void	std_const_iterator()
 		vec.push_back("ovale");
 
 		const std::vector<std::string>vec_const(vec);
+		//std::vector<std::string>vec_const(vec); not possible with ft why ?
+
 
 		int i = 0;
 		for (std::vector<std::string>::const_iterator iter = vec_const.begin(); iter != vec_const.end(); ++iter)
@@ -774,6 +1012,7 @@ void	ft_const_iterator()
 		vec.push_back("ovale");
 
 		const ft::vector<std::string>vec_const(vec);
+		//ft::vector<std::string>vec_const(vec); not possible with ft why ?
 
 		int i = 0;
 		for (ft::vector<std::string>::const_iterator iter = vec_const.begin(); iter != vec_const.end(); ++iter)
@@ -800,25 +1039,52 @@ void	ft_const_iterator()
 		}
 	}
 }
+void	std_reverse_iterator()
+{
+  	std::vector<int> myvector (5);  // 5 default-constructed ints
+
+  	std::vector<int>::reverse_iterator rit = myvector.rbegin();
+
+  	int i=0;
+  	for (rit = myvector.rbegin(); rit!= myvector.rend(); ++rit)
+  		*rit = ++i;
+  	std::cout << "myvector contains:";
+  	for (std::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+  		std::cout << ' ' << *it;
+}
+void	ft_reverse_iterator()
+{
+  	ft::vector<int> myvector (5);  // 5 default-constructed ints
+
+  	ft::vector<int>::reverse_iterator rit = myvector.rbegin();
+
+  	int i=0;
+  	for (rit = myvector.rbegin(); rit!= myvector.rend(); ++rit)
+  		*rit = ++i;
+  	std::cout << "myvector contains:";
+  	for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
+  		std::cout << ' ' << *it;
+}
 void	ClassIterator()
 {
 	//tester(std_construct_assign, ft_construct_assign, "construct_assign");
 	//tester(std_equivalent, ft_equivalent, "equivalent");
 	//tester(std_access, NULL, "access");
 	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
-	tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
+	//tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
 	//tester(std_compare, ft_compare, "compare");
 	//tester(std_selector, ft_selector, "selector");
 	//tester(std_const_iterator, ft_const_iterator, "const_iterator");
+	tester(std_reverse_iterator, ft_reverse_iterator, "reverse_iterator");
 }
 
 int main()
 {
 	//Constructor_Destructor_Assignator();
-	//Element_access();
+	Element_access();
 	//Capacity();
 	//Iterators();
-	ClassIterator();
+	//ClassIterator();
 
 	return 0;
 }
