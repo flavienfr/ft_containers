@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/10 15:37:05 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 00:01:42 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "vector.hpp"
 #include <vector>
+#define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity() << std::endl;
 
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
@@ -204,7 +205,7 @@ void	ft_assignation()
 }
 void	Constructor_Destructor_Assignator()
 {
-	tester(std_constructor, ft_constructor, "Constructor");
+	//tester(std_constructor, ft_constructor, "Constructor");
 	//tester(std_assignation, ft_assignation, "assignation");
 }
 
@@ -577,100 +578,11 @@ void	ft_font_back()
 			std::cout << ' ' << myvector[i];
 	}
 }
-void	std_assign()
-{
-	std::vector<int> first;
-	std::vector<int> second;
-	std::vector<int> third;
-
-	first.assign (4000018,100);
-	first.assign (7,100);
-
-	std::vector<int>::iterator it;
-	it=first.begin()+1;
-
-	second.assign (it,first.end()-1); // the 5 central values of first
-
-	int myints[] = {1776,7,4};
-	third.assign (myints,myints+3);   // assigning from array.
-
-	std::cout << "Size of first: " << int (first.size()) << " capacity: " << first.capacity() << '\n';
-	std::cout << "Size of second: " << int (second.size()) << " capacity: " << second.capacity() << '\n';
-	std::cout << "Size of third: " << int (third.size()) << " capacity: " << third.capacity();
-}
-void	ft_assign()
-{
-
-}
-void	std_clear()
-{
-	std::vector<int> myvector;
-	myvector.push_back (100);
-	myvector.push_back (200);
-	myvector.push_back (300);
-	myvector.push_back (300);
-	myvector.push_back (300);
-
-	std::cout << "myvector contains:";
-	for (unsigned i=0; i<myvector.size(); i++)
-		std::cout << ' ' << myvector[i];
-	std::cout << '\n';
-
-	size_t post_size = myvector.size();
-	std::cout <<"pre clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
-	myvector.clear();
-	std::cout <<"post clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
-	
-	std::cout << "my clear vector contains:";
-	for (size_t i=0; i<post_size; i++)
-		std::cout << ' ' << myvector[i];
-	std::cout << '\n';
-
-	myvector.push_back (1101);
-	myvector.push_back (2202);
-
-	std::cout << "myvector contains:";
-	for (unsigned i=0; i<myvector.size(); i++)
-	  std::cout << ' ' << myvector[i];
-}
-void	ft_clear()
-{
-	ft::vector<int> myvector;
-	myvector.push_back (100);
-	myvector.push_back (200);
-	myvector.push_back (300);
-	myvector.push_back (300);
-	myvector.push_back (300);
-
-	std::cout << "myvector contains:";
-	for (unsigned i=0; i<myvector.size(); i++)
-		std::cout << ' ' << myvector[i];
-	std::cout << '\n';
-
-	size_t post_size = myvector.size();
-	std::cout <<"pre clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
-	myvector.clear();
-	std::cout <<"post clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
-	
-	std::cout << "my clear vector contains:";
-	for (size_t i=0; i<post_size; i++)
-		std::cout << ' ' << myvector[i];
-	std::cout << '\n';
-
-	myvector.push_back (1101);
-	myvector.push_back (2202);
-
-	std::cout << "myvector contains:";
-	for (unsigned i=0; i<myvector.size(); i++)
-	  std::cout << ' ' << myvector[i];
-}
 void	Element_access()
 {
 	//tester(std_operator_selection, ft_operator_selection, "operator_selection");
 	//tester(std_at, ft_at, "at");
 	//tester(std_font_back, ft_font_back, "font_back");
-	//tester(std_assign, NULL, "assign");
-	tester(std_clear, ft_clear, "clear");
 }
 
 /*
@@ -1078,15 +990,209 @@ void	ClassIterator()
 	tester(std_reverse_iterator, ft_reverse_iterator, "reverse_iterator");
 }
 
+/*
+**	Modifiers
+*/
+void	std_assign()
+{
+	std::vector<int> first;
+	std::vector<int> second;
+	std::vector<int> third;
+
+	first.assign (4000018,100);
+	first.assign (7,100);
+
+	std::vector<int>::iterator it;
+	it=first.begin()+1;
+
+	second.assign (it,first.end()-1); // the 5 central values of first
+
+	int myints[] = {1776,7,4};
+	third.assign (myints,myints+3);   // assigning from array.
+
+	std::cout << "Size of first: " << int (first.size()) << " capacity: " << first.capacity() << '\n';
+	std::cout << "Size of second: " << int (second.size()) << " capacity: " << second.capacity() << '\n';
+	std::cout << "Size of third: " << int (third.size()) << " capacity: " << third.capacity();
+}
+void	ft_assign()
+{
+
+}
+void	std_clear()
+{
+	std::vector<int> myvector;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+	myvector.push_back (300);
+	myvector.push_back (300);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	size_t post_size = myvector.size();
+	std::cout <<"pre clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	myvector.clear();
+	std::cout <<"post clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	
+	std::cout << "my clear vector contains:";
+	for (size_t i=0; i<post_size; i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+	  std::cout << ' ' << myvector[i];
+}
+void	ft_clear()
+{
+	ft::vector<int> myvector;
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+	myvector.push_back (300);
+	myvector.push_back (300);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	size_t post_size = myvector.size();
+	std::cout <<"pre clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	myvector.clear();
+	std::cout <<"post clear, _size: " << myvector.size() << " _capacity: " << myvector.capacity()<<std::endl;
+	
+	std::cout << "my clear vector contains:";
+	for (size_t i=0; i<post_size; i++)
+		std::cout << ' ' << myvector[i];
+	std::cout << '\n';
+
+	myvector.push_back (1101);
+	myvector.push_back (2202);
+
+	std::cout << "myvector contains:";
+	for (unsigned i=0; i<myvector.size(); i++)
+	  std::cout << ' ' << myvector[i];
+}
+void	std_pop_back()
+{
+	std::vector<int> myvector;
+	int sum (0);
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	while (!myvector.empty())
+	{
+	  sum+=myvector.back();
+	  myvector.pop_back();
+	}
+
+	std::cout << "The elements of myvector add up to " << sum << std::endl;
+	std::cout << "myvector.empty(): " << myvector.empty() << " size " << myvector.size();
+}
+void	ft_pop_back()
+{
+	ft::vector<int> myvector;
+	int sum (0);
+	myvector.push_back (100);
+	myvector.push_back (200);
+	myvector.push_back (300);
+
+	while (!myvector.empty())
+	{
+	  sum+=myvector.back();
+	  myvector.pop_back();
+	}
+	std::cout << "The elements of myvector add up to " << sum << std::endl;
+	std::cout << "myvector.empty(): " << myvector.empty() << " size " << myvector.size();
+}
+void	std_erase()
+{
+	/*{
+		std::vector<int> myvector;
+
+		for (int i=1; i<=10; i++) myvector.push_back(i);
+
+		myvector.erase (myvector.begin()+5);
+		myvector.erase (myvector.begin(),myvector.begin()+3);
+
+		std::cout << "myvector contains:";
+		for (unsigned i=0; i<myvector.size(); ++i)
+			std::cout << ' ' << myvector[i];
+	}*/
+	std::cout<< std::endl;
+	{
+		std::vector<int>test(1000);
+		std::vector<std::vector<int>> myvector;
+	
+		for (int i=1; i<=10; i++) myvector.push_back(test);
+	
+		myvector.erase (myvector.begin()+5);
+		myvector.erase (myvector.begin(),myvector.begin()+3);
+
+		PRINT_SIZE_CAPACITY(myvector);
+	
+		std::cout << "myvector contains:";
+		for (unsigned i=0; i<myvector.size(); ++i)
+			std::cout << ' ' << myvector[i][0];
+	}
+}
+void	ft_erase()
+{
+	/*{
+		ft::vector<int> myvector;
+
+		for (int i=1; i<=10; i++) myvector.push_back(i);
+
+		myvector.erase (myvector.begin()+5);
+		myvector.erase (myvector.begin(),myvector.begin()+3);
+
+		std::cout << "myvector contains:";
+		for (unsigned i=0; i<myvector.size(); ++i)
+			std::cout << ' ' << myvector[i];
+	}*/
+	std::cout<< std::endl;
+	{
+		std::vector<int>test(1000);
+		ft::vector<std::vector<int>> myvector;
+	
+		for (int i=1; i<=10; i++) myvector.push_back(test);
+	
+		myvector.erase (myvector.begin()+5);
+		myvector.erase (myvector.begin(),myvector.begin()+3);
+
+		PRINT_SIZE_CAPACITY(myvector);
+	
+		std::cout << "myvector contains:";
+		for (unsigned i=0; i<myvector.size(); ++i)
+			std::cout << ' ' << myvector[i][0];
+	}
+}
+void	Modifiers()
+{
+	//tester(std_assign, NULL, "assign");
+	//tester(std_clear, ft_clear, "clear");
+	//tester(std_pop_back, ft_pop_back, "pop_back");
+	tester(std_erase, NULL, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
+}
+
 int main()
 {
 	//Constructor_Destructor_Assignator();
-	Element_access();
+	//Element_access();
 	//Capacity();
 	//Iterators();
 	//ClassIterator();
+	Modifiers();
 
-	return 0;
+	return (0);
 }
 
 /*
