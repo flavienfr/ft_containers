@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/11 16:40:09 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 18:43:36 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -582,6 +582,7 @@ void								vector<T, Alloc>::pop_back()
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, const value_type &val)
 {
+	T *ret;
 	if (_size + 1 > _capacity)
 	{
 		T *tmp;
@@ -597,6 +598,7 @@ typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, 
 			if (it == position)
 			{
 				_alloc.construct(tmp + i, val);
+				ret = tmp + i;
 				i++;
 			}
 			if (it != end ())
@@ -614,36 +616,41 @@ typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, 
 				_alloc.destroy(&*it);
 			}
 			if (it == position)
+			{
 				_alloc.construct(&*it, val);
+				ret = &*it;
+			}
 		} 
 	}
 	_size++;
-	return (position);
+	return (iterator(ret));
 }
 template <typename T, typename Alloc>
 void 								vector<T, Alloc>::insert(iterator position, size_type n, const value_type &val)
 {
 	if (_size + 1 > _capacity)
 	{
-		/*T *tmp;
-		int i = 0;
+		T *tmp;
 
 		for (size_type i = 0; i < _size; i++)
 			_alloc.destroy(_vector + i);
 		_alloc.deallocate(_vector, _capacity);
 		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		if (_capacity < _size + n)
+			_capacity = _size + n;
 		tmp = _alloc.allocate(_capacity);
-		for (iterator it = begin(); it != end() + 1; ++it, ++i)
+		size_t pos = 0;
+		for (iterator it = begin(); it != end() + 1; ++it, ++pos)
 		{
 			if (it == position)
 			{
-				_alloc.construct(tmp + i, val);
-				i++;
+				for (size_t i = 0; i < n; i++)
+					_alloc.construct(tmp + pos + i, val);
+				pos += n;
 			}
-			if (it != end ())
-				_alloc.construct(tmp + i, *it);
+			_alloc.construct(tmp + pos, *it);
 		}
-		_vector = tmp;*/
+		_vector = tmp;
 	}
 	else
 	{
@@ -661,12 +668,54 @@ void 								vector<T, Alloc>::insert(iterator position, size_type n, const valu
 	}
 	_size += n;
 }
-/*template <typename T, typename Alloc>
+template <typename T, typename Alloc>
 void 								vector<T, Alloc>::insert(iterator position, iterator first, iterator last)
 {
+	size_t n = last - first;
 
+	if (_size + 1 > _capacity)
+	{
+		T *tmp;
+
+		for (size_type i = 0; i < _size; i++)
+			_alloc.destroy(_vector + i);
+		_alloc.deallocate(_vector, _capacity);
+		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		if (_capacity < _size + n)
+			_capacity = _size + n;
+		tmp = _alloc.allocate(_capacity);
+		size_t pos = 0;
+		for (iterator it = begin(); it != end() + 1; ++it, ++pos)
+		{
+			if (it == position)
+			{
+				int i = 0;
+				for (iterator it = first; it != last; ++it, ++i)
+					_alloc.construct(tmp + pos + i, *it);
+				pos += n;
+			}
+			_alloc.construct(tmp + pos, *it);
+		}
+		_vector = tmp;
+	}
+	else
+	{
+		iterator itp = end() - 1; 
+		iterator val = first; 
+		for (iterator it = end() - 1 + n; it != position - 1; --it, --itp)//itp hors zone danger ?
+		{
+			if (it >= position && it < position + n)
+				_alloc.construct(&*it, *(val++));
+			else
+			{
+				_alloc.construct(&*it, *itp);
+				_alloc.destroy(&*itp);
+			}	
+		}
+	}
+	_size += n;
 }
-*/template <typename T, typename Alloc>
+template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator	vector<T, Alloc>::erase(iterator position)
 {
 	return (erase(position, position + 1));

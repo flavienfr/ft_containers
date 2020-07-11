@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/11 16:40:09 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 18:43:36 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <vector>
 
 #define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity() << std::endl;
-#define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) { std::cout << "vector["<<i<<"] = "<<vec[i]; (i + 1) != vec.size() ? std::cout<< std::endl : 0;}
+#define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) std::cout <<vec[i]<< " ";
+#define NEW_LINE std::cout << std::endl;
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
 	std::cout.fill( '-' );
@@ -1187,7 +1188,7 @@ void	ft_erase()
 }
 void	std_insert()
 {
-	/*{
+	{
 		std::vector<int>vec(4);
 
 		PRINT_SIZE_CAPACITY(vec);
@@ -1195,36 +1196,81 @@ void	std_insert()
 		PRINT_SIZE_CAPACITY(vec);
 
 		PRINT_VECTOR(vec);
-	}*/
+	}
+	NEW_LINE;
 	{
-		std::vector<int>vec(100);
+		std::vector<int>vec(5);
 		
-		PRINT_SIZE_CAPACITY(vec);
-		vec.insert(vec.end()-2,5 , 40);
+		vec.insert(vec.end()-3 ,2 , 42);
 		PRINT_SIZE_CAPACITY(vec);
 
 		PRINT_VECTOR(vec);
 	}
+	NEW_LINE;
+	{
+  		std::vector<int> myvector (3,100);
+  		std::vector<int>::iterator it;
+
+  		it = myvector.begin();
+		std::cout << "it= " << *it << std::endl;
+  		it = myvector.insert(it , 200 );
+		std::cout << "it= " << *it << std::endl;
+
+  		myvector.insert (it,2,300);
+  		it = myvector.begin();
+
+  		std::vector<int> anothervector (2,400);
+  		myvector.insert (it+2,anothervector.begin(),anothervector.end());
+
+  		int myarray [] = { 501,502,503 };
+  		myvector.insert (myvector.begin(), myarray, myarray+3);
+
+  		std::cout << "myvector contains:";
+  		PRINT_VECTOR(myvector);
+	}
 }
 void	ft_insert()
 {
-	/*{
+	{
 		ft::vector<int>vec(4);
-
+	
 		PRINT_SIZE_CAPACITY(vec);
 		vec.insert(vec.end() , 40);
 		PRINT_SIZE_CAPACITY(vec);
 
 		PRINT_VECTOR(vec);
-	}*/
+	}
+	NEW_LINE;
 	{
-		ft::vector<int>vec(3);
+		ft::vector<int>vec(5);
 		
-		PRINT_SIZE_CAPACITY(vec);
-		vec.insert(vec.end()-2 ,5 , 40);
+		vec.insert(vec.end() -3 ,2 , 42);
 		PRINT_SIZE_CAPACITY(vec);
 
 		PRINT_VECTOR(vec);
+	}
+	NEW_LINE;
+	{
+  		ft::vector<int> myvector (3,100);
+  		ft::vector<int>::iterator it;
+
+  		it = myvector.begin();
+		std::cout << "it= " << *it << std::endl;
+  		it = myvector.insert ( it , 200 );
+		std::cout << "it= " << *it << std::endl;
+
+  		myvector.insert (it,2,300);
+  		it = myvector.begin();
+
+  		ft::vector<int> anothervector (2,400);
+  		myvector.insert (it+2,anothervector.begin(),anothervector.end());
+
+  		int myarray [] = { 501,502,503 };
+  		myvector.insert (myvector.begin(), myarray, myarray+3);
+
+  		std::cout << "myvector contains:";
+  		PRINT_VECTOR(myvector);
+
 	}
 }
 void	Modifiers()
