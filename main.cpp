@@ -6,16 +6,16 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/11 00:01:42 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 14:55:10 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
-
 #include "vector.hpp"
 #include <vector>
-#define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity() << std::endl;
 
+#define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity() << std::endl;
+#define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) { std::cout << "vector["<<i<<"] = "<<vec[i]; (i + 1) != vec.size() ? std::cout<< std::endl : 0;}
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
 	std::cout.fill( '-' );
@@ -1115,22 +1115,27 @@ void	ft_pop_back()
 }
 void	std_erase()
 {
-	/*{
+	{
 		std::vector<int> myvector;
 
 		for (int i=1; i<=10; i++) myvector.push_back(i);
 
-		myvector.erase (myvector.begin()+5);
-		myvector.erase (myvector.begin(),myvector.begin()+3);
+		std::vector<int>::iterator ret;
+		ret = myvector.erase (myvector.begin()+5);
+		std::cout << "ret= " << *ret << std::endl;
+		ret = myvector.erase (myvector.begin(),myvector.begin()+3);
+		std::cout << "ret= " << *ret << std::endl;
+
+		PRINT_SIZE_CAPACITY(myvector);
 
 		std::cout << "myvector contains:";
 		for (unsigned i=0; i<myvector.size(); ++i)
 			std::cout << ' ' << myvector[i];
-	}*/
+	}
 	std::cout<< std::endl;
 	{
 		std::vector<int>test(1000);
-		std::vector<std::vector<int>> myvector;
+		std::vector<std::vector<int> > myvector;
 	
 		for (int i=1; i<=10; i++) myvector.push_back(test);
 	
@@ -1146,22 +1151,27 @@ void	std_erase()
 }
 void	ft_erase()
 {
-	/*{
+	{
 		ft::vector<int> myvector;
 
 		for (int i=1; i<=10; i++) myvector.push_back(i);
 
-		myvector.erase (myvector.begin()+5);
-		myvector.erase (myvector.begin(),myvector.begin()+3);
+		ft::vector<int>::iterator ret;
+		ret = myvector.erase (myvector.begin()+5);
+		std::cout << "ret= " << *ret << std::endl;
+		ret = myvector.erase (myvector.begin(),myvector.begin()+3);
+		std::cout << "ret= " << *ret << std::endl;
+
+		PRINT_SIZE_CAPACITY(myvector);
 
 		std::cout << "myvector contains:";
 		for (unsigned i=0; i<myvector.size(); ++i)
 			std::cout << ' ' << myvector[i];
-	}*/
+	}
 	std::cout<< std::endl;
 	{
 		std::vector<int>test(1000);
-		ft::vector<std::vector<int>> myvector;
+		ft::vector<std::vector<int> > myvector;
 	
 		for (int i=1; i<=10; i++) myvector.push_back(test);
 	
@@ -1175,12 +1185,35 @@ void	ft_erase()
 			std::cout << ' ' << myvector[i][0];
 	}
 }
+void	std_insert()
+{
+	std::vector<int>vec(4);
+
+	PRINT_SIZE_CAPACITY(vec);
+	vec.insert(vec.end() , 40);
+	PRINT_SIZE_CAPACITY(vec);
+
+	PRINT_VECTOR(vec);
+
+}
+void	ft_insert()
+{
+	ft::vector<int>vec(4);
+
+	PRINT_SIZE_CAPACITY(vec);
+	vec.insert(vec.end() , 40);
+	PRINT_SIZE_CAPACITY(vec);
+
+	PRINT_VECTOR(vec);
+
+}
 void	Modifiers()
 {
 	//tester(std_assign, NULL, "assign");
 	//tester(std_clear, ft_clear, "clear");
 	//tester(std_pop_back, ft_pop_back, "pop_back");
-	tester(std_erase, NULL, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
+	//tester(std_erase, ft_erase, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
+	tester(std_insert, ft_insert, "insert");
 }
 
 int main()

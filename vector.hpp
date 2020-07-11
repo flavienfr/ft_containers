@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/10 23:51:16 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 14:55:09 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,17 @@
 
 # include <memory>		//allocator
 # include <stdexcept>	//exeption throw
-#include <iostream> // std::cout debug
-
-
-//# include "BaseIterator.hpp"
+#include <iostream>		// std::cout debug
 
 namespace ft {
-
+//symplify iterator const 
 template <typename T>
 class Iterator
 {
 private:
 	T *_ptr;
 public:
-	// metre dans iterator traits
+
 	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
 	typedef T *				pointer;
@@ -39,8 +36,6 @@ public:
 	Iterator(const Iterator &it) : _ptr(it._ptr) { };
 	Iterator &operator=(const Iterator &it) { _ptr = it._ptr; return (*this); };
 	~Iterator() { };
-
-	pointer	get_ptr() { return (_ptr); };
 
 	friend bool operator==(const Iterator &lhs, const Iterator &rhs) { return (lhs._ptr == rhs._ptr); };
 	friend bool operator!=(const Iterator &lhs, const Iterator &rhs) { return (lhs._ptr != rhs._ptr); };
@@ -303,12 +298,12 @@ public:
 /*
 **	Constructor Destructor Assignator
 */
-template <typename T, typename Alloc> // default (1)
+template <typename T, typename Alloc>	// default
 vector<T, Alloc>::vector(const allocator_type &alloc) :
 _vector(NULL), _size(0), _capacity(0), _alloc(alloc)
 {
 }
-template <typename T, typename Alloc> // fill (2)
+template <typename T, typename Alloc>	// fill
 vector<T, Alloc>::vector(size_type n, const value_type &val, const allocator_type &alloc) :
 _size(n), _capacity(n), _alloc(alloc)
 {
@@ -317,7 +312,7 @@ _size(n), _capacity(n), _alloc(alloc)
 	for (size_type i = 0; i < _size; i++)
 		_alloc.construct(_vector + i, val);
 }
-template <typename T, typename Alloc> //range (3)
+template <typename T, typename Alloc>	// range
 vector<T, Alloc>::vector(iterator first, iterator last, const allocator_type &alloc) : _alloc(alloc)
 {
 	_size = last - first;//cast ??? 
@@ -330,7 +325,7 @@ vector<T, Alloc>::vector(iterator first, iterator last, const allocator_type &al
 		i++;
 	}
 }
-template <typename T, typename Alloc> // copy (4)
+template <typename T, typename Alloc>	// copy
 vector<T, Alloc>::vector(const vector &x) :
 _size(x._size), _capacity(x._size), _alloc(x._alloc)
 {
@@ -339,7 +334,7 @@ _size(x._size), _capacity(x._size), _alloc(x._alloc)
 	for (size_type i = 0; i < _size; i++)
 		_alloc.construct(_vector + i, x._vector[i]);
 }
-template <typename T, typename Alloc>
+template <typename T, typename Alloc>	// assign
 vector<T, Alloc> &vector<T, Alloc>::operator=(const vector &x)
 {
 	for (size_type i = 0; i < _size; i++)
@@ -353,7 +348,7 @@ vector<T, Alloc> &vector<T, Alloc>::operator=(const vector &x)
 		_alloc.construct(_vector + i, x._vector[i]);
 	return (*this);
 }
-template <typename T, typename Alloc> // destructor
+template <typename T, typename Alloc>	// destructor
 vector<T, Alloc>::~vector()
 {
 	for (size_type i = 0; i < _size; i++)
@@ -365,42 +360,42 @@ vector<T, Alloc>::~vector()
 **	Iterators
 */
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator			vector<T, Alloc>::begin()
+typename vector<T, Alloc>::iterator					vector<T, Alloc>::begin()
 {
 	return (iterator(_vector));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_iterator	vector<T, Alloc>::begin() const
+typename vector<T, Alloc>::const_iterator			vector<T, Alloc>::begin() const
 {
 	return (const_iterator(_vector));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::iterator			vector<T, Alloc>::end()
+typename vector<T, Alloc>::iterator					vector<T, Alloc>::end()
 {
 	return (iterator(_vector + _size));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_iterator	vector<T, Alloc>::end() const
+typename vector<T, Alloc>::const_iterator			vector<T, Alloc>::end() const
 {
 	return (const_iterator(_vector + _size));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::reverse_iterator vector<T, Alloc>::rbegin()
+typename vector<T, Alloc>::reverse_iterator 		vector<T, Alloc>::rbegin()
 {
 	return (reverse_iterator(_vector + _size - 1));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_reverse_iterator vector<T, Alloc>::rbegin() const
+typename vector<T, Alloc>::const_reverse_iterator	vector<T, Alloc>::rbegin() const
 {
 	return (const_reverse_iterator(_vector + _size - 1));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::reverse_iterator vector<T, Alloc>::rend()
+typename vector<T, Alloc>::reverse_iterator			vector<T, Alloc>::rend()
 {
 	return (reverse_iterator(_vector - 1));
 }
 template <typename T, typename Alloc>
-typename vector<T, Alloc>::const_reverse_iterator vector<T, Alloc>::rend() const
+typename vector<T, Alloc>::const_reverse_iterator	vector<T, Alloc>::rend() const
 {
 	return (const_reverse_iterator(_vector - 1));
 }
@@ -419,7 +414,7 @@ typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
 	return (_alloc.max_size());
 }
 template <typename T, typename Alloc>
-void	vector<T, Alloc>::resize(size_type n, value_type val)//iterator
+void									vector<T, Alloc>::resize(size_type n, value_type val)//iterator
 {
 	if (n > _size)
 	{
@@ -461,12 +456,12 @@ typename vector<T, Alloc>::size_type	vector<T, Alloc>::capacity() const
 	return (_capacity);
 }
 template <typename T, typename Alloc>
-bool	vector<T, Alloc>::empty() const
+bool									vector<T, Alloc>::empty() const
 {
 	return (_size == 0 ? true : false);
 }
 template <typename T, typename Alloc>
-void	vector<T, Alloc>::reserve(size_type n)//iterator
+void									vector<T, Alloc>::reserve(size_type n)//iterator
 {
 	//if (n > max_size())
 	//	throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
@@ -553,7 +548,7 @@ void	vector<T, Alloc>::assign(iterator first, iterator last)
 //void	assign (size_type n, const value_type& val);
 
 template <typename T, typename Alloc>
-void	vector<T, Alloc>::push_back(const value_type &val)//iterator
+void								vector<T, Alloc>::push_back(const value_type &val)
 {
 	if (_size + 1 > _capacity)
 	{
@@ -578,40 +573,120 @@ void	vector<T, Alloc>::push_back(const value_type &val)//iterator
 		_size++;
 	}
 }
-
 template <typename T, typename Alloc>
-void	vector<T, Alloc>::pop_back()
+void								vector<T, Alloc>::pop_back()
 {
 	_alloc.destroy(_vector + _size - 1);
 	_size--;
 }
-
 template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, const value_type &val)
+{
+	if (_size + 1 > _capacity)
+	{
+		T *tmp;
+		int i = 0;
+
+		for (size_type i = 0; i < _size; i++)
+			_alloc.destroy(_vector + i);
+		_alloc.deallocate(_vector, _capacity);
+		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		tmp = _alloc.allocate(_capacity);
+		for (iterator it = begin(); it != end() + 1; ++it, ++i)
+		{
+			if (it == position)
+			{
+				_alloc.construct(tmp + i, val);
+				i++;
+			}
+			if (it != end ())
+				_alloc.construct(tmp + i, *it);
+		}
+		_vector = tmp;
+	}
+	else
+	{
+		for (iterator it = end(); it != position - 1; --it)
+		{
+			if (it != end ())
+			{
+				_alloc.construct(&*(it + 1), *it);
+				_alloc.destroy(&*it);
+			}
+			if (it == position)
+				_alloc.construct(&*it, val);
+		} 
+	}
+	_size++;
+	return (position);
+}
+template <typename T, typename Alloc>
+void 								vector<T, Alloc>::insert(iterator position, size_type n, const value_type &val)
+{
+	if (_size + 1 > _capacity)
+	{
+		T *tmp;
+		int i = 0;
+
+		for (size_type i = 0; i < _size; i++)
+			_alloc.destroy(_vector + i);
+		_alloc.deallocate(_vector, _capacity);
+		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		tmp = _alloc.allocate(_capacity);
+		for (iterator it = begin(); it != end() + 1; ++it, ++i)
+		{
+			if (it == position)
+			{
+				_alloc.construct(tmp + i, val);
+				i++;
+			}
+			if (it != end ())
+				_alloc.construct(tmp + i, *it);
+		}
+		_vector = tmp;
+	}
+	else
+	{
+		iterator itp = position + n; 
+		for (iterator it = end() - 1 + n; it != position - 1; --it)
+		{
+			_alloc.construct(&*(it + 1), *it);
+			_alloc.destroy(&*it);
+			if (it == position)
+				_alloc.construct(&*it, val);
+		} 
+	}
+	_size++;
+	return (position);
+}
+/*template <typename T, typename Alloc>
+void 								vector<T, Alloc>::insert(iterator position, iterator first, iterator last)
+{
+
+}
+*/template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator	vector<T, Alloc>::erase(iterator position)
 {
-	erase(position, position + 1);
-	return (end());
+	return (erase(position, position + 1));
 }
-
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator	vector<T, Alloc>::erase(iterator first, iterator last)
-{//if last > first ? protection ?
+{
 	for (iterator it = first; it != last; ++it)
 	{
-		_alloc.destroy(&*it);//why &
+		_alloc.destroy(&*it);
 	}
 	iterator pos = first;
 	for (iterator it = last; it != end(); ++it, ++pos)
 	{
 		_alloc.construct(&*pos, *it);
-		_alloc.destroy(&*it);//why &
+		_alloc.destroy(&*it);
 	}
 	_size -= (last - first);
-	return (end());
+	return (first);
 }
-
 template <typename T, typename Alloc>
-void	vector<T, Alloc>::clear()
+void								vector<T, Alloc>::clear()
 {
 	//if (!(std::is_trivially_destructible<T>::value))
 	for (size_type i = 0; i < _size; i++)

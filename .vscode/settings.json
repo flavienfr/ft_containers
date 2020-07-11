@@ -65,6 +65,7 @@
 		"*.tcc": "cpp",
 		"clocale": "cpp",
 		"deque": "cpp",
-		"fstream": "cpp"
+		"fstream": "cpp",
+		"bit": "cpp"
 	}
 }
