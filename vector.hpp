@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/11 14:55:09 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 16:40:09 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -625,7 +625,7 @@ void 								vector<T, Alloc>::insert(iterator position, size_type n, const valu
 {
 	if (_size + 1 > _capacity)
 	{
-		T *tmp;
+		/*T *tmp;
 		int i = 0;
 
 		for (size_type i = 0; i < _size; i++)
@@ -643,21 +643,23 @@ void 								vector<T, Alloc>::insert(iterator position, size_type n, const valu
 			if (it != end ())
 				_alloc.construct(tmp + i, *it);
 		}
-		_vector = tmp;
+		_vector = tmp;*/
 	}
 	else
 	{
-		iterator itp = position + n; 
-		for (iterator it = end() - 1 + n; it != position - 1; --it)
+		iterator itp = end() - 1; 
+		for (iterator it = end() - 1 + n; it != position - 1; --it, --itp)//itp hors zone danger ?
 		{
-			_alloc.construct(&*(it + 1), *it);
-			_alloc.destroy(&*it);
-			if (it == position)
+			if (it >= position && it < position + n)
 				_alloc.construct(&*it, val);
-		} 
+			else
+			{
+				_alloc.construct(&*it, *itp);
+				_alloc.destroy(&*itp);
+			}	
+		}
 	}
-	_size++;
-	return (position);
+	_size += n;
 }
 /*template <typename T, typename Alloc>
 void 								vector<T, Alloc>::insert(iterator position, iterator first, iterator last)

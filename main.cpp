@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/11 14:55:10 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/11 16:40:09 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1187,25 +1187,45 @@ void	ft_erase()
 }
 void	std_insert()
 {
-	std::vector<int>vec(4);
+	/*{
+		std::vector<int>vec(4);
 
-	PRINT_SIZE_CAPACITY(vec);
-	vec.insert(vec.end() , 40);
-	PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);
+		vec.insert(vec.end() , 40);
+		PRINT_SIZE_CAPACITY(vec);
 
-	PRINT_VECTOR(vec);
+		PRINT_VECTOR(vec);
+	}*/
+	{
+		std::vector<int>vec(100);
+		
+		PRINT_SIZE_CAPACITY(vec);
+		vec.insert(vec.end()-2,5 , 40);
+		PRINT_SIZE_CAPACITY(vec);
 
+		PRINT_VECTOR(vec);
+	}
 }
 void	ft_insert()
 {
-	ft::vector<int>vec(4);
+	/*{
+		ft::vector<int>vec(4);
 
-	PRINT_SIZE_CAPACITY(vec);
-	vec.insert(vec.end() , 40);
-	PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);
+		vec.insert(vec.end() , 40);
+		PRINT_SIZE_CAPACITY(vec);
 
-	PRINT_VECTOR(vec);
+		PRINT_VECTOR(vec);
+	}*/
+	{
+		ft::vector<int>vec(3);
+		
+		PRINT_SIZE_CAPACITY(vec);
+		vec.insert(vec.end()-2 ,5 , 40);
+		PRINT_SIZE_CAPACITY(vec);
 
+		PRINT_VECTOR(vec);
+	}
 }
 void	Modifiers()
 {
@@ -1213,7 +1233,7 @@ void	Modifiers()
 	//tester(std_clear, ft_clear, "clear");
 	//tester(std_pop_back, ft_pop_back, "pop_back");
 	//tester(std_erase, ft_erase, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
-	tester(std_insert, ft_insert, "insert");
+	tester(std_insert, ft_insert, "insert");//need memory test
 }
 
 int main()
