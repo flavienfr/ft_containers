@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/12 14:31:36 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 14:40:31 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1381,6 +1381,7 @@ void	Modifiers()
 	//tester(std_insert, ft_insert, "insert");//need memory test
 	//tester(std_swap, ft_swap, "swap");
 }
+
 void	std_swap2()
 {
 	std::vector<int> foo (3,100);   // three ints with a value of 100
@@ -1481,6 +1482,7 @@ void	ft_relational_operators()
 }
 void	Non_member()
 {
+	tester(std_swap2, ft_swap2, "swap2");
 	tester(std_relational_operators, ft_relational_operators, "relational_operators");
 }
 
@@ -1492,7 +1494,7 @@ int main()
 	//Iterators();
 	//ClassIterator();
 	//Modifiers();
-	Non_member();
+	//Non_member();
 
 	return (0);
 }

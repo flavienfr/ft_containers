@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 14:33:45 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 14:40:31 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,14 +295,6 @@ public:
 	iterator	erase(iterator first, iterator last);
 	void		swap(vector& x);
 	void		clear();
-
-	//friend bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);	
-	//friend bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);	
-	//friend bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);	
-	//friend bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);	
-	//friend bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);	
-	//friend bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
-
 };
 
 /*
@@ -828,4 +820,3 @@ bool	operator>= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 } // namespace
 
 #endif
-
