@@ -1,3 +1,21 @@
+-------------------Constructor--------------------
+10 20 30 10 10 10 10 20 30 10 20 30 
+-------------------assignation--------------------
+capacity: 100 size: 6 vec1.begin() = 10 vec1.end() = 45460
+capacity: 6 size: 6 vec2.begin() = 10 vec2.end() = 45460
+vector[0] = 10 vector[1] = 20 vector[2] = 30 
+vector[0] = 10 vector[1] = 20 vector[2] = 30 vector[3] = 40 vector[4] = 456 vector[5] = 45460 
+Size of foo: 0
+Size of bar: 3
+----------------operator_selection----------------
+myvector contains: 9 8 7 6 5 4 3 2 1 0
+myvector contains: 0 0 0 0 0 0 0 0 0 0
+------------------------at------------------------
+myvector contains: 0 1 2 3 4 5 6 7 8 9 vector
+
+--------------------font_back---------------------
+myvector.front() is now 62
+myvector contains: 10 9 8 7 6 5 4 3 2 1 0
 ---------------------max_size---------------------
 4611686018427387903
 9223372036854775807
@@ -30,3 +48,70 @@ capacity changed: 100
 Do a push_back
 capacity changed: 200
 Length error: allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size
+----------------------begin-----------------------
+myvector contains: 1 2 3 4 5
+10 == 0 it == it1 0
+-----------------construct_assign-----------------
+it: 10 it2: 10 it3: 10
+--------------------equivalent--------------------
+it == it2: 0
+it != it2: 1
+it == it2: 1
+it != it2: 0
+----------------------access----------------------
+it->: 2
+-----------operator_increment_decrement-----------
+10.3 23.5 23.5 10.3 
+--------------addition_soustraction---------------
+it: 10.3 it2 : 15.4 it: 15.4 *(it2 + 1): 23.5 *it2 + 1: 16.4
+ it - 1: 10.3 it2 - 2: 15.4 it2 - it: 2 it - it2: -2 it - it: 0
+---------------------compare----------------------
+it < it2= 1 it > it2= 0
+it <= it2= 1 it >= it2= 1
+---------------------selector---------------------
+vector[0] = 10.3 vector[1] = 15.4 vector[2] = 23.5 vector[3] = 2131.5 vector[4] = 110.5 
+------------------const_iterator------------------
+vector[0] = Coucou vector[1] = je vector[2] = suis vector[3] = ovale vector[0] = changement vector[1] = changement vector[2] = changement vector[3] = changement 
+-----------------reverse_iterator-----------------
+myvector contains: 5 4 3 2 1
+----------------------assign----------------------
+Size of first: 7 capacity: 7
+Size of second: 5 capacity: 5
+Size of third: 3 capacity: 3
+100 100 100 100 100 100 100 100 100 100 100 100 1776 7 4 
+----------------------clear-----------------------
+myvector contains: 100 200 300 300 300
+pre clear, _size: 5 _capacity: 8
+post clear, _size: 0 _capacity: 8
+my clear vector contains: 100 200 300 300 300
+myvector contains: 1101 2202
+---------------------pop_back---------------------
+The elements of myvector add up to 600
+myvector.empty(): 1 size 0
+----------------------erase-----------------------
+ret= 7
+ret= 4
+Size= 6 Capacity= 16myvector contains: 4 5 7 8 9 10
+Size= 6 Capacity= 16myvector contains: 0 0 0 0 0 0
+----------------------insert----------------------
+Size= 4 Capacity= 4Size= 5 Capacity= 80 0 0 0 40 
+Size= 7 Capacity= 100 0 42 42 0 0 0 
+it= 100
+it= 200
+Size= 11 Capacity= 12
+myvector contains:501 502 503 300 300 400 400 200 100 100 100 
+-----------------------swap-----------------------
+foo contains: 200 200 200 200 200
+Size= 5 Capacity= 5
+bar contains: 100 100 100
+Size= 3 Capacity= 3
+----------------------swap2-----------------------
+foo contains: 200 200 200 200 200
+Size= 5 Capacity= 5
+bar contains: 100 100 100
+Size= 3 Capacity= 3
+---------------relational_operators---------------
+foo and bar are not equal
+foo is less than bar
+foo is less than or equal to bar
+

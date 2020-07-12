@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 18:39:09 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 18:42:59 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -501,14 +501,14 @@ template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference		vector<T, Alloc>::at(size_type n)
 {
 	if (n >= _size)
-		throw std::out_of_range("vector: Out of Range");
+		throw std::out_of_range("vector");
 	return (_vector[n]);
 }
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::const_reference	vector<T, Alloc>::at(size_type n) const
 {
 	if (n >= _size)
-		throw std::out_of_range("vector: Out of Range");
+		throw std::out_of_range("vector");
 	return (_vector[n]);
 }
 template <typename T, typename Alloc>

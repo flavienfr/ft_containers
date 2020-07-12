@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/12 18:30:10 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 18:46:58 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ void	ft_assignation()
 		}
 	}
 	std::cout << std::endl;
-	/*{
+	{
 		ft::vector<int>foo(3,0);
   		ft::vector<int>bar(5,0);
 
@@ -234,7 +234,7 @@ void	ft_assignation()
 
   		std::cout << "Size of foo: " << int(foo.size()) << '\n';
   		std::cout << "Size of bar: " << int(bar.size());
-	}*/
+	}
 }
 void	Constructor_Destructor_Assignator()
 {
@@ -255,7 +255,7 @@ void	std_max_size()
 	std::cout << vec3.max_size() << std::endl;
 	std::vector<std::string>vec4;
 	std::cout << vec4.max_size() << std::endl;
-	std::vector<bool>vec5;//bool diff
+	std::vector<bool>vec5;
 	std::cout << vec5.max_size();
 }
 void	ft_max_size()
@@ -268,7 +268,7 @@ void	ft_max_size()
 	std::cout << vec3.max_size() << std::endl;
 	ft::vector<std::string>vec4;
 	std::cout << vec4.max_size() << std::endl;
-	ft::vector<bool>vec5;//bool diff
+	ft::vector<bool>vec5;
 	std::cout << vec5.max_size();
 }
 void	std_resize()
@@ -541,7 +541,7 @@ void	std_at()
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cout << e.what() << '\n';
 	}
 }
 void	ft_at()
@@ -560,7 +560,7 @@ void	ft_at()
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cout << e.what() << '\n';
 	}
 }
 void	std_font_back()
@@ -1518,13 +1518,13 @@ int main()
 {
 	output_stream = FILE; // COUT or FILE
 
-	//Constructor_Destructor_Assignator();
-	//Element_access();
+	Constructor_Destructor_Assignator();
+	Element_access();
 	Capacity();
-	//Iterators();
-	//ClassIterator();
-	//Modifiers();
-	//Non_member();
+	Iterators();
+	ClassIterator();
+	Modifiers();
+	Non_member();
 
 	return (0);
 }
