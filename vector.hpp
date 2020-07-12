@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 14:40:31 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 18:39:09 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,7 +413,7 @@ typename vector<T, Alloc>::size_type	vector<T, Alloc>::size() const
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
 {
-	return (_alloc.max_size());
+	return (min(static_cast<size_type>(std::numeric_limits<difference_type>::max()), std::numeric_limits<size_type>::max() / sizeof(value_type)));
 }
 template <typename T, typename Alloc>
 void									vector<T, Alloc>::resize(size_type n, value_type val)//iterator
@@ -714,11 +714,11 @@ void 								vector<T, Alloc>::insert(iterator position, iterator first, iterato
 	else
 	{
 		iterator itp = end() - 1; 
-		iterator val = first; 
-		for (iterator it = end() - 1 + n; it != position - 1; --it, --itp)//itp hors zone danger ?
+		iterator val = last; 
+		for (iterator it = end() - 1 + n; it != position - 1; --it, --itp)
 		{
 			if (it >= position && it < position + n)
-				_alloc.construct(&*it, *(val++));
+				_alloc.construct(&*it, *(--val));
 			else
 			{
 				_alloc.construct(&*it, *itp);

@@ -6,33 +6,64 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/12 14:40:31 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 18:30:10 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+** IMPORTANT GERER LES BOOL OU DELETE FUNCTION TEST BOOL
+*/
+
 #include "main.hpp"
+#include<fstream>
+
 #include "vector.hpp"
 #include <vector>
 
 #define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity();
 #define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) std::cout <<vec[i]<< " ";
 #define NEW_LINE std::cout << std::endl;
+#define COUT 0
+#define FILE 1
+
+bool output_stream = 0;
+std::ofstream ft_vector("ft_vector.txt");
+std::ofstream std_vector("std_vector.txt");
 
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
 	std::cout.fill( '-' );
+	std::streambuf *coutbuf;
 
 	if (pf_1)
 	{
+		if (output_stream)
+		{
+			coutbuf = std::cout.rdbuf(); //save old buf
+    		std::cout.rdbuf(std_vector.rdbuf());
+		}
+	
 		std::cout << std::setw(50) << centered(text) << std::endl;
 		pf_1();
 		std::cout << std::endl;
+
+		if (output_stream)
+			std::cout.rdbuf(coutbuf);
 	}
 	if (pf_2)
 	{
+		if (output_stream)
+		{
+			coutbuf = std::cout.rdbuf(); //save old buf
+    		std::cout.rdbuf(ft_vector.rdbuf());
+		}
+
 		std::cout << std::setw(50) << centered("STD vs FT") << std::endl;
 		pf_2();
 		std::cout << std::endl;
+
+		if (output_stream)
+			std::cout.rdbuf(coutbuf);
 	}
 }
 
@@ -207,8 +238,8 @@ void	ft_assignation()
 }
 void	Constructor_Destructor_Assignator()
 {
-	//tester(std_constructor, ft_constructor, "Constructor");
-	//tester(std_assignation, ft_assignation, "assignation");
+	tester(std_constructor, ft_constructor, "Constructor");
+	tester(std_assignation, ft_assignation, "assignation");
 }
 
 /*
@@ -295,8 +326,8 @@ void	ft_capacity()
 	{
 		ft::vector<int> myvector;
 
-		//for (int i=0; i<100; i++)
-		//	myvector.push_back(i);
+		for (int i=0; i<100; i++)
+			myvector.push_back(i);
 		std::cout << "size: " << myvector.size() << '\n';
 		std::cout << "capacity: " << myvector.capacity() << '\n';
 		std::cout << "max_size: " << myvector.max_size() << '\n';
@@ -315,7 +346,7 @@ void	std_empty()
 	std::cout << "total: " << sum;
 }
 void	ft_empty()
-{/*
+{
 	ft::vector<int> myvector;
 	int sum (0);
 	for (int i=1;i<=10;i++) myvector.push_back(i);
@@ -325,7 +356,7 @@ void	ft_empty()
 	   myvector.pop_back();
 	}
 	std::cout << "total: " << sum;
-*/}
+}
 void	std_reserve()
 {
 	std::vector<int>::size_type sz;
@@ -368,7 +399,7 @@ void	std_reserve()
   		}
 		catch (const std::length_error& le)
 		{
-			std::cerr << "Length error: " << le.what();
+			std::cout << "Length error: " << le.what();
   		}
 	}
 }
@@ -414,16 +445,16 @@ void	ft_reserve()
   		}
 		catch (const std::length_error& le)
 		{
-			std::cerr << "Length error: " << le.what();
+			std::cout << "Length error: " << le.what();
   		}
 	}
 }
 void	Capacity()
 {
-	//tester(std_max_size, ft_max_size, "max_size");
-	//tester(std_capacity, ft_capacity, "capacity");
-	//tester(std_resize, ft_resize, "resize");
-	//tester(std_empty, ft_empty, "empty");
+	tester(std_max_size, ft_max_size, "max_size");
+	tester(std_capacity, ft_capacity, "capacity");
+	tester(std_resize, ft_resize, "resize");
+	tester(std_empty, ft_empty, "empty");
 	tester(std_reserve, ft_reserve, "reserve");
 }
 
@@ -582,9 +613,9 @@ void	ft_font_back()
 }
 void	Element_access()
 {
-	//tester(std_operator_selection, ft_operator_selection, "operator_selection");
-	//tester(std_at, ft_at, "at");
-	//tester(std_font_back, ft_font_back, "font_back");
+	tester(std_operator_selection, ft_operator_selection, "operator_selection");
+	tester(std_at, ft_at, "at");
+	tester(std_font_back, ft_font_back, "font_back");
 }
 
 /*
@@ -634,9 +665,7 @@ void	ft_begin()
 }
 void	Iterators()
 {
-	//tester(std_Iterators, ft_Iterators, "Iterators");
-	//tester(std_Iterators, ft_Iterators, "Iterators");
-	//tester(std_begin, ft_begin, "begin");
+	tester(std_begin, ft_begin, "begin");
 }
 
 /*
@@ -683,7 +712,7 @@ void	std_equivalent()
 	std::cout<< "it != it2: "<< (it != it2) << std::endl;
 	it2 = vec.begin();
 	std::cout<< "it == it2: "<< (it == it2) << std::endl;
-	std::cout<< "it != it2: "<< (it != it2) << std::endl;
+	std::cout<< "it != it2: "<< (it != it2);
 
 }
 void	ft_equivalent()
@@ -710,7 +739,6 @@ void	std_access()
 
 	std::vector<std::vector<int> >::iterator it = vec.begin();
 
-
 	std::cout << "it->: " << it->capacity();
 }
 void	ft_access()
@@ -719,12 +747,11 @@ void	ft_access()
 	vecint.push_back(15);
 	vecint.push_back(15);
 	ft::vector<ft::vector<int> >vec;
-	//vec.push_back(vecint);
+	vec.push_back(vecint);
 
-	//ft::vector<ft::vector<int> >::iterator it = vec.begin();
+	ft::vector<ft::vector<int> >::iterator it = vec.begin();
 
-
-	//std::cout << "it->: " << it->capacity();
+	std::cout << "it->: " << it->capacity();
 }
 void	std_operator_increment_decrement()
 {
@@ -811,7 +838,6 @@ void	ft_addition_soustraction()
 		std::cout << " it - it2: " << it - it2;
 		std::cout << " it - it: " << it - it;
 	}
-	std::cout << std::endl;
 }
 void	std_compare()
 {
@@ -853,7 +879,7 @@ void	std_selector()
 	int i = 0;
 	for (it = vec.begin(); it != vec.end(); it++)
 	{
-		std::cout<< "vecttor[" << i << "] = " << *it << " ";
+		std::cout<< "vector[" << i << "] = " << *it << " ";
 		i++;
 	}
 }
@@ -980,14 +1006,14 @@ void	ft_reverse_iterator()
 }
 void	ClassIterator()
 {
-	//tester(std_construct_assign, ft_construct_assign, "construct_assign");
-	//tester(std_equivalent, ft_equivalent, "equivalent");
-	//tester(std_access, NULL, "access");
-	//tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
-	//tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
-	//tester(std_compare, ft_compare, "compare");
-	//tester(std_selector, ft_selector, "selector");
-	//tester(std_const_iterator, ft_const_iterator, "const_iterator");
+	tester(std_construct_assign, ft_construct_assign, "construct_assign");
+	tester(std_equivalent, ft_equivalent, "equivalent");
+	tester(std_access, ft_access, "access");
+	tester(std_operator_increment_decrement, ft_operator_increment_decrement, "operator_increment_decrement");
+	tester(std_addition_soustraction, ft_addition_soustraction, "addition_soustraction");
+	tester(std_compare, ft_compare, "compare");
+	tester(std_selector, ft_selector, "selector");
+	tester(std_const_iterator, ft_const_iterator, "const_iterator");
 	tester(std_reverse_iterator, ft_reverse_iterator, "reverse_iterator");
 }
 
@@ -1324,6 +1350,7 @@ void	std_insert()
   		int myarray [] = { 501,502,503 };
   		myvector.insert (myvector.begin(), myarray, myarray+3);
 
+		PRINT_SIZE_CAPACITY(myvector);NEW_LINE;
   		std::cout << "myvector contains:";
   		PRINT_VECTOR(myvector);
 	}
@@ -1366,7 +1393,8 @@ void	ft_insert()
 
   		int myarray [] = { 501,502,503 };
   		myvector.insert (myvector.begin(), myarray, myarray+3);
-
+		
+		PRINT_SIZE_CAPACITY(myvector);NEW_LINE;
   		std::cout << "myvector contains:";
   		PRINT_VECTOR(myvector);
 
@@ -1374,12 +1402,12 @@ void	ft_insert()
 }
 void	Modifiers()
 {
-	//tester(std_assign, ft_assign, "assign");
-	//tester(std_clear, ft_clear, "clear");
-	//tester(std_pop_back, ft_pop_back, "pop_back");
-	//tester(std_erase, ft_erase, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
-	//tester(std_insert, ft_insert, "insert");//need memory test
-	//tester(std_swap, ft_swap, "swap");
+	tester(std_assign, ft_assign, "assign");
+	tester(std_clear, ft_clear, "clear");
+	tester(std_pop_back, ft_pop_back, "pop_back");
+	tester(std_erase, ft_erase, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
+	tester(std_insert, ft_insert, "insert");//need memory test
+	tester(std_swap, ft_swap, "swap");
 }
 
 void	std_swap2()
@@ -1488,9 +1516,11 @@ void	Non_member()
 
 int main()
 {
+	output_stream = FILE; // COUT or FILE
+
 	//Constructor_Destructor_Assignator();
 	//Element_access();
-	//Capacity();
+	Capacity();
 	//Iterators();
 	//ClassIterator();
 	//Modifiers();
