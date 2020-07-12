@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 13:42:00 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 14:33:45 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -779,8 +779,9 @@ void								vector<T, Alloc>::clear()
 */
 template <class T, class Alloc>
 void	swap(vector<T,Alloc> &x, vector<T,Alloc> &y)
-{ x.swap(y); }
-
+{
+	x.swap(y);
+}
 template <class T, class Alloc>
 bool	operator== (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 {
@@ -796,26 +797,33 @@ bool	operator!= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 {
 	return (!(lhs == rhs));
 }
-
 template <class T, class Alloc>
 bool	operator<  (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 {
 	for (typename vector<T, Alloc>::size_type i = 0 ; i < lhs.size(); ++i)
 	{
-		if (i == rhs.size() || rhs[i] <= lhs[i])
+		if (i == rhs.size() || rhs[i] < lhs[i])
 			return (false);
+		else if (lhs[i] < rhs[i])
+			return (true);
 	}
-	return (true);
-}//test equal, empty vs non empty, 
-/*template <class T, class Alloc>
+	return (rhs != lhs);
+}
+template <class T, class Alloc>
 bool	operator<= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
-{  }
+{
+	return (!(rhs < lhs));
+}
 template <class T, class Alloc>
 bool	operator>  (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
-{  }
+{
+	return (rhs < lhs);
+}
 template <class T, class Alloc>
 bool	operator>= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
-{  }*/
+{
+	return (!(lhs < rhs));
+}
 
 } // namespace
 

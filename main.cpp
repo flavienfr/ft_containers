@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/12 13:42:01 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 14:31:36 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1381,11 +1381,84 @@ void	Modifiers()
 	//tester(std_insert, ft_insert, "insert");//need memory test
 	//tester(std_swap, ft_swap, "swap");
 }
+void	std_swap2()
+{
+	std::vector<int> foo (3,100);   // three ints with a value of 100
+	std::vector<int> bar (5,200);   // five ints with a value of 200
 
+	swap(foo, bar);
+
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+		std::cout << ' ' << foo[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(foo);NEW_LINE;
+
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+		std::cout << ' ' << bar[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(bar);
+	/*NEW_LINE;
+	{
+		std::vector<bool> foo;
+		std::vector<bool> bar;		
+		foo.push_back(false);
+		foo.push_back(true);
+		foo.push_back(false);		
+		bar.push_back(true);
+		bar.push_back(false);		
+		foo.swap (foo[0], foo[1]);
+		bar.swap (bar.front(), bar.back());		
+		foo.swap(bar);		
+		std::cout << std::boolalpha;
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
+		std::cout << "\nbar contains:";
+		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
+	}*/
+}
+void	ft_swap2()
+{
+	ft::vector<int> foo (3,100);   // three ints with a value of 100
+	ft::vector<int> bar (5,200);   // five ints with a value of 200
+
+	swap(foo, bar);
+
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+		std::cout << ' ' << foo[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(foo);NEW_LINE;
+
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+		std::cout << ' ' << bar[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(bar);
+	/*NEW_LINE; Bool class
+	{
+		ft::vector<bool> foo;
+		ft::vector<bool> bar;	
+		foo.push_back(false);
+		foo.push_back(true);
+		foo.push_back(false);	
+		bar.push_back(true);
+		bar.push_back(false);	
+		foo.swap(foo[0], foo[1]);
+		bar.swap(bar.front(), bar.back());	
+		foo.swap(bar);	
+		std::cout << std::boolalpha;
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
+		std::cout << "\nbar contains:";
+		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
+	}*/
+}
 void	std_relational_operators()
 {
-	std::vector<int> foo (3,100);   // three ints with a value of 10
-	std::vector<int> bar (2,200);   // two ints with a value of 200
+	std::vector<int> foo (2,100);   // three ints with a value of 10
+	std::vector<int> bar (4,100);   // two ints with a value of 200
 
 	if (foo==bar) std::cout << "foo and bar are equal\n";
 	if (foo!=bar) std::cout << "foo and bar are not equal\n";
@@ -1396,15 +1469,15 @@ void	std_relational_operators()
 }
 void	ft_relational_operators()
 {
-	ft::vector<int> foo (3,100);   // three ints with a value of 10
-	ft::vector<int> bar (2,200);   // two ints with a value of 200
+	ft::vector<int> foo (2,100);   // three ints with a value of 10
+	ft::vector<int> bar (4,100);   // two ints with a value of 200
 
 	if (foo==bar) std::cout << "foo and bar are equal\n";
 	if (foo!=bar) std::cout << "foo and bar are not equal\n";
-	//if (foo< bar) std::cout << "foo is less than bar\n";
-	//if (foo> bar) std::cout << "foo is greater than bar\n";
-	//if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-	//if (foo>=bar) std::cout << "foo is greater than or equal to bar";
+	if (foo< bar) std::cout << "foo is less than bar\n";
+	if (foo> bar) std::cout << "foo is greater than bar\n";
+	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 }
 void	Non_member()
 {
