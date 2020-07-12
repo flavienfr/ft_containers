@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/12 18:47:16 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 22:30:23 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 	}
 }
 
-/*
-**	Constructor Destructor Assignator
-*/
+//	Constructor Destructor Assignator
 void	std_constructor()
 {
 	{
@@ -242,9 +240,7 @@ void	Constructor_Destructor_Assignator()
 	tester(std_assignation, ft_assignation, "assignation");
 }
 
-/*
-**	Capacity
-*/
+//	Capacity
 void	std_max_size()
 {
 	std::vector<int>vec;
@@ -255,8 +251,8 @@ void	std_max_size()
 	std::cout << vec3.max_size() << std::endl;
 	std::vector<std::string>vec4;
 	std::cout << vec4.max_size() << std::endl;
-	std::vector<bool>vec5;
-	std::cout << vec5.max_size();
+	//std::vector<bool>vec5;
+	//std::cout << vec5.max_size();
 }
 void	ft_max_size()
 {
@@ -268,8 +264,8 @@ void	ft_max_size()
 	std::cout << vec3.max_size() << std::endl;
 	ft::vector<std::string>vec4;
 	std::cout << vec4.max_size() << std::endl;
-	ft::vector<bool>vec5;
-	std::cout << vec5.max_size();
+	//ft::vector<bool>vec5;
+	//std::cout << vec5.max_size();
 }
 void	std_resize()
 {
@@ -373,7 +369,6 @@ void	std_reserve()
 	    	std::cout << "capacity changed: " << sz << '\n';
 		}
 	}
-
 	std::vector<int> bar;
 	sz = bar.capacity();
 	bar.reserve(100); // this is the only difference with foo above
@@ -419,7 +414,6 @@ void	ft_reserve()
 	    	std::cout << "capacity changed: " << sz << '\n';
 		}
 	}
-
 	ft::vector<int> bar;
 	sz = bar.capacity();
 	bar.reserve(100); // this is the only difference with foo above
@@ -458,9 +452,7 @@ void	Capacity()
 	tester(std_reserve, ft_reserve, "reserve");
 }
 
-/*
-**	Element access
-*/
+//	Element access
 void	std_operator_selection()
 {
 	{
@@ -541,7 +533,7 @@ void	std_at()
 	}
 	catch(const std::exception& e)
 	{
-		std::cout << e.what() << '\n';
+		std::cout  << '\n' << e.what();
 	}
 }
 void	ft_at()
@@ -560,7 +552,7 @@ void	ft_at()
 	}
 	catch(const std::exception& e)
 	{
-		std::cout << e.what() << '\n';
+		std::cout  << '\n' << e.what();
 	}
 }
 void	std_font_back()
@@ -618,9 +610,7 @@ void	Element_access()
 	tester(std_font_back, ft_font_back, "font_back");
 }
 
-/*
-**	Iterators
-*/
+//	Iterators
 void	std_begin()
 {
 	{
@@ -637,7 +627,7 @@ void	std_begin()
 		myvector.push_back(10);
 		myvector.push_back(20);
 		std::vector<int>::iterator it = myvector.begin();
-		std::vector<int>::iterator it1 = myvector.end();//-2
+		std::vector<int>::iterator it1 = myvector.end() - 1;
 
 		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
 	}
@@ -658,7 +648,7 @@ void	ft_begin()
 		myvector.push_back(10);
 		myvector.push_back(20);
 		ft::vector<int>::iterator it = myvector.begin();
-		ft::vector<int>::iterator it1 = myvector.end();//-2
+		ft::vector<int>::iterator it1 = myvector.end() - 1;
 
 		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
 	}
@@ -668,9 +658,7 @@ void	Iterators()
 	tester(std_begin, ft_begin, "begin");
 }
 
-/*
-**	ClassIterator
-*/
+//	ClassIterator
 void	std_construct_assign()
 {
 	{
@@ -1017,9 +1005,7 @@ void	ClassIterator()
 	tester(std_reverse_iterator, ft_reverse_iterator, "reverse_iterator");
 }
 
-/*
-**	Modifiers
-*/
+//	Modifiers
 void	std_assign()
 {
 	std::vector<int> first;
@@ -1235,90 +1221,14 @@ void	ft_erase()
 			std::cout << ' ' << myvector[i][0];
 	}
 }
-void	std_swap()
-{
-	std::vector<int> foo (3,100);   // three ints with a value of 100
-	std::vector<int> bar (5,200);   // five ints with a value of 200
-
-	foo.swap(bar);
-	//swap(foo, bar);
-
-	std::cout << "foo contains:";
-	for (unsigned i=0; i<foo.size(); i++)
-		std::cout << ' ' << foo[i];
-	NEW_LINE;
-	PRINT_SIZE_CAPACITY(foo);NEW_LINE;
-
-	std::cout << "bar contains:";
-	for (unsigned i=0; i<bar.size(); i++)
-		std::cout << ' ' << bar[i];
-	NEW_LINE;
-	PRINT_SIZE_CAPACITY(bar);
-	/*NEW_LINE;
-	{
-		std::vector<bool> foo;
-		std::vector<bool> bar;		
-		foo.push_back(false);
-		foo.push_back(true);
-		foo.push_back(false);		
-		bar.push_back(true);
-		bar.push_back(false);		
-		foo.swap (foo[0], foo[1]);
-		bar.swap (bar.front(), bar.back());		
-		foo.swap(bar);		
-		std::cout << std::boolalpha;
-		std::cout << "foo contains:";
-		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
-		std::cout << "\nbar contains:";
-		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
-	}*/
-}
-void	ft_swap()
-{
-	ft::vector<int> foo (3,100);   // three ints with a value of 100
-	ft::vector<int> bar (5,200);   // five ints with a value of 200
-
-	foo.swap(bar);
-	//swap(foo, bar);
-
-	std::cout << "foo contains:";
-	for (unsigned i=0; i<foo.size(); i++)
-		std::cout << ' ' << foo[i];
-	NEW_LINE;
-	PRINT_SIZE_CAPACITY(foo);NEW_LINE;
-
-	std::cout << "bar contains:";
-	for (unsigned i=0; i<bar.size(); i++)
-		std::cout << ' ' << bar[i];
-	NEW_LINE;
-	PRINT_SIZE_CAPACITY(bar);
-	/*NEW_LINE; Bool class
-	{
-		ft::vector<bool> foo;
-		ft::vector<bool> bar;	
-		foo.push_back(false);
-		foo.push_back(true);
-		foo.push_back(false);	
-		bar.push_back(true);
-		bar.push_back(false);	
-		foo.swap(foo[0], foo[1]);
-		bar.swap(bar.front(), bar.back());	
-		foo.swap(bar);	
-		std::cout << std::boolalpha;
-		std::cout << "foo contains:";
-		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
-		std::cout << "\nbar contains:";
-		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
-	}*/
-}
 void	std_insert()
 {
 	{
 		std::vector<int>vec(4);
 
-		PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);NEW_LINE;
 		vec.insert(vec.end() , 40);
-		PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);NEW_LINE;
 
 		PRINT_VECTOR(vec);
 	}
@@ -1327,7 +1237,7 @@ void	std_insert()
 		std::vector<int>vec(5);
 		
 		vec.insert(vec.end()-3 ,2 , 42);
-		PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);NEW_LINE;
 
 		PRINT_VECTOR(vec);
 	}
@@ -1360,9 +1270,9 @@ void	ft_insert()
 	{
 		ft::vector<int>vec(4);
 	
-		PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);NEW_LINE;
 		vec.insert(vec.end() , 40);
-		PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);NEW_LINE;
 
 		PRINT_VECTOR(vec);
 	}
@@ -1371,7 +1281,7 @@ void	ft_insert()
 		ft::vector<int>vec(5);
 		
 		vec.insert(vec.end() -3 ,2 , 42);
-		PRINT_SIZE_CAPACITY(vec);
+		PRINT_SIZE_CAPACITY(vec);NEW_LINE;;
 
 		PRINT_VECTOR(vec);
 	}
@@ -1400,6 +1310,85 @@ void	ft_insert()
 
 	}
 }
+void	std_swap()
+{
+	{
+		std::vector<int> foo (3,100);   // three ints with a value of 100
+		std::vector<int> bar (5,200);   // five ints with a value of 200
+
+		foo.swap(bar);
+
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++)
+			std::cout << ' ' << foo[i];
+		NEW_LINE;
+		PRINT_SIZE_CAPACITY(foo);NEW_LINE;
+
+		std::cout << "bar contains:";
+		for (unsigned i=0; i<bar.size(); i++)
+			std::cout << ' ' << bar[i];
+		NEW_LINE;
+		PRINT_SIZE_CAPACITY(bar);
+	}
+	/*NEW_LINE;
+	{
+		std::vector<bool> foo;
+		std::vector<bool> bar;		
+		foo.push_back(false);
+		foo.push_back(true);
+		foo.push_back(false);		
+		bar.push_back(true);
+		bar.push_back(false);		
+		foo.swap (foo[0], foo[1]);
+		bar.swap (bar.front(), bar.back());		
+		foo.swap(bar);		
+		std::cout << std::boolalpha;
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
+		std::cout << "\nbar contains:";
+		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
+	}*/
+}
+void	ft_swap()
+{
+	{
+		ft::vector<int> foo (3,100);   // three ints with a value of 100
+		ft::vector<int> bar (5,200);   // five ints with a value of 200
+	
+		foo.swap(bar);
+	
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++)
+			std::cout << ' ' << foo[i];
+		NEW_LINE;
+		PRINT_SIZE_CAPACITY(foo);NEW_LINE;
+	
+		std::cout << "bar contains:";
+		for (unsigned i=0; i<bar.size(); i++)
+			std::cout << ' ' << bar[i];
+		NEW_LINE;
+		PRINT_SIZE_CAPACITY(bar);
+	}
+	/*NEW_LINE;
+	{
+		ft::vector<bool> foo;
+		ft::vector<bool> bar;	
+		foo.push_back(false);
+		foo.push_back(true);
+		foo.push_back(false);	
+		bar.push_back(true);
+		bar.push_back(false);	
+		foo.swap(foo[0], foo[1]);
+		bar.swap(bar.front(), bar.back());	
+		foo.swap(bar);	
+		std::cout << std::boolalpha;
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
+		std::cout << "\nbar contains:";
+		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
+	}*/
+}
+
 void	Modifiers()
 {
 	tester(std_assign, ft_assign, "assign");
@@ -1410,6 +1399,7 @@ void	Modifiers()
 	tester(std_swap, ft_swap, "swap");
 }
 
+//	Non_member
 void	std_swap2()
 {
 	std::vector<int> foo (3,100);   // three ints with a value of 100

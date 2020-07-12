@@ -6,9 +6,13 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 18:59:49 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 23:02:46 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+//LINUX VS MAC
+//-	max_size
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
@@ -16,11 +20,11 @@
 # include <memory>		// allocator
 # include <stdexcept>	// exeption throw
 #include <iostream>		// std::cout debug
+#include <limits>		// limits
 #include "utils.hpp"	// swap
 
 namespace ft {
 
-//symplify iterator const 
 template <typename T>
 class Iterator
 {
@@ -31,7 +35,7 @@ public:
 	typedef T &				reference;
 private:
 	pointer _ptr;
-
+public:
 	Iterator() : _ptr(NULL) { };
 	Iterator(pointer ptr) : _ptr(ptr) { };// in std is private(friend ?)
 	Iterator(const Iterator &it) : _ptr(it._ptr) { };
@@ -78,7 +82,7 @@ public:
 	typedef T &				reference;
 private:
 	pointer _ptr;
-
+public:
 	ReverseIterator() : _ptr(NULL) { };
 	ReverseIterator(pointer ptr) : _ptr(ptr) { };// in std is private(friend ?)
 	ReverseIterator(const ReverseIterator &it) : _ptr(it._ptr) { };
@@ -141,9 +145,7 @@ private:
 	allocator_type	_alloc;
 
 public:
-	/*
-	**	Constructor Destructor Assignator
-	*/
+	//	Constructor Destructor Assignator
 	explicit vector(const allocator_type &alloc = allocator_type()); //default (1)
 	explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()); //fill (2)
 	vector(iterator first, iterator last, const allocator_type& alloc = allocator_type()); //range (3)
@@ -151,9 +153,7 @@ public:
 	vector &operator=(const vector &x);
 	~vector();
 
-	/*
-	**	Iterators
-	*/
+	//	Iterators
 	iterator begin();
 	const_iterator begin() const;
 	iterator end();
@@ -163,9 +163,7 @@ public:
 	reverse_iterator rend();
 	const_reverse_iterator rend() const;
 
-	/*
-	**	Capacity
-	*/
+	//	Capacity
 	size_type	size() const;
 	size_type	max_size() const;
 	void		resize(size_type n, value_type val = value_type());
@@ -173,9 +171,7 @@ public:
 	bool		empty() const;
 	void		reserve(size_type n);
 
-	/*
-	**	Element access
-	*/
+	//	Element access
 	reference		operator[](size_type n);
 	const_reference	operator[](size_type n) const;
 	reference 		at(size_type n);
@@ -185,9 +181,7 @@ public:
 	reference		back();
 	const_reference	back() const;
 
-	/*
-	**	Modifiers
-	*/
+	//	Modifiers
 	void		assign(iterator first, iterator last);
 	void		assign(size_type n, const value_type& val);
 	void		push_back(const value_type& val);
@@ -201,9 +195,7 @@ public:
 	void		clear();
 };
 
-/*
-**	Constructor Destructor Assignator
-*/
+//	Constructor Destructor Assignator
 template <typename T, typename Alloc>	// default
 vector<T, Alloc>::vector(const allocator_type &alloc) :
 _vector(NULL), _size(0), _capacity(0), _alloc(alloc)
@@ -262,9 +254,7 @@ vector<T, Alloc>::~vector()
 	_alloc.deallocate(_vector, _capacity);
 }
 
-/*
-**	Iterators
-*/
+//	Iterators
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator					vector<T, Alloc>::begin()
 {
@@ -306,9 +296,7 @@ typename vector<T, Alloc>::const_reverse_iterator	vector<T, Alloc>::rend() const
 	return (const_reverse_iterator(_vector - 1));
 }
 
-/*
-**	Capacity
-*/
+//	Capacity
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::size_type	vector<T, Alloc>::size() const
 {
@@ -317,7 +305,8 @@ typename vector<T, Alloc>::size_type	vector<T, Alloc>::size() const
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
 {
-	return (min(static_cast<size_type>(std::numeric_limits<difference_type>::max()), std::numeric_limits<size_type>::max() / sizeof(value_type)));
+	return (_alloc.max_size());
+	//return (min(static_cast<size_type>(std::numeric_limits<difference_type>::max()), std::numeric_limits<size_type>::max() / sizeof(value_type)));
 }
 template <typename T, typename Alloc>
 void									vector<T, Alloc>::resize(size_type n, value_type val)//iterator
@@ -369,8 +358,8 @@ bool									vector<T, Alloc>::empty() const
 template <typename T, typename Alloc>
 void									vector<T, Alloc>::reserve(size_type n)//iterator
 {
-	//if (n > max_size())
-	//	throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
+	if (n > max_size())
+		throw std::length_error("vector::reserve");
 	if (n > _capacity)
 	{
 		T *tmp;
@@ -388,9 +377,7 @@ void									vector<T, Alloc>::reserve(size_type n)//iterator
 	}
 }
 
-/*
-**	Element access
-*/
+//	Element access
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference		vector<T, Alloc>::operator[](size_type n)
 {
@@ -405,14 +392,14 @@ template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference		vector<T, Alloc>::at(size_type n)
 {
 	if (n >= _size)
-		throw std::out_of_range("vector");
+		throw std::out_of_range("vector: out of range");
 	return (_vector[n]);
 }
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::const_reference	vector<T, Alloc>::at(size_type n) const
 {
 	if (n >= _size)
-		throw std::out_of_range("vector");
+		throw std::out_of_range("vector: out of range");
 	return (_vector[n]);
 }
 template <typename T, typename Alloc>
@@ -428,9 +415,7 @@ template <typename T, typename Alloc>
 typename vector<T, Alloc>::const_reference	vector<T, Alloc>::back() const
 { return (_vector[_size - 1]); }
 
-/*
-**	Modifiers
-*/
+//	Modifiers
 template <typename T, typename Alloc>
 void								vector<T, Alloc>::assign(iterator first, iterator last)
 {
@@ -498,18 +483,15 @@ void								vector<T, Alloc>::pop_back()
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, const value_type &val)
 {
-	T *ret;
+	T *ret = NULL;
 
 	if (_size + 1 > _capacity)
 	{
 		T *tmp;
-		int i = 0;
 
-		for (size_type i = 0; i < _size; i++)
-			_alloc.destroy(_vector + i);
-		_alloc.deallocate(_vector, _capacity);
-		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
-		tmp = _alloc.allocate(_capacity);
+		size_type tmp_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		tmp = _alloc.allocate(tmp_capacity);
+		int i = 0;
 		for (iterator it = begin(); it != end() + 1; ++it, ++i)
 		{
 			if (it == position)
@@ -521,6 +503,10 @@ typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, 
 			if (it != end ())
 				_alloc.construct(tmp + i, *it);
 		}
+		for (size_type i = 0; i < _size; i++)
+			_alloc.destroy(_vector + i);
+		_alloc.deallocate(_vector, _capacity);
+		_capacity = tmp_capacity;
 		_vector = tmp;
 	}
 	else
@@ -536,6 +522,7 @@ typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, 
 			{
 				_alloc.construct(&*it, val);
 				ret = &*it;
+				break ;
 			}
 		} 
 	}
@@ -545,19 +532,16 @@ typename vector<T, Alloc>::iterator	vector<T, Alloc>::insert(iterator position, 
 template <typename T, typename Alloc>
 void 								vector<T, Alloc>::insert(iterator position, size_type n, const value_type &val)
 {
-	if (_size + 1 > _capacity)
+	if (_size + n > _capacity)
 	{
 		T *tmp;
 
-		for (size_type i = 0; i < _size; i++)
-			_alloc.destroy(_vector + i);
-		_alloc.deallocate(_vector, _capacity);
-		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
-		if (_capacity < _size + n)
-			_capacity = _size + n;
-		tmp = _alloc.allocate(_capacity);
+		size_type tmp_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		if (tmp_capacity < _size + n)
+			tmp_capacity = _size + n;
+		tmp = _alloc.allocate(tmp_capacity);
 		size_t pos = 0;
-		for (iterator it = begin(); it != end() + 1; ++it, ++pos)
+		for (iterator it = begin(); it != end(); ++it, ++pos)
 		{
 			if (it == position)
 			{
@@ -567,6 +551,10 @@ void 								vector<T, Alloc>::insert(iterator position, size_type n, const valu
 			}
 			_alloc.construct(tmp + pos, *it);
 		}
+		for (size_type i = 0; i < _size; i++)
+			_alloc.destroy(_vector + i);
+		_alloc.deallocate(_vector, _capacity);
+		_capacity = tmp_capacity;
 		_vector = tmp;
 	}
 	else
@@ -590,19 +578,16 @@ void 								vector<T, Alloc>::insert(iterator position, iterator first, iterato
 {
 	size_t n = last - first;
 
-	if (_size + 1 > _capacity)
+	if (_size + n > _capacity)
 	{
 		T *tmp;
 
-		for (size_type i = 0; i < _size; i++)
-			_alloc.destroy(_vector + i);
-		_alloc.deallocate(_vector, _capacity);
-		_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
-		if (_capacity < _size + n)
-			_capacity = _size + n;
-		tmp = _alloc.allocate(_capacity);
+		size_type tmp_capacity = (_capacity != 0) ? (_capacity * _memGrowth) : 1;
+		if (tmp_capacity < _size + n)
+			tmp_capacity = _size + n;
+		tmp = _alloc.allocate(tmp_capacity);
 		size_t pos = 0;
-		for (iterator it = begin(); it != end() + 1; ++it, ++pos)
+		for (iterator it = begin(); it != end(); ++it, ++pos)
 		{
 			if (it == position)
 			{
@@ -613,6 +598,10 @@ void 								vector<T, Alloc>::insert(iterator position, iterator first, iterato
 			}
 			_alloc.construct(tmp + pos, *it);
 		}
+		for (size_type i = 0; i < _size; i++)
+			_alloc.destroy(_vector + i);
+		_alloc.deallocate(_vector, _capacity);
+		_capacity = tmp_capacity;
 		_vector = tmp;
 	}
 	else
@@ -670,9 +659,7 @@ void								vector<T, Alloc>::clear()
 	_size = 0;
 }
 
-/*
-**	Non-member function overloads
-*/
+//	Non-member function overloads
 template <class T, class Alloc>
 void	swap(vector<T,Alloc> &x, vector<T,Alloc> &y)
 {
