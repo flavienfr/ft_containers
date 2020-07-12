@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 18:42:59 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 18:59:49 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,20 @@
 
 namespace ft {
 
-
 //symplify iterator const 
 template <typename T>
 class Iterator
 {
-private:
-	T *_ptr;
 public:
-
 	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
 	typedef T *				pointer;
 	typedef T &				reference;
+private:
+	pointer _ptr;
 
 	Iterator() : _ptr(NULL) { };
-	Iterator(T *ptr) : _ptr(ptr) { };// in std is private(friend ?)
+	Iterator(pointer ptr) : _ptr(ptr) { };// in std is private(friend ?)
 	Iterator(const Iterator &it) : _ptr(it._ptr) { };
 	Iterator &operator=(const Iterator &it) { _ptr = it._ptr; return (*this); };
 	~Iterator() { };
@@ -67,69 +65,22 @@ public:
 	Iterator &operator+=(difference_type n) { _ptr += n; return (*this); };//change
 	Iterator &operator-=(difference_type n) { _ptr -= n; return (*this); };//change
 
-	T &operator[](difference_type n) { return (_ptr[n]); };
-};
-
-template <typename T>
-class const_Iterator
-{
-private:
-	T *_ptr;
-public:
-	typedef T				value_type;
-	typedef ptrdiff_t		difference_type;
-	typedef const T *		pointer;
-	typedef const T &		reference;
-
-	const_Iterator() : _ptr(NULL) { };
-	const_Iterator(T *ptr) : _ptr(ptr) { };// in std is private(friend ?)
-	const_Iterator(const const_Iterator &it) : _ptr(it._ptr) { };
-	const_Iterator &operator=(const const_Iterator &it) { _ptr = it._ptr; return (*this); };
-	~const_Iterator() { };
-
-	friend bool operator==(const const_Iterator &lhs, const const_Iterator &rhs) { return (lhs._ptr == rhs._ptr); };
-	friend bool operator!=(const const_Iterator &lhs, const const_Iterator &rhs) { return (lhs._ptr != rhs._ptr); };
-
-	reference operator*() { return (*_ptr); };
-	pointer operator->() { return (_ptr); };
-	//Petit check retour referemce poitneur...
-	const_Iterator &operator++() {++_ptr; return (*this); };
-	const_Iterator operator++(int) {	const_Iterator tmp = *this; ++_ptr; return (tmp);};
-
-	const_Iterator &operator--() { --_ptr; return (*this); };
-	const_Iterator operator--(int) {	const_Iterator tmp = *this; --_ptr; return (tmp); };
-
-	const_Iterator operator+(difference_type n) const { return (const_Iterator(_ptr + n)); };
-	friend const_Iterator operator+(difference_type n, const const_Iterator &rhs) { return (const_Iterator(rhs._ptr + n)); };
-	const_Iterator operator-(difference_type n) const { return (const_Iterator(_ptr - n)); };
-	friend const_Iterator operator-(difference_type n, const const_Iterator &rhs) { return (const_Iterator(rhs._ptr - n)); };
-
-	friend difference_type operator-(const const_Iterator &lhs, const const_Iterator &rhs) { return (lhs._ptr - rhs._ptr); };
-
-	bool operator<(const const_Iterator &rhs) const { return (_ptr < rhs._ptr); };
-	bool operator>(const const_Iterator &rhs) const { return (_ptr > rhs._ptr); };
-	bool operator<=(const const_Iterator &rhs) const { return (_ptr <= rhs._ptr); };
-	bool operator>=(const const_Iterator &rhs) const { return (_ptr >= rhs._ptr); };
-
-	const_Iterator &operator+=(difference_type n) { _ptr += n; return (*this); };
-	const_Iterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
-
-	T &operator[](difference_type n) { return (_ptr[n]); };
+	reference operator[](difference_type n) { return (_ptr[n]); };
 };
 
 template <typename T>
 class ReverseIterator
 {
-private:
-	T *_ptr;
 public:
 	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
 	typedef T *				pointer;
 	typedef T &				reference;
+private:
+	pointer _ptr;
 
 	ReverseIterator() : _ptr(NULL) { };
-	ReverseIterator(T *ptr) : _ptr(ptr) { };// in std is private(friend ?)
+	ReverseIterator(pointer ptr) : _ptr(ptr) { };// in std is private(friend ?)
 	ReverseIterator(const ReverseIterator &it) : _ptr(it._ptr) { };
 	ReverseIterator &operator=(const ReverseIterator &it) { _ptr = it._ptr; return (*this); };
 	~ReverseIterator() { };
@@ -161,54 +112,7 @@ public:
 	ReverseIterator &operator+=(difference_type n) { _ptr -= n; return (*this); };
 	ReverseIterator &operator-=(difference_type n) {  _ptr += n; return (*this); };
 
-	T &operator[](difference_type n) { return (_ptr[n]); };
-};
-
-template <typename T>
-class ConstReverseIterator
-{
-private:
-	T *_ptr;
-public:
-	typedef T				value_type;
-	typedef ptrdiff_t		difference_type;
-	typedef const T *		pointer;
-	typedef const T &		reference;
-
-	ConstReverseIterator() : _ptr(NULL) { };
-	ConstReverseIterator(T *ptr) : _ptr(ptr) { };// in std is private(friend ?)
-	ConstReverseIterator(const ConstReverseIterator &it) : _ptr(it._ptr) { };
-	ConstReverseIterator &operator=(const ConstReverseIterator &it) { _ptr = it._ptr; return (*this); };
-	~ConstReverseIterator() { };
-
-	friend bool operator==(const ConstReverseIterator &lhs, const ConstReverseIterator &rhs) { return (lhs._ptr == rhs._ptr); };
-	friend bool operator!=(const ConstReverseIterator &lhs, const ConstReverseIterator &rhs) { return (lhs._ptr != rhs._ptr); };
-
-	reference operator*() { return (*_ptr); };
-	pointer operator->() { return (_ptr); };
-	//Petit check retour referemce poitneur...
-	ConstReverseIterator &operator++() {--_ptr; return (*this); };
-	ConstReverseIterator operator++(int) {	ConstReverseIterator tmp = *this; --_ptr; return (tmp);};
-
-	ConstReverseIterator &operator--() { ++_ptr; return (*this); };
-	ConstReverseIterator operator--(int) {	ConstReverseIterator tmp = *this; ++_ptr; return (tmp); };
-
-	ConstReverseIterator operator+(difference_type n) const { return (ConstReverseIterator(_ptr - n)); };
-	friend ConstReverseIterator operator+(difference_type n, const ConstReverseIterator &rhs) { return (ConstReverseIterator(rhs._ptr - n)); };
-	ConstReverseIterator operator-(difference_type n) const { return (ConstReverseIterator(_ptr + n)); };
-	friend ConstReverseIterator operator-(difference_type n, const ConstReverseIterator &rhs) { return (ConstReverseIterator(rhs._ptr + n)); };
-
-	friend difference_type operator-(const ConstReverseIterator &lhs, const ConstReverseIterator &rhs) { return (lhs._ptr - rhs._ptr); };	
-
-	bool operator<(const ConstReverseIterator &rhs) const { return (_ptr > rhs._ptr); };
-	bool operator>(const ConstReverseIterator &rhs) const { return (_ptr < rhs._ptr); };
-	bool operator<=(const ConstReverseIterator &rhs) const { return (_ptr >= rhs._ptr); };
-	bool operator>=(const ConstReverseIterator &rhs) const { return (_ptr <= rhs._ptr); };
-
-	ConstReverseIterator &operator+=(difference_type n) { _ptr -= n; return (*this); };
-	ConstReverseIterator &operator-=(difference_type n) {  _ptr += n; return (*this); };
-
-	T &operator[](difference_type n) { return (_ptr[n]); };
+	reference operator[](difference_type n) { return (_ptr[n]); };
 };
 
 template <typename T, typename Alloc = std::allocator<T> >
@@ -222,9 +126,9 @@ public:
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
 	typedef Iterator<T>									iterator;
-	typedef const_Iterator<T>							const_iterator;
+	typedef Iterator<const T>							const_iterator;
 	typedef ReverseIterator<T>							reverse_iterator;
-	typedef ConstReverseIterator<T>						const_reverse_iterator;
+	typedef ReverseIterator<const T>					const_reverse_iterator;
 	typedef ptrdiff_t									difference_type;
 	typedef size_t										size_type;
 
