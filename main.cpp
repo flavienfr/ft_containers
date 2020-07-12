@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/11 18:43:36 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 13:42:01 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include "vector.hpp"
 #include <vector>
 
-#define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity() << std::endl;
+#define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity();
 #define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) std::cout <<vec[i]<< " ";
 #define NEW_LINE std::cout << std::endl;
+
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
 {
 	std::cout.fill( '-' );
@@ -638,7 +639,6 @@ void	Iterators()
 	//tester(std_begin, ft_begin, "begin");
 }
 
-
 /*
 **	ClassIterator
 */
@@ -1000,24 +1000,47 @@ void	std_assign()
 	std::vector<int> second;
 	std::vector<int> third;
 
-	first.assign (4000018,100);
 	first.assign (7,100);
 
 	std::vector<int>::iterator it;
 	it=first.begin()+1;
 
-	second.assign (it,first.end()-1); // the 5 central values of first
+	second.assign(it,first.end()-1); // the 5 central values of first
 
 	int myints[] = {1776,7,4};
 	third.assign (myints,myints+3);   // assigning from array.
 
 	std::cout << "Size of first: " << int (first.size()) << " capacity: " << first.capacity() << '\n';
 	std::cout << "Size of second: " << int (second.size()) << " capacity: " << second.capacity() << '\n';
-	std::cout << "Size of third: " << int (third.size()) << " capacity: " << third.capacity();
+	std::cout << "Size of third: " << int (third.size()) << " capacity: " << third.capacity() << '\n';
+
+	PRINT_VECTOR(first);
+	PRINT_VECTOR(second);
+	PRINT_VECTOR(third);
 }
 void	ft_assign()
 {
+	ft::vector<int> first;
+	ft::vector<int> second;
+	ft::vector<int> third;
 
+	first.assign (7,100);
+
+	ft::vector<int>::iterator it;
+	it=first.begin()+1;
+
+	second.assign(it,first.end()-1); // the 5 central values of first
+
+	int myints[] = {1776,7,4};
+	third.assign (myints,myints+3);   // assigning from array.
+
+	std::cout << "Size of first: " << int (first.size()) << " capacity: " << first.capacity() << '\n';
+	std::cout << "Size of second: " << int (second.size()) << " capacity: " << second.capacity() << '\n';
+	std::cout << "Size of third: " << int (third.size()) << " capacity: " << third.capacity() << '\n';
+
+	PRINT_VECTOR(first);
+	PRINT_VECTOR(second);
+	PRINT_VECTOR(third);
 }
 void	std_clear()
 {
@@ -1186,6 +1209,82 @@ void	ft_erase()
 			std::cout << ' ' << myvector[i][0];
 	}
 }
+void	std_swap()
+{
+	std::vector<int> foo (3,100);   // three ints with a value of 100
+	std::vector<int> bar (5,200);   // five ints with a value of 200
+
+	foo.swap(bar);
+	//swap(foo, bar);
+
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+		std::cout << ' ' << foo[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(foo);NEW_LINE;
+
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+		std::cout << ' ' << bar[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(bar);
+	/*NEW_LINE;
+	{
+		std::vector<bool> foo;
+		std::vector<bool> bar;		
+		foo.push_back(false);
+		foo.push_back(true);
+		foo.push_back(false);		
+		bar.push_back(true);
+		bar.push_back(false);		
+		foo.swap (foo[0], foo[1]);
+		bar.swap (bar.front(), bar.back());		
+		foo.swap(bar);		
+		std::cout << std::boolalpha;
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
+		std::cout << "\nbar contains:";
+		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
+	}*/
+}
+void	ft_swap()
+{
+	ft::vector<int> foo (3,100);   // three ints with a value of 100
+	ft::vector<int> bar (5,200);   // five ints with a value of 200
+
+	foo.swap(bar);
+	//swap(foo, bar);
+
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+		std::cout << ' ' << foo[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(foo);NEW_LINE;
+
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+		std::cout << ' ' << bar[i];
+	NEW_LINE;
+	PRINT_SIZE_CAPACITY(bar);
+	/*NEW_LINE; Bool class
+	{
+		ft::vector<bool> foo;
+		ft::vector<bool> bar;	
+		foo.push_back(false);
+		foo.push_back(true);
+		foo.push_back(false);	
+		bar.push_back(true);
+		bar.push_back(false);	
+		foo.swap(foo[0], foo[1]);
+		bar.swap(bar.front(), bar.back());	
+		foo.swap(bar);	
+		std::cout << std::boolalpha;
+		std::cout << "foo contains:";
+		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
+		std::cout << "\nbar contains:";
+		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
+	}*/
+}
 void	std_insert()
 {
 	{
@@ -1275,11 +1374,41 @@ void	ft_insert()
 }
 void	Modifiers()
 {
-	//tester(std_assign, NULL, "assign");
+	//tester(std_assign, ft_assign, "assign");
 	//tester(std_clear, ft_clear, "clear");
 	//tester(std_pop_back, ft_pop_back, "pop_back");
 	//tester(std_erase, ft_erase, "erase");//18 vs 43  push 18 vs 33 -> need test on mac
-	tester(std_insert, ft_insert, "insert");//need memory test
+	//tester(std_insert, ft_insert, "insert");//need memory test
+	//tester(std_swap, ft_swap, "swap");
+}
+
+void	std_relational_operators()
+{
+	std::vector<int> foo (3,100);   // three ints with a value of 10
+	std::vector<int> bar (2,200);   // two ints with a value of 200
+
+	if (foo==bar) std::cout << "foo and bar are equal\n";
+	if (foo!=bar) std::cout << "foo and bar are not equal\n";
+	if (foo< bar) std::cout << "foo is less than bar\n";
+	if (foo> bar) std::cout << "foo is greater than bar\n";
+	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
+}
+void	ft_relational_operators()
+{
+	ft::vector<int> foo (3,100);   // three ints with a value of 10
+	ft::vector<int> bar (2,200);   // two ints with a value of 200
+
+	if (foo==bar) std::cout << "foo and bar are equal\n";
+	if (foo!=bar) std::cout << "foo and bar are not equal\n";
+	//if (foo< bar) std::cout << "foo is less than bar\n";
+	//if (foo> bar) std::cout << "foo is greater than bar\n";
+	//if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
+	//if (foo>=bar) std::cout << "foo is greater than or equal to bar";
+}
+void	Non_member()
+{
+	tester(std_relational_operators, ft_relational_operators, "relational_operators");
 }
 
 int main()
@@ -1289,7 +1418,8 @@ int main()
 	//Capacity();
 	//Iterators();
 	//ClassIterator();
-	Modifiers();
+	//Modifiers();
+	Non_member();
 
 	return (0);
 }
