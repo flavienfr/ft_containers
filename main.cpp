@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/12 22:30:23 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/12 23:06:17 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1521,12 +1521,9 @@ int main()
 
 /*
 ID test:
-- test vc.end() after push back 
 - test throw expetion for each function
-- dans test diff les resultat print en vert ok rouge bad
 - template au lieu de deux fonction casi identique
 
 Need more explication:
 - begin return object(comment ca marche)
-- typename
 */
