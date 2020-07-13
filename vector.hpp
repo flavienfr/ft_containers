@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/12 23:02:46 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/13 11:10:14 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ private:
 	pointer _ptr;
 public:
 	Iterator() : _ptr(NULL) { };
-	Iterator(pointer ptr) : _ptr(ptr) { };// in std is private(friend ?)
+	Iterator(pointer ptr) : _ptr(ptr) { };
 	Iterator(const Iterator &it) : _ptr(it._ptr) { };
 	Iterator &operator=(const Iterator &it) { _ptr = it._ptr; return (*this); };
 	~Iterator() { };
@@ -66,8 +66,8 @@ public:
 	bool operator<=(const Iterator &rhs) const { return (_ptr <= rhs._ptr); };
 	bool operator>=(const Iterator &rhs) const { return (_ptr >= rhs._ptr); };
 
-	Iterator &operator+=(difference_type n) { _ptr += n; return (*this); };//change
-	Iterator &operator-=(difference_type n) { _ptr -= n; return (*this); };//change
+	Iterator &operator+=(difference_type n) { _ptr += n; return (*this); };
+	Iterator &operator-=(difference_type n) { _ptr -= n; return (*this); };
 
 	reference operator[](difference_type n) { return (_ptr[n]); };
 };
@@ -84,7 +84,7 @@ private:
 	pointer _ptr;
 public:
 	ReverseIterator() : _ptr(NULL) { };
-	ReverseIterator(pointer ptr) : _ptr(ptr) { };// in std is private(friend ?)
+	ReverseIterator(pointer ptr) : _ptr(ptr) { };
 	ReverseIterator(const ReverseIterator &it) : _ptr(it._ptr) { };
 	ReverseIterator &operator=(const ReverseIterator &it) { _ptr = it._ptr; return (*this); };
 	~ReverseIterator() { };
@@ -94,7 +94,7 @@ public:
 
 	reference operator*() { return (*_ptr); };
 	pointer operator->() { return (_ptr); };
-	//Petit check retour referemce poitneur...
+
 	ReverseIterator &operator++() {--_ptr; return (*this); };
 	ReverseIterator operator++(int) {	ReverseIterator tmp = *this; --_ptr; return (tmp);};
 
@@ -309,7 +309,7 @@ typename vector<T, Alloc>::size_type	vector<T, Alloc>::max_size() const
 	//return (min(static_cast<size_type>(std::numeric_limits<difference_type>::max()), std::numeric_limits<size_type>::max() / sizeof(value_type)));
 }
 template <typename T, typename Alloc>
-void									vector<T, Alloc>::resize(size_type n, value_type val)//iterator
+void									vector<T, Alloc>::resize(size_type n, value_type val)
 {
 	if (n > _size)
 	{
@@ -317,7 +317,7 @@ void									vector<T, Alloc>::resize(size_type n, value_type val)//iterator
 		{
 			T *tmp;
 
-			tmp = _alloc.allocate(n);//is size = capacity when resize ?
+			tmp = _alloc.allocate(n);
 			for (size_type i = 0; i < _size; i++)
 			{
 				_alloc.construct(tmp + i, _vector[i]);
@@ -327,7 +327,7 @@ void									vector<T, Alloc>::resize(size_type n, value_type val)//iterator
 			for (size_type i = _size; i < n; i++)
 				_alloc.construct(tmp + i, val);
 			_alloc.deallocate(_vector, _capacity);
-			_capacity = n;//is size = capacity when resize ?
+			_capacity = n;
 			_size = n;
 			_vector = tmp;
 		}
@@ -356,7 +356,7 @@ bool									vector<T, Alloc>::empty() const
 	return (_size == 0 ? true : false);
 }
 template <typename T, typename Alloc>
-void									vector<T, Alloc>::reserve(size_type n)//iterator
+void									vector<T, Alloc>::reserve(size_type n)
 {
 	if (n > max_size())
 		throw std::length_error("vector::reserve");
@@ -560,7 +560,7 @@ void 								vector<T, Alloc>::insert(iterator position, size_type n, const valu
 	else
 	{
 		iterator itp = end() - 1; 
-		for (iterator it = end() - 1 + n; it != position - 1; --it, --itp)//itp hors zone danger ?
+		for (iterator it = end() - 1 + n; it != position - 1; --it, --itp)
 		{
 			if (it >= position && it < position + n)
 				_alloc.construct(&*it, val);
@@ -653,7 +653,6 @@ void								vector<T, Alloc>::swap(vector &x)
 template <typename T, typename Alloc>
 void								vector<T, Alloc>::clear()
 {
-	//if (!(std::is_trivially_destructible<T>::value))
 	for (size_type i = 0; i < _size; i++)
 		_alloc.destroy(_vector + i);
 	_size = 0;
