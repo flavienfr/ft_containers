@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:46:16 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/13 13:29:17 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/13 17:34:12 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int main(int ac, char **av)
 {
-	vector_test(ac, av);
-
+	//vector_test(ac, av);
+	list_test(ac, av);
+	
 	return (0);
 }
