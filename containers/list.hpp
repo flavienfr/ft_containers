@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/13 18:50:28 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/13 18:59:37 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ list<T, Alloc>::list(size_type n, const value_type &val, const allocator_type &a
 _size(n), _capacity(n), _alloc(alloc)
 {
 	for (size_type i = 0; i < _size; i++)
-		_alloc.allocate();
+	//	node_alloc(, 1); need to fin expression to write  https://github.com/luismeyer95/ft_containers/blob/master/List.hpp
+	//_alloc.node_alloc();
 }
 
 } // namespace
