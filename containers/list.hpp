@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/13 17:52:44 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/13 18:50:28 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include <memory>		// allocator
 //# include <stdexcept>	// exeption throw
 //# include <iostream>	// std::cout debug
-//# include <limits>		// limits
-//# include "utils.hpp"	// swap
-#include "node.hpp"
+//# include <limits>	// limits
+# include "utils.hpp"	// node
 
 
 namespace ft {
@@ -45,6 +44,8 @@ private:
 	size_type			_size;
 	size_type			_capacity;
 	allocator_type		_alloc;
+	
+	typedef typename Alloc::template rebind<Node>::other node_alloc;
 
 public:
 	//	Constructor Destructor Assignator

@@ -4,6 +4,20 @@
 namespace ft {
 
 template <typename T>
+struct Node
+{
+	T		value; // call default constructor ?
+	Node	*prev;
+	Node	*next;
+
+	//Node() : value(value_type()), prev(NULL), next(NULL) {};
+	Node(T value) : value(value), prev(NULL), next(NULL) {};
+	//Node(const Node &x) { *this = x; };
+	//Node &operator=(const Node &x) { value = x.value; prev = x.prev; next = x.next; return (*this); };
+	//~Node();
+};
+
+template <typename T>
 void	template_swap(T &a, T &b)
 {
 	T tmp(a);
