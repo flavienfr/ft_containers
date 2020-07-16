@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/13 17:35:17 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/16 16:41:16 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 ** IMPORTANT GERER LES BOOL OU DELETE FUNCTION TEST BOOL
 */
 
-#include "centered.hpp"
-
-#include<fstream>
+#include "main.hpp"
 
 #include "vector.hpp"
 #include <vector>
@@ -24,48 +22,12 @@
 #define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity();
 #define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) std::cout <<vec[i]<< " ";
 #define NEW_LINE std::cout << std::endl;
-#define COUT 0
-#define FILE 1
 
-bool output_stream = COUT;
-std::ofstream ft_vector("ft_vector.txt");
-std::ofstream std_vector("std_vector.txt");
 
-void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
-{
-	std::cout.fill( '-' );
-	std::streambuf *coutbuf;
+extern bool output_stream;
+extern std::ofstream ft_container;
+extern std::ofstream std_container;
 
-	if (pf_1)
-	{
-		if (output_stream)
-		{
-			coutbuf = std::cout.rdbuf(); //save old buf
-    		std::cout.rdbuf(std_vector.rdbuf());
-		}
-		std::cout << std::setw(50) << centered(text) << std::endl;
-		pf_1();
-		std::cout << std::endl;
-
-		if (output_stream)
-			std::cout.rdbuf(coutbuf);
-	}
-	if (pf_2)
-	{
-		if (output_stream)
-		{
-			coutbuf = std::cout.rdbuf(); //save old buf
-    		std::cout.rdbuf(ft_vector.rdbuf());
-		}
-
-		std::cout << std::setw(50) << centered("STD vs FT") << std::endl;
-		pf_2();
-		std::cout << std::endl;
-
-		if (output_stream)
-			std::cout.rdbuf(coutbuf);
-	}
-}
 
 //	Constructor Destructor Assignator
 void	std_constructor()
@@ -1504,11 +1466,8 @@ void	Non_member()
 	tester(std_relational_operators, ft_relational_operators, "relational_operators");
 }
 
-void vector_test(int ac, char **av)
+void vector_test()
 {
-	if (ac == 2)
-		output_stream = atoi(av[1]);
-
 	Constructor_Destructor_Assignator();
 	Element_access();
 	Capacity();

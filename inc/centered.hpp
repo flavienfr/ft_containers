@@ -1,33 +1,25 @@
-#ifndef UTILITY_HPP
-# define UTILITY_HPP
+#ifndef CENTERED_HPP
+# define CENTERED_HPP
 
 # include <string>
 # include <iostream>
 # include <iomanip>
 
-
-//PRINT centered
-template<typename charT, typename traits = std::char_traits<charT> >
-class center_helper {
-    std::basic_string<charT, traits> str_;
+template<typename charT>
+class center_helper 
+{
+    std::basic_string<charT> str_;
 public:
-    center_helper(std::basic_string<charT, traits> str) : str_(str) {}
-    template<typename a, typename b>
-    friend std::basic_ostream<a, b>& operator<<(std::basic_ostream<a, b>& s, const center_helper<a, b>& c);
+    center_helper(std::basic_string<charT> str) : str_(str) {}
+    template <typename a>
+    friend std::basic_ostream<a>& operator<<(std::basic_ostream<a>& s, const center_helper<a>& c);
 };
 
-template<typename charT, typename traits >//= std::char_traits<charT> 
-center_helper<charT, traits> centered(std::basic_string<charT, traits> str) {
-    return center_helper<charT, traits>(str);
-}
+center_helper<std::string::value_type> centered(const std::string& str);
 
-// redeclare for std::string directly so we can support anything that implicitly converts to std::string
-center_helper<std::string::value_type, std::string::traits_type> centered(const std::string& str) {
-    return center_helper<std::string::value_type, std::string::traits_type>(str);
-}
-
-template<typename charT, typename traits>
-std::basic_ostream<charT, traits>& operator<<(std::basic_ostream<charT, traits>& s, const center_helper<charT, traits>& c) {
+template<typename charT>
+std::basic_ostream<charT>& operator<<(std::basic_ostream<charT> &s, const center_helper<charT> &c)
+{
     std::streamsize w = s.width();
     if (w > static_cast<long>(c.str_.length())) {
         std::streamsize left = (w + c.str_.length()) / 2;

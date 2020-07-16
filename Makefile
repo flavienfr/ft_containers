@@ -4,7 +4,7 @@ BUILD_DIR ?= ./build
 SRC_DIRS ?= ./test
 MKDIR_P ?= mkdir -p
 INC = -Iinc -Icontainers
-FLAG = -Wall -Wextra -Werror
+FLAG = -Wall -Wextra -Werror -std=c++98
 
 SRC := $(shell find $(SRC_DIRS) -name *.cpp)
 

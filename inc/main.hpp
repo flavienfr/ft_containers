@@ -1,7 +1,12 @@
 #ifndef MAIN_HPP
 # define MAIN_HPP
 
-void	vector_test(int ac, char **av);
-void	list_test(int ac, char **av);
+# include "centered.hpp"
+# include <fstream>
+
+void	tester(void (*pf_1)(), void (*pf_2)(), std::string text);
+
+void	vector_test();
+void	list_test();
 
 #endif

@@ -6,21 +6,70 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/13 18:59:37 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/16 20:19:22 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//Allocation node par node ou tableau de node quand possible 
 
 #ifndef LIST_HPP
 # define LIST_HPP
 
 # include <memory>		// allocator
 //# include <stdexcept>	// exeption throw
-//# include <iostream>	// std::cout debug
+# include <iostream>	// std::cout debug
 //# include <limits>	// limits
 # include "utils.hpp"	// node
 
 
 namespace ft {
+
+template <typename T>
+class ListIt
+{
+public:
+	typedef Node<T>			value_type;
+	typedef ptrdiff_t		difference_type;
+	typedef T *				pointer;
+	typedef T &				reference;
+private:
+	Node<T> *_ptr;
+public:
+	ListIt() : _ptr(NULL) { };
+	ListIt(Node<T> *ptr) : _ptr(ptr) { };
+	ListIt(const ListIt &it) : _ptr(it._ptr) { };
+	ListIt &operator=(const ListIt &it) { _ptr = it._ptr; return (*this); };
+	~ListIt() { };
+
+	friend bool operator==(const ListIt &lhs, const ListIt &rhs) { return (lhs._ptr == rhs._ptr); };
+	friend bool operator!=(const ListIt &lhs, const ListIt &rhs) { return (lhs._ptr != rhs._ptr); };
+
+	reference operator*() { return (_ptr->value); };
+	pointer operator->() { return (&_ptr->value); };
+
+	ListIt &operator++() { _ptr = _ptr->next; return (*this); };
+	ListIt operator++(int) {	ListIt tmp = *this; _ptr = _ptr->next; return (tmp);};
+
+	ListIt &operator--() { _ptr = _ptr->prev; return (*this); };
+	ListIt operator--(int) {	ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
+
+	//ListIt operator+(difference_type n)  { return (ListIt(_ptr + n)); };
+	//friend ListIt operator+(difference_type n, const ListIt &rhs) { return (ListIt(rhs._ptr + n)); };
+	//ListIt operator-(difference_type n)  { return (ListIt(_ptr - n)); };
+	//friend ListIt operator-(difference_type n, const ListIt &rhs) { return (ListIt(rhs._ptr - n)); };
+
+	//friend difference_type operator-(const ListIt &lhs, const ListIt &rhs) { return (lhs._ptr - rhs._ptr); };
+
+	//bool operator<(const ListIt &rhs) const { return (_ptr < rhs._ptr); };
+	//bool operator>(const ListIt &rhs) const { return (_ptr > rhs._ptr); };
+	//bool operator<=(const ListIt &rhs) const { return (_ptr <= rhs._ptr); };
+	//bool operator>=(const ListIt &rhs) const { return (_ptr >= rhs._ptr); };
+
+	//ListIt &operator+=(difference_type n) { _ptr += n; return (*this); };
+	//ListIt &operator-=(difference_type n) { _ptr -= n; return (*this); };
+
+	//reference operator[](difference_type n) { return (_ptr[n]); };
+};
 
 template < typename T, typename Alloc = std::allocator<T> >
 class list
@@ -32,45 +81,147 @@ public:
 	typedef typename allocator_type::const_reference	const_reference;
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
-	//typedef Iterator<T>									iterator;
-	//typedef Iterator<const T>							const_iterator;
-	//typedef ReverseIterator<T>							reverse_iterator;
-	//typedef ReverseIterator<const T>					const_reverse_iterator;
+	typedef ListIt<T>									iterator;
+	typedef ListIt<const T>								const_iterator;
+	//typedef ReverseListListIt<T>						reverse_iterator;
+	//typedef ReverseListIt<const T>					const_reverse_iterator;
 	typedef ptrdiff_t									difference_type;
 	typedef size_t										size_type;
 
 private:
-	Node<T>				*_list;
+	typedef Node<T>		_Node;
+	_Node				*_head;
+	_Node				*_tail;
 	size_type			_size;
-	size_type			_capacity;
 	allocator_type		_alloc;
 	
-	typedef typename Alloc::template rebind<Node>::other node_alloc;
+	typedef typename Alloc::template rebind<_Node>::other node_alloc;
+
+	//	Allocation
+	_Node	*create_node(const T &val, _Node *prev, _Node *next)
+	{
+		_Node *node = node_alloc(_alloc).allocate(1);
+		node_alloc(_alloc).construct(node, _Node(val, prev, next));
+		return (node);
+	}
+	_Node	*create_node(const T &val)
+	{
+		_Node *node = node_alloc(_alloc).allocate(1);
+		node_alloc(_alloc).construct(node, _Node(val));
+		return (node);
+	}
+	void	init_list()
+	{
+		_head = create_node(0);
+		_tail = _head;
+	}
 
 public:
 	//	Constructor Destructor Assignator
-	explicit list(const allocator_type &alloc = allocator_type());	//default (1)
-	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()); //fill (2)
+	explicit list(const allocator_type &alloc = allocator_type()) :
+	_size(0), _alloc(alloc)
+	{
+		init_list();
+	}
+	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) :
+	_size(0), _alloc(alloc)
+	{
+		init_list();
+		for (size_type i = 0; i < n; i++)
+			push_back(val);
+	}
 	template <class InputIterator>
-	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()); //range (3)
-	list(const list& x); //copy (4)
-};
+	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()) :
+	_size(0), _alloc(alloc) // issus if iterate on vector
+	{
+		init_list();
+		for (InputIterator it = first; it != last; ++it)
+			push_back(*it);//test withi *it
+	}
+	list(const list& x)
+	{
+		_alloc = x._alloc;
+		_size = x._size;
+		init_list();
+		for (iterator it = x.begin(); it != x.end(); ++it)
+			push_back(it->value);//test withi *it
+	}
+	list& operator= (const list& x)
+	{
+		clear();
+		_size = x._size;
+		for (iterator it = x.begin(); it != x.end(); ++it)
+			push_back(it->value);//test withi *it
+		return (*this);
+	}
+	~list()
+	{
+		_size++;
+		clear();
+	}
 
-template <typename T, typename Alloc> //default (1)
-list<T, Alloc>::list(const allocator_type &alloc) :
-_list(NULL), _size(0), _capacity(0), _alloc(alloc)
-{
-}
-template <typename T, typename Alloc> //fill (2)
-list<T, Alloc>::list(size_type n, const value_type &val, const allocator_type &alloc) :
-_size(n), _capacity(n), _alloc(alloc)
-{
-	for (size_type i = 0; i < _size; i++)
-	//	node_alloc(, 1); need to fin expression to write  https://github.com/luismeyer95/ft_containers/blob/master/List.hpp
-	//_alloc.node_alloc();
-}
+	//	Iterators
+	iterator begin()
+	{
+		return (iterator(_head));
+	}
+	const_iterator begin() const
+	{
+		return (iterator(_head));
+	}
+	iterator end()
+	{
+		return (iterator(_tail));
+	}
+	const_iterator end() const
+	{
+		return (iterator(_tail));
+	}
+
+	//	Capacity
+	bool empty() const
+	{
+		return (_size == 0 ? true : false);
+	}
+	size_type size() const
+	{
+		return (_size);
+	}
+	size_type max_size() const
+	{
+		return (node_allo(_alloc).max_size());;
+	}
+
+	//	Modifiers
+	void push_back (const value_type& val)
+	{
+		_Node *tmp;
+	
+		if (_size == 0)
+		{
+			_head = create_node(val, NULL, _tail);
+			_tail->prev = _head;
+		}
+		else
+		{
+			tmp = create_node(val, _tail->prev, _tail);
+			_tail->prev->next = tmp;
+			_tail->prev = tmp;
+		}
+		_tail->value = ++_size;
+	}
+	void clear()
+	{
+		for (size_type i = 0; i < _size; i++)
+		{
+			node_alloc(_alloc).destroy(_head);
+			node_alloc(_alloc).deallocate(_head, 1);
+			_head = _head->next;
+		}
+		_size = 0;
+	}
+};
 
 } // namespace
 
 #endif
- 
