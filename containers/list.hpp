@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/17 13:30:01 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/17 20:24:13 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ public:
 
 	ListIt &operator--() { _ptr = _ptr->prev; return (*this); };
 	ListIt operator--(int) {	ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
+
+	Node<T> *as_node() { return (_ptr); };
 };
 
 template <typename T>
@@ -82,6 +84,8 @@ public:
 
 	ReverseListIt &operator--() { _ptr = _ptr->next; return (*this); };
 	ReverseListIt operator--(int) {	ReverseListIt tmp = *this; _ptr = _ptr->next; return (tmp); };
+
+	Node<T> *as_node() { return (_ptr); };
 };
 
 template < typename T, typename Alloc = std::allocator<T> >
@@ -132,7 +136,11 @@ private:
 		_head->next = _tail;//maybe useless
 		_head->prev = _tail;//maybe useless
 	}
-
+	void	link(_Node *n1, _Node *n2)
+	{
+		n1->next = n2;
+		n2->prev = n1;
+	}
 public:
 	//	Constructor Destructor Assignator
 	explicit list(const allocator_type &alloc = allocator_type()) :
@@ -148,9 +156,11 @@ public:
 			push_back(val);
 	}
 	template <class InputIterator>
-	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type()) :
+	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
+	typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator()) :
 	_size(0), _alloc(alloc) // issus if iterate on vector
 	{
+		(void)isIter;
 		init_list();
 		for (InputIterator it = first; it != last; ++it)
 			push_back(*it);//test withi *it
@@ -161,14 +171,14 @@ public:
 		_size = x._size;
 		init_list();
 		for (iterator it = x.begin(); it != x.end(); ++it)
-			push_back(it->value);//test withi *it
+			push_back(*it);//test withi *it
 	}
 	list& operator= (const list& x)
 	{
 		clear();
 		_size = x._size;
 		for (iterator it = x.begin(); it != x.end(); ++it)
-			push_back(it->value);//test withi *it
+			push_back(*it);//test withi *it
 		return (*this);
 	}
 	~list()
@@ -225,8 +235,73 @@ public:
 		return (node_allo(_alloc).max_size());;
 	}
 
+	//	Element access
+	reference front()
+	{
+		return (_head->value);
+	}
+	const_reference front() const
+	{
+		return (_head->value);
+	}
+	reference back()
+	{
+		return (_tail->prev->value);
+	}
+	const_reference back() const
+	{
+		return (_tail->prev->value);
+	}
+
 	//	Modifiers
-	void push_back(const value_type& val)
+	template <class InputIterator>
+	void assign(InputIterator first, InputIterator last,
+	typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator())
+	{
+		(void)isIter;
+		clear();
+		for (InputIterator it = first; it != last; ++it)
+			push_back(*it);
+	}
+	void assign(size_type n, const value_type &val)
+	{
+		clear();
+		for (size_type i = 0; i < n; i++)
+			push_back(val);
+	}
+	void push_front(const value_type &val)
+	{
+		_Node *tmp;
+	
+		if (_size == 0)
+		{
+			_head = create_node(val, _tail, _tail);
+			_tail->prev = _head;
+			_tail->next = _head;
+		}
+		else
+		{
+			tmp = create_node(val, _tail, _head);
+			_tail->next = tmp;
+			_head->prev = tmp;
+			_head = tmp;
+		}
+		_tail->value = ++_size;
+	}
+	void pop_front()
+	{
+		_Node *tmp;
+	
+		tmp = _head;
+		_head = _head->next;
+		_head->prev = _tail;
+		_tail->next = _head;
+		node_alloc(_alloc).destroy(tmp);
+		node_alloc(_alloc).deallocate(tmp, 1);
+
+		_tail->value = --_size;
+	}
+	void push_back(const value_type &val)
 	{
 		_Node *tmp;
 	
@@ -245,6 +320,64 @@ public:
 		_head->prev = _tail;//add
 		_tail->value = ++_size;
 	}
+	void pop_back()
+	{
+		_Node *tmp;
+	
+		tmp = _tail->prev;
+
+		_tail->prev = tmp->prev;
+		tmp->prev->next = _tail;
+		node_alloc(_alloc).destroy(tmp);
+		node_alloc(_alloc).deallocate(tmp, 1);
+
+		_tail->value = --_size;
+	}
+	iterator insert(iterator position, const value_type &val)
+	{
+		_Node *new_node;
+
+		new_node = create_node(val, position.as_node()->prev, position.as_node());
+		position.as_node()->prev->next = new_node;
+		position.as_node()->prev = new_node;
+		if (position == _head)
+			_head = new_node;
+		_tail->value = ++_size;
+		return (iterator(new_node));
+	}
+    void insert(iterator position, size_type n, const value_type& val)
+	{
+		while (n-- > 0)
+			insert(position, val);
+	}
+	template <class InputIterator>
+    void insert(iterator position, InputIterator first, InputIterator last,
+	typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator())
+	{
+		for (InputIterator it = first; it != last; ++it)
+			insert(position, *it);
+	}
+	iterator erase(iterator position)
+	{
+		iterator next = position;
+		return (erase(position, ++next));
+	}
+	iterator erase(iterator first, iterator last)
+	{
+		size_type n = 0;
+		iterator it;
+
+		if (first == _head)
+			_head = last.as_node();
+		link(first.as_node()->prev, last.as_node());
+		for (it = first; it != last; ++it, ++n)
+		{
+			node_alloc(_alloc).destroy(it.as_node());
+			node_alloc(_alloc).deallocate(it.as_node(), 1);
+		}
+		_tail->value = _size -= n;
+		return (last);
+	}
 	void clear()
 	{
 		for (size_type i = 0; i < _size; i++)
@@ -255,6 +388,9 @@ public:
 		}
 		_size = 0;
 	}
+
+
+
 };
 
 } // namespace

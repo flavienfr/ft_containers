@@ -4,6 +4,11 @@
 # include "centered.hpp"
 # include <fstream>
 
+#include "list.hpp"
+#include <list>
+#include "vector.hpp"
+#include <vector>
+
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text);
 
 void	vector_test();
