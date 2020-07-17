@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/16 20:19:22 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/17 13:30:01 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,36 @@ public:
 
 	ListIt &operator--() { _ptr = _ptr->prev; return (*this); };
 	ListIt operator--(int) {	ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
+};
 
-	//ListIt operator+(difference_type n)  { return (ListIt(_ptr + n)); };
-	//friend ListIt operator+(difference_type n, const ListIt &rhs) { return (ListIt(rhs._ptr + n)); };
-	//ListIt operator-(difference_type n)  { return (ListIt(_ptr - n)); };
-	//friend ListIt operator-(difference_type n, const ListIt &rhs) { return (ListIt(rhs._ptr - n)); };
+template <typename T>
+class ReverseListIt
+{
+public:
+	typedef Node<T>			value_type;
+	typedef ptrdiff_t		difference_type;
+	typedef T *				pointer;
+	typedef T &				reference;
+private:
+	Node<T> *_ptr;
+public:
+	ReverseListIt() : _ptr(NULL) { };
+	ReverseListIt(Node<T> *ptr) : _ptr(ptr) { };
+	ReverseListIt(const ReverseListIt &it) : _ptr(it._ptr) { };
+	ReverseListIt &operator=(const ReverseListIt &it) { _ptr = it._ptr; return (*this); };
+	~ReverseListIt() { };
 
-	//friend difference_type operator-(const ListIt &lhs, const ListIt &rhs) { return (lhs._ptr - rhs._ptr); };
+	friend bool operator==(const ReverseListIt &lhs, const ReverseListIt &rhs) { return (lhs._ptr == rhs._ptr); };
+	friend bool operator!=(const ReverseListIt &lhs, const ReverseListIt &rhs) { return (lhs._ptr != rhs._ptr); };
 
-	//bool operator<(const ListIt &rhs) const { return (_ptr < rhs._ptr); };
-	//bool operator>(const ListIt &rhs) const { return (_ptr > rhs._ptr); };
-	//bool operator<=(const ListIt &rhs) const { return (_ptr <= rhs._ptr); };
-	//bool operator>=(const ListIt &rhs) const { return (_ptr >= rhs._ptr); };
+	reference operator*() { return (_ptr->value); };
+	pointer operator->() { return (&_ptr->value); };
 
-	//ListIt &operator+=(difference_type n) { _ptr += n; return (*this); };
-	//ListIt &operator-=(difference_type n) { _ptr -= n; return (*this); };
+	ReverseListIt &operator++() { _ptr = _ptr->prev; return (*this); };
+	ReverseListIt operator++(int) {	ReverseListIt tmp = *this; _ptr = _ptr->prev; return (tmp);};
 
-	//reference operator[](difference_type n) { return (_ptr[n]); };
+	ReverseListIt &operator--() { _ptr = _ptr->next; return (*this); };
+	ReverseListIt operator--(int) {	ReverseListIt tmp = *this; _ptr = _ptr->next; return (tmp); };
 };
 
 template < typename T, typename Alloc = std::allocator<T> >
@@ -83,8 +96,8 @@ public:
 	typedef typename allocator_type::const_pointer		const_pointer;
 	typedef ListIt<T>									iterator;
 	typedef ListIt<const T>								const_iterator;
-	//typedef ReverseListListIt<T>						reverse_iterator;
-	//typedef ReverseListIt<const T>					const_reverse_iterator;
+	typedef ReverseListIt<T>							reverse_iterator;
+	typedef ReverseListIt<const T>						const_reverse_iterator;
 	typedef ptrdiff_t									difference_type;
 	typedef size_t										size_type;
 
@@ -114,6 +127,10 @@ private:
 	{
 		_head = create_node(0);
 		_tail = _head;
+		_tail->next =_head;//maybe useless
+		_tail->prev =_head;//maybe useless
+		_head->next = _tail;//maybe useless
+		_head->prev = _tail;//maybe useless
 	}
 
 public:
@@ -167,7 +184,7 @@ public:
 	}
 	const_iterator begin() const
 	{
-		return (iterator(_head));
+		return (const_iterator(_head));
 	}
 	iterator end()
 	{
@@ -175,7 +192,23 @@ public:
 	}
 	const_iterator end() const
 	{
-		return (iterator(_tail));
+		return (const_iterator(_tail));
+	}
+	reverse_iterator rbegin()
+	{
+		return (reverse_iterator(_tail->prev));
+	}
+	const_reverse_iterator rbegin() const
+	{
+		return (const_reverse_iterator(_tail->prev));
+	}
+	reverse_iterator rend()
+	{
+		return (reverse_iterator(_tail));
+	}
+	const_reverse_iterator rend() const
+	{
+		return (const_reverse_iterator(_tail));
 	}
 
 	//	Capacity
@@ -193,13 +226,13 @@ public:
 	}
 
 	//	Modifiers
-	void push_back (const value_type& val)
+	void push_back(const value_type& val)
 	{
 		_Node *tmp;
 	
 		if (_size == 0)
 		{
-			_head = create_node(val, NULL, _tail);
+			_head = create_node(val, _tail, _tail);
 			_tail->prev = _head;
 		}
 		else
@@ -208,6 +241,8 @@ public:
 			_tail->prev->next = tmp;
 			_tail->prev = tmp;
 		}
+		_tail->next = _head;//add
+		_head->prev = _tail;//add
 		_tail->value = ++_size;
 	}
 	void clear()
