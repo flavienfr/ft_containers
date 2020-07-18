@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/16 19:40:28 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 21:03:53 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -668,10 +668,7 @@ bool	operator== (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 {
 	if (lhs.size() != rhs.size())
 		return (false);
-	for (typename vector<T, Alloc>::size_type i = 0 ; i < lhs.size(); ++i)
-		if (lhs[i] != rhs[i])
-			return (false);
-	return (true);
+	return (equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 template <class T, class Alloc>
 bool	operator!= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
@@ -681,14 +678,7 @@ bool	operator!= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 template <class T, class Alloc>
 bool	operator<  (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)
 {
-	for (typename vector<T, Alloc>::size_type i = 0 ; i < lhs.size(); ++i)
-	{
-		if (i == rhs.size() || rhs[i] < lhs[i])
-			return (false);
-		else if (lhs[i] < rhs[i])
-			return (true);
-	}
-	return (rhs != lhs);
+	return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 template <class T, class Alloc>
 bool	operator<= (const vector<T,Alloc> &lhs, const vector<T,Alloc> &rhs)

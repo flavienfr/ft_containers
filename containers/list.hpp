@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 19:01:37 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 21:09:45 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** 	set _tail with value size_t;
-**	stop give tail valur of size, warning with obj like string
+**
 */
 
 #ifndef LIST_HPP
@@ -167,8 +167,7 @@ public:
 			push_back(val);
 	}
 	template <class InputIterator>
-	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
-	typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator()) :
+	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator()) :
 	_size(0), _alloc(alloc)
 	{
 		(void)isIter;
@@ -346,8 +345,7 @@ public:
 			insert(position, val);
 	}
 	template <class InputIterator>
-    void insert(iterator position, InputIterator first, InputIterator last,
-	typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator())
+    void insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator())
 	{
 		for (InputIterator it = first; it != last; ++it)
 			insert(position, *it);
@@ -435,9 +433,61 @@ public:
 		
 		link(new_first, new_last);
 	}
-	void remove(const value_type& val);
+	void remove(const value_type &val)
+	{
+		for (iterator it = begin(); it != end(); ++it)
+			if (*it == val)
+				erase(it);
+	}
+	template <class Predicate>
+	void remove_if (Predicate pred)
+	{
+		for (iterator it = begin(); it != end(); ++it)
+			if (pred(*it))
+				erase(it);
+	}
 
 };
+
+//	Non-member function overloads
+
+template <class T, class Alloc>
+void swap(list<T,Alloc> &x, list<T,Alloc> &y)
+{
+	x.swap(y);
+}
+template <class T, class Alloc>
+bool	operator== (const list<T,Alloc> &lhs, const list<T,Alloc> &rhs)
+{
+	if (lhs.size() != rhs.size())
+		return (false);
+	return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+template <class T, class Alloc>
+bool	operator!= (const list<T,Alloc> &lhs, const list<T,Alloc> &rhs)
+{
+	return (!(lhs == rhs));
+}
+template <class T, class Alloc>
+bool	operator<  (const list<T,Alloc> &lhs, const list<T,Alloc> &rhs)
+{
+	return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
+template <class T, class Alloc>
+bool	operator<= (const list<T,Alloc> &lhs, const list<T,Alloc> &rhs)
+{
+	return (!(rhs < lhs));
+}
+template <class T, class Alloc>
+bool	operator>  (const list<T,Alloc> &lhs, const list<T,Alloc> &rhs)
+{
+	return (rhs < lhs);
+}
+template <class T, class Alloc>
+bool	operator>= (const list<T,Alloc> &lhs, const list<T,Alloc> &rhs)
+{
+	return (!(lhs < rhs));
+}
 
 } // namespace
 

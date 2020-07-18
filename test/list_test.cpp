@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 19:02:30 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 21:06:07 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -405,6 +405,7 @@ static void	Modifiers()
 	tester(std_resize, ft_resize, "resize");
 }//test return insert and erase. aboort ici
 
+//	Operations
 static void std_splice()
 {
 	std::list<int> mylist1, mylist2;
@@ -457,9 +458,81 @@ static void ft_splice()
 	PRINT_LIST(ft::list<int>, mylist2);LINE;
 	PRINT("size=", mylist1.size());
 }
+static void std_remove()
+{
+	int myints[]= {17,89,7,14};
+	std::list<int>mylist (myints,myints+4);	
+	mylist.remove(89);
+	PRINT_LIST(std::list<int>, mylist);
+}
+static void ft_remove()
+{
+	int myints[]= {17,89,7,14};
+	ft::list<int>mylist (myints,myints+4);	
+	mylist.remove(89);
+	PRINT_LIST(ft::list<int>, mylist);
+}
+bool single_digit (const int &value) { return (value<10); }
+struct is_odd { bool operator() (const int &value) { return (value%2)==1; }};
+static void std_remove_if()
+{
+	int myints[]= {15,36,7,17,20,39,4,1};
+	std::list<int> mylist (myints,myints+8);   // 15 36 7 17 20 39 4 1	
+	mylist.remove_if (single_digit);           // 15 36 17 20 39	
+	mylist.remove_if (is_odd());               // 36 20	
+	PRINT_LIST(std::list<int>, mylist);
+}
+static void ft_remove_if()
+{
+	int myints[]= {15,36,7,17,20,39,4,1};
+	ft::list<int> mylist (myints,myints+8);   // 15 36 7 17 20 39 4 1	
+	mylist.remove_if (single_digit);           // 15 36 17 20 39	
+	mylist.remove_if (is_odd());               // 36 20	
+	PRINT_LIST(ft::list<int>, mylist);
+}
 static void	Operations()
 {
-	tester(std_splice, ft_splice, "slice");
+	//tester(std_splice, ft_splice, "slice");
+	tester(std_remove, ft_remove, "remove");
+	tester(std_remove_if, ft_remove_if, "remove_if");
+}
+
+//	Non-member function overloads
+static void std_operators()
+{
+	std::list<int> a;
+	a.push_back(10);a.push_back(20);a.push_back(30);
+	std::list<int> b;
+	b.push_back(10);b.push_back(20);b.push_back(30);
+	std::list<int> c;
+	c.push_back(30);c.push_back(20);c.push_back(10);
+
+	if (a==b) std::cout << "a and b are equal\n";
+	if (b!=c) std::cout << "b and c are not equal\n";
+	if (b<c) std::cout << "b is less than c\n";
+	if (c>b) std::cout << "c is greater than b\n";
+	if (a<=b) std::cout << "a is less than or equal to b\n";
+	if (a>=b) std::cout << "a is greater than or equal to b";
+}
+static void ft_operators()
+{
+	ft::list<int> a;
+	a.push_back(10);a.push_back(20);a.push_back(30);
+	ft::list<int> b;
+	b.push_back(10);b.push_back(20);b.push_back(30);
+	ft::list<int> c;
+	c.push_back(30);c.push_back(20);c.push_back(10);
+
+	if (a==b) std::cout << "a and b are equal\n";
+	//if (b!=c) std::cout << "b and c are not equal\n";
+	//if (b<c) std::cout << "b is less than c\n";
+	//if (c>b) std::cout << "c is greater than b\n";
+	//if (a<=b) std::cout << "a is less than or equal to b\n";
+	//if (a>=b) std::cout << "a is greater than or equal to b";
+}
+static void Non_member()
+{
+	tester(std_operators, ft_operators, "operators");
 }
 
 void	list_test()
@@ -469,4 +542,5 @@ void	list_test()
 	//Element_access();
 	//Modifiers();
 	//Operations();
+	Non_member();
 }
