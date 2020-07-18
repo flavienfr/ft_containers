@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:46:16 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/16 16:41:10 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 16:22:05 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	tester(void (*pf_1)(), void (*pf_2)(), std::string text)
     		std::cout.rdbuf(ft_container.rdbuf());
 		}
 
-		std::cout << std::setw(50) << centered("STD vs FT") << std::endl;
+		std::cout << std::setw(50) /*<< centered("STD vs FT")*/<< "-" << std::endl;
 		pf_2();
 		std::cout << std::endl;
 

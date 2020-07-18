@@ -6,11 +6,15 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 13:30:58 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 16:26:54 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //Allocation node par node ou tableau de node quand possible 
+
+/*
+** 	set _tail with value size_t;
+*/
 
 #ifndef LIST_HPP
 # define LIST_HPP
@@ -123,19 +127,24 @@ private:
 	}
 	_Node	*create_node(const T &val)
 	{
-		(void)val;
+		_Node *node = node_alloc(_alloc).allocate(1);
+		node_alloc(_alloc).construct(node, _Node(val));
+		return (node);
+	}
+	_Node	*create_node()
+	{
 		_Node *node = node_alloc(_alloc).allocate(1);
 		node_alloc(_alloc).construct(node, _Node());
 		return (node);
 	}
 	void	init_list()
 	{
-		_head = create_node(0);
-		//_tail = _head;
-		//_tail->next =_head;//maybe useless
-		//_tail->prev =_head;//maybe useless
-		//_head->next = _tail;//maybe useless
-		//_head->prev = _tail;//maybe useless
+		_head = create_node();
+		_tail = _head;
+		_tail->next =_head;//maybe useless
+		_tail->prev =_head;//maybe useless
+		_head->next = _tail;//maybe useless
+		_head->prev = _tail;//maybe useless
 	}
 	void	link(_Node *n1, _Node *n2)
 	{
@@ -147,7 +156,6 @@ public:
 	explicit list(const allocator_type &alloc = allocator_type()) :
 	_size(0), _alloc(alloc)
 	{
-		std::cout << "sup\n";
 		init_list();
 	}
 	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) :
@@ -188,7 +196,7 @@ public:
 	~list()
 	{
 		_size++;
-		//clear();
+		clear();
 	}
 
 	//	Iterators
@@ -396,7 +404,32 @@ public:
 		_size = 0;
 	}
 
+	//	Operations
+	void splice(iterator position, list &x)
+	{
+		splice(position, x, x.begin(), x.end());
+	}
+	void splice(iterator position, list &x, iterator i)
+	{
+		iterator last = i;
+		splice(position, x, i, ++last);
+	}
+	void splice(iterator position, list &x, iterator first, iterator last)
+	{
+		_Node *tmp_in;
+		_Node *tmp_out;
 
+		if (position == _head)
+			_head = first.as_node();
+		if (first == x._head)
+			x._head = last.as_node();
+
+		link(position.as_node()->prev, first.as_node());
+		link(position.as_node(), last.as_node()->prev);
+
+		link(first.as_node()->prev, last.as_node());
+
+	}
 
 };
 

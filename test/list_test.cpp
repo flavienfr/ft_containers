@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 13:25:19 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 17:11:55 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,14 +396,69 @@ static void ft_resize()
 }
 static void	Modifiers()
 {
-	//tester(std_assign, ft_assign, "assign");
-	//tester(std_push_pop_front, ft_push_pop_front, "push_pop_front");
-	//tester(std_push_pop_back, ft_push_pop_back, "push_pop_back");
-	//tester(std_insert, ft_insert, "insert");
-	//tester(std_erase, ft_erase, "erase");
-	//tester(std_swap, ft_swap, "swap");
+	tester(std_assign, ft_assign, "assign");
+	tester(std_push_pop_front, ft_push_pop_front, "push_pop_front");
+	tester(std_push_pop_back, ft_push_pop_back, "push_pop_back");
+	tester(std_insert, ft_insert, "insert");
+	tester(std_erase, ft_erase, "erase");
+	tester(std_swap, ft_swap, "swap");
 	tester(std_resize, ft_resize, "resize");
 }//test return insert and erase. aboort ici
+
+static void std_splice()
+{
+	std::list<int> mylist1, mylist2;
+	std::list<int>::iterator it;	
+	// set some initial values:
+	for (int i=1; i<=4; ++i)
+	   mylist1.push_back(i);      // mylist1: 1 2 3 4	
+	for (int i=1; i<=3; ++i)
+	   mylist2.push_back(i*10);   // mylist2: 10 20 30	
+	it = mylist1.begin();
+	++it;                         // points to 2	
+	mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+	mylist2.splice (mylist2.begin(),mylist1, it);
+	it = mylist1.begin();
+	++it;++it;++it;           // "it" points now to 30	
+	mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+	                              // mylist1: 30 3 4 1 10 20	
+	std::cout << "mylist1 contains:";
+	for (it=mylist1.begin(); it!=mylist1.end(); ++it)
+	  std::cout << ' ' << *it;
+	std::cout << '\n';	
+	std::cout << "mylist2 contains:";
+	for (it=mylist2.begin(); it!=mylist2.end(); ++it)
+	  std::cout << ' ' << *it;
+}
+static void ft_splice()
+{
+	ft::list<int> mylist1, mylist2;
+	ft::list<int>::iterator it;	
+	// set some initial values:
+	for (int i=1; i<=4; ++i)
+	   mylist1.push_back(i);      // mylist1: 1 2 3 4	
+	for (int i=1; i<=3; ++i)
+	   mylist2.push_back(i*10);   // mylist2: 10 20 30	
+	it = mylist1.begin();
+	++it;                         // points to 2	
+	mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+	mylist2.splice (mylist2.begin(),mylist1, it);
+	it = mylist1.begin();
+	++it;++it;++it;           // "it" points now to 30	
+	mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+	                              // mylist1: 30 3 4 1 10 20	
+	std::cout << "mylist1 contains:";
+	for (it=mylist1.begin(); it!=mylist1.end(); ++it)
+	  std::cout << ' ' << *it;
+	std::cout << '\n';	
+	std::cout << "mylist2 contains:";
+	for (it=mylist2.begin(); it!=mylist2.end(); ++it)
+	  std::cout << ' ' << *it;
+}
+static void	Operations()
+{
+	tester(std_splice, ft_splice, "slice");
+}
 
 void	list_test()
 {
@@ -411,7 +466,5 @@ void	list_test()
 	//Capacity();
 	//Element_access();
 	//Modifiers();
-
-	ft::list<std::string>lst;
-	//std::cout << std::string() << std::endl;
+	Operations();
 }
