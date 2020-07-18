@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 18:45:04 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 19:01:37 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ public:
 	template <class InputIterator>
 	list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
 	typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator()) :
-	_size(0), _alloc(alloc) // issus if iterate on vector
+	_size(0), _alloc(alloc)
 	{
 		(void)isIter;
 		init_list();
@@ -299,7 +299,7 @@ public:
 			_head->prev = tmp;
 			_head = tmp;
 		}
-		_tail->value = ++_size;
+		++_size;
 	}
 	void pop_front()
 	{
@@ -322,7 +322,7 @@ public:
 		}
 		_tail->next = _head;//add
 		_head->prev = _tail;//add
-		_tail->value = ++_size;
+		++_size;
 	}
 	void pop_back()
 	{
@@ -337,7 +337,7 @@ public:
 		position.as_node()->prev = new_node;
 		if (position == _head)
 			_head = new_node;
-		_tail->value = ++_size;
+		++_size;
 		return (iterator(new_node));
 	}
     void insert(iterator position, size_type n, const value_type& val)
@@ -370,7 +370,7 @@ public:
 			node_alloc(_alloc).destroy(it.as_node());
 			node_alloc(_alloc).deallocate(it.as_node(), 1);
 		}
-		_tail->value = _size -= n;
+		_size -= n;
 		return (last);
 	}
 	void swap(list& x)
@@ -408,13 +408,6 @@ public:
 	//	Operations
 	void splice(iterator position, list &x)
 	{
-	/*for (iterator it = begin(); it != end(); ++it)
-		std::cout <<*it<< " ";
-	std::cout <<"\n";
-	for (iterator it = x.begin(); it != x.end(); ++it)
-		std::cout <<*it<< " ";
-	std::cout <<"\n";
-	*/
 		splice(position, x, x.begin(), x.end());
 	}
 	void splice(iterator position, list &x, iterator i)
@@ -442,6 +435,7 @@ public:
 		
 		link(new_first, new_last);
 	}
+	void remove(const value_type& val);
 
 };
 
