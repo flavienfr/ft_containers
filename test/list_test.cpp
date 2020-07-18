@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 17:11:55 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 18:13:34 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,52 +409,53 @@ static void std_splice()
 {
 	std::list<int> mylist1, mylist2;
 	std::list<int>::iterator it;	
-	// set some initial values:
+
 	for (int i=1; i<=4; ++i)
-	   mylist1.push_back(i);      // mylist1: 1 2 3 4	
+	   mylist1.push_back(i);
 	for (int i=1; i<=3; ++i)
-	   mylist2.push_back(i*10);   // mylist2: 10 20 30	
+	   mylist2.push_back(i*10);
 	it = mylist1.begin();
-	++it;                         // points to 2	
-	mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+	++it;
+	mylist1.splice (it, mylist2);
+	PRINT_LIST(std::list<int>, mylist1);LINE;
+	PRINT_LIST(std::list<int>, mylist2);LINE;
+/*
 	mylist2.splice (mylist2.begin(),mylist1, it);
+	PRINT_LIST(std::list<int>, mylist1);LINE;
+	PRINT_LIST(std::list<int>, mylist2);LINE;
+
 	it = mylist1.begin();
-	++it;++it;++it;           // "it" points now to 30	
+	++it;++it;++it;
 	mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
-	                              // mylist1: 30 3 4 1 10 20	
-	std::cout << "mylist1 contains:";
-	for (it=mylist1.begin(); it!=mylist1.end(); ++it)
-	  std::cout << ' ' << *it;
-	std::cout << '\n';	
-	std::cout << "mylist2 contains:";
-	for (it=mylist2.begin(); it!=mylist2.end(); ++it)
-	  std::cout << ' ' << *it;
+	PRINT_LIST(std::list<int>, mylist1);LINE;
+	PRINT_LIST(std::list<int>, mylist2);
+*/
 }
 static void ft_splice()
 {
 	ft::list<int> mylist1, mylist2;
 	ft::list<int>::iterator it;	
-	// set some initial values:
+
 	for (int i=1; i<=4; ++i)
-	   mylist1.push_back(i);      // mylist1: 1 2 3 4	
+	   mylist1.push_back(i);
 	for (int i=1; i<=3; ++i)
-	   mylist2.push_back(i*10);   // mylist2: 10 20 30	
+	   mylist2.push_back(i*10);
 	it = mylist1.begin();
-	++it;                         // points to 2	
-	mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+	++it;
+	mylist1.splice (it, mylist2);
+	PRINT_LIST(ft::list<int>, mylist1);LINE;
+	PRINT_LIST(ft::list<int>, mylist2);LINE;
+/*
 	mylist2.splice (mylist2.begin(),mylist1, it);
+	PRINT_LIST(ft::list<int>, mylist1);LINE;
+	PRINT_LIST(ft::list<int>, mylist2);LINE;
+
 	it = mylist1.begin();
-	++it;++it;++it;           // "it" points now to 30	
+	++it;++it;++it;
 	mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
-	                              // mylist1: 30 3 4 1 10 20	
-	std::cout << "mylist1 contains:";
-	for (it=mylist1.begin(); it!=mylist1.end(); ++it)
-	  std::cout << ' ' << *it;
-	std::cout << '\n';	
-	std::cout << "mylist2 contains:";
-	for (it=mylist2.begin(); it!=mylist2.end(); ++it)
-	  std::cout << ' ' << *it;
-}
+	PRINT_LIST(ft::list<int>, mylist1);LINE;
+	PRINT_LIST(ft::list<int>, mylist2);
+*/}
 static void	Operations()
 {
 	tester(std_splice, ft_splice, "slice");

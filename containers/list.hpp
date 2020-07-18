@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 16:26:54 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 18:13:34 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /*
 ** 	set _tail with value size_t;
+**	stop give tail valur of size, warning with obj like string
 */
 
 #ifndef LIST_HPP
@@ -407,6 +408,13 @@ public:
 	//	Operations
 	void splice(iterator position, list &x)
 	{
+	/*for (iterator it = begin(); it != end(); ++it)
+		std::cout <<*it<< " ";
+	std::cout <<"\n";
+	for (iterator it = x.begin(); it != x.end(); ++it)
+		std::cout <<*it<< " ";
+	std::cout <<"\n";
+	*/
 		splice(position, x, x.begin(), x.end());
 	}
 	void splice(iterator position, list &x, iterator i)
@@ -416,19 +424,24 @@ public:
 	}
 	void splice(iterator position, list &x, iterator first, iterator last)
 	{
-		_Node *tmp_in;
-		_Node *tmp_out;
-
 		if (position == _head)
 			_head = first.as_node();
 		if (first == x._head)
 			x._head = last.as_node();
 
+		size_type count = 0;
+		for (iterator it = first; it != last; ++it, ++count);
+		_size += count; //-size sans tail
+		x._size -= count; //-size sans tail
+
+		_Node *save_first = first.as_node();
+		_Node *save_last = last.as_node();
+
 		link(position.as_node()->prev, first.as_node());
-		link(position.as_node(), last.as_node()->prev);
+		link(last.as_node()->prev, position.as_node());
+		link(save_first->prev, save_last);
 
-		link(first.as_node()->prev, last.as_node());
-
+		std::cout << "_size: " << _size << " x._size: " << x._size << std::endl;
 	}
 
 };
