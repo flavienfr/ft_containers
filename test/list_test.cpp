@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 18:13:34 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 18:45:19 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,7 +419,7 @@ static void std_splice()
 	mylist1.splice (it, mylist2);
 	PRINT_LIST(std::list<int>, mylist1);LINE;
 	PRINT_LIST(std::list<int>, mylist2);LINE;
-/*
+
 	mylist2.splice (mylist2.begin(),mylist1, it);
 	PRINT_LIST(std::list<int>, mylist1);LINE;
 	PRINT_LIST(std::list<int>, mylist2);LINE;
@@ -429,7 +429,7 @@ static void std_splice()
 	mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
 	PRINT_LIST(std::list<int>, mylist1);LINE;
 	PRINT_LIST(std::list<int>, mylist2);
-*/
+
 }
 static void ft_splice()
 {
@@ -445,7 +445,7 @@ static void ft_splice()
 	mylist1.splice (it, mylist2);
 	PRINT_LIST(ft::list<int>, mylist1);LINE;
 	PRINT_LIST(ft::list<int>, mylist2);LINE;
-/*
+
 	mylist2.splice (mylist2.begin(),mylist1, it);
 	PRINT_LIST(ft::list<int>, mylist1);LINE;
 	PRINT_LIST(ft::list<int>, mylist2);LINE;
@@ -455,7 +455,7 @@ static void ft_splice()
 	mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
 	PRINT_LIST(ft::list<int>, mylist1);LINE;
 	PRINT_LIST(ft::list<int>, mylist2);
-*/}
+}
 static void	Operations()
 {
 	tester(std_splice, ft_splice, "slice");
