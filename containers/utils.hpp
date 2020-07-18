@@ -11,6 +11,7 @@ struct Node
 	Node	*next;
 
 	//Node() : value(value_type()), prev(NULL), next(NULL) {};
+	Node() : value(T()), prev(NULL), next(NULL) {};
 	Node(const T &value) : value(value), prev(NULL), next(NULL) {};
 	Node(const T &value, Node *prev, Node *next) : value(value), prev(prev), next(next) {};
 	//Node(const Node &x) { *this = x; };

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/17 20:24:13 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 13:30:58 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,18 +123,19 @@ private:
 	}
 	_Node	*create_node(const T &val)
 	{
+		(void)val;
 		_Node *node = node_alloc(_alloc).allocate(1);
-		node_alloc(_alloc).construct(node, _Node(val));
+		node_alloc(_alloc).construct(node, _Node());
 		return (node);
 	}
 	void	init_list()
 	{
 		_head = create_node(0);
-		_tail = _head;
-		_tail->next =_head;//maybe useless
-		_tail->prev =_head;//maybe useless
-		_head->next = _tail;//maybe useless
-		_head->prev = _tail;//maybe useless
+		//_tail = _head;
+		//_tail->next =_head;//maybe useless
+		//_tail->prev =_head;//maybe useless
+		//_head->next = _tail;//maybe useless
+		//_head->prev = _tail;//maybe useless
 	}
 	void	link(_Node *n1, _Node *n2)
 	{
@@ -146,6 +147,7 @@ public:
 	explicit list(const allocator_type &alloc = allocator_type()) :
 	_size(0), _alloc(alloc)
 	{
+		std::cout << "sup\n";
 		init_list();
 	}
 	explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) :
@@ -175,6 +177,8 @@ public:
 	}
 	list& operator= (const list& x)
 	{
+		//std::cout << "sup\n";
+
 		clear();
 		_size = x._size;
 		for (iterator it = x.begin(); it != x.end(); ++it)
@@ -184,7 +188,7 @@ public:
 	~list()
 	{
 		_size++;
-		clear();
+		//clear();
 	}
 
 	//	Iterators
@@ -232,7 +236,7 @@ public:
 	}
 	size_type max_size() const
 	{
-		return (node_allo(_alloc).max_size());;
+		return (node_alloc(_alloc).max_size());
 	}
 
 	//	Element access
@@ -290,16 +294,7 @@ public:
 	}
 	void pop_front()
 	{
-		_Node *tmp;
-	
-		tmp = _head;
-		_head = _head->next;
-		_head->prev = _tail;
-		_tail->next = _head;
-		node_alloc(_alloc).destroy(tmp);
-		node_alloc(_alloc).deallocate(tmp, 1);
-
-		_tail->value = --_size;
+		erase(iterator(_head), iterator(_head->next));
 	}
 	void push_back(const value_type &val)
 	{
@@ -322,16 +317,7 @@ public:
 	}
 	void pop_back()
 	{
-		_Node *tmp;
-	
-		tmp = _tail->prev;
-
-		_tail->prev = tmp->prev;
-		tmp->prev->next = _tail;
-		node_alloc(_alloc).destroy(tmp);
-		node_alloc(_alloc).deallocate(tmp, 1);
-
-		_tail->value = --_size;
+		erase(iterator(_tail->prev), iterator(_tail));
 	}
 	iterator insert(iterator position, const value_type &val)
 	{
@@ -377,6 +363,27 @@ public:
 		}
 		_tail->value = _size -= n;
 		return (last);
+	}
+	void swap(list& x)
+	{
+		template_swap(_head, x._head);
+		template_swap(_tail, x._tail);
+		template_swap(_size, x._size);
+		template_swap(_alloc, x._alloc);
+	}
+	void resize (size_type n, value_type val = value_type())
+	{
+		iterator it = _head;
+		if (n < _size)
+		{
+			for (size_type i = 0; i < n; ++i, ++it);
+			erase(it, iterator(_tail));
+		}
+		else
+		{
+			for (size_type i = _size; i < n; ++i, ++it)
+				push_back(val);
+		}
 	}
 	void clear()
 	{

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/17 20:24:31 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 13:25:19 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,38 @@ static void	ft_begin_end()
 static void	Iterators()
 {
 	tester(std_begin_end, ft_begin_end, "begin_end");
+}
+
+//	Capacity
+static void	std_max_size()
+{
+	std::list<int>vec;
+	std::cout << vec.max_size() << std::endl;	
+	std::list<char>vec2;
+	std::cout << vec2.max_size() << std::endl;
+	std::list<float>vec3;
+	std::cout << vec3.max_size() << std::endl;
+	std::list<std::string>vec4;
+	std::cout << vec4.max_size() << std::endl;
+	ft::vector<bool>vec5;
+	std::cout << vec5.max_size();
+}
+static void	ft_max_size()
+{
+	ft::list<int>vec;
+	std::cout << vec.max_size() << std::endl;	
+	ft::list<char>vec2;
+	std::cout << vec2.max_size() << std::endl;
+	ft::list<float>vec3;
+	std::cout << vec3.max_size() << std::endl;
+	ft::list<std::string>vec4;
+	std::cout << vec4.max_size() << std::endl;
+	ft::vector<bool>vec5;
+	std::cout << vec5.max_size();
+}
+static void Capacity()
+{
+	tester(std_max_size, ft_max_size, "max_size");
 }
 
 //	Element access
@@ -240,8 +272,8 @@ static void	ft_push_pop_back()
 		mylist.push_back (300);		
 		while (!mylist.empty())
 		{
-		  sum+=mylist.back();
-		  mylist.pop_back();
+			sum+=mylist.back();
+			mylist.pop_back();
 		}		
 		std::cout << "The elements of mylist summed " << sum;
 	}
@@ -316,24 +348,70 @@ static void ft_erase()
 	mylist.erase (it1,it2);
 	PRINT_LIST(ft::list<int>, mylist);LINE;PRINT("size: ", mylist.size());
 }
+static void std_swap()
+{
+	std::vector<int> foo (3,100);   // three ints with a value of 100
+	std::vector<int> bar (5,200);   // five ints with a value of 200	
+	foo.swap(bar);
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+	  std::cout << ' ' << foo[i];
+	std::cout << '\n';
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+	  std::cout << ' ' << bar[i];
+}
+static void ft_swap()
+{
+	ft::vector<int> foo (3,100);   // three ints with a value of 100
+	ft::vector<int> bar (5,200);   // five ints with a value of 200	
+	foo.swap(bar);
+	std::cout << "foo contains:";
+	for (unsigned i=0; i<foo.size(); i++)
+	  std::cout << ' ' << foo[i];
+	std::cout << '\n';
+	std::cout << "bar contains:";
+	for (unsigned i=0; i<bar.size(); i++)
+	  std::cout << ' ' << bar[i];
+}
+static void std_resize()
+{
+	std::list<int> mylist;	
+	// set some initial content:
+	for (int i=1; i<10; ++i) mylist.push_back(i);	
+	mylist.resize(5);
+	mylist.resize(8,100);
+	mylist.resize(12);	
+	PRINT_LIST(std::list<int>, mylist);
+}
+static void ft_resize()
+{
+	ft::list<int> mylist;	
+	// set some initial content:
+	for (int i=1; i<10; ++i) mylist.push_back(i);	
+	mylist.resize(5);
+	mylist.resize(8,100);
+	mylist.resize(12);	
+	PRINT_LIST(ft::list<int>, mylist);
+}
 static void	Modifiers()
 {
 	//tester(std_assign, ft_assign, "assign");
 	//tester(std_push_pop_front, ft_push_pop_front, "push_pop_front");
-	tester(std_push_pop_back, ft_push_pop_back, "push_pop_back");
-	tester(std_insert, ft_insert, "insert");
+	//tester(std_push_pop_back, ft_push_pop_back, "push_pop_back");
+	//tester(std_insert, ft_insert, "insert");
 	//tester(std_erase, ft_erase, "erase");
+	//tester(std_swap, ft_swap, "swap");
+	tester(std_resize, ft_resize, "resize");
 }//test return insert and erase. aboort ici
 
 void	list_test()
 {
 	//Iterators();
+	//Capacity();
 	//Element_access();
-	Modifiers();
+	//Modifiers();
 
-	//ft::list<int> mylist;
-	//ft::list<int>::iterator it=mylist.begin();
-	//ft::list<int>::iterator it2=mylist.end();
-	//PRINT("it:", *(it));LINE;
-	//PRINT("it:", *(it2));LINE;
+	ft::list<std::string>lst;
+	//std::cout << std::string() << std::endl;
 }
