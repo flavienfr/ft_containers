@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 21:09:45 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/18 21:18:18 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ public:
 	pointer operator->() { return (&_ptr->value); };
 
 	ListIt &operator++() { _ptr = _ptr->next; return (*this); };
-	ListIt operator++(int) {	ListIt tmp = *this; _ptr = _ptr->next; return (tmp);};
+	ListIt operator++(int) { ListIt tmp = *this; _ptr = _ptr->next; return (tmp);};
 
 	ListIt &operator--() { _ptr = _ptr->prev; return (*this); };
-	ListIt operator--(int) {	ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
+	ListIt operator--(int) { ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
 
 	Node<T> *as_node() { return (_ptr); };
 };
