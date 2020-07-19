@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 21:18:18 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 13:00:27 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@
 
 namespace ft {
 
-template <typename T>
+template <typename T, typename N>
 class ListIt
 {
 public:
-	typedef Node<T>			value_type;
+	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
 	typedef T *				pointer;
 	typedef T &				reference;
 private:
-	Node<T> *_ptr;
+	N	*_ptr;
 public:
 	ListIt() : _ptr(NULL) { };
-	ListIt(Node<T> *ptr) : _ptr(ptr) { };
+	ListIt(N *ptr) : _ptr(ptr) { };
 	ListIt(const ListIt &it) : _ptr(it._ptr) { };
 	ListIt &operator=(const ListIt &it) { _ptr = it._ptr; return (*this); };
 	~ListIt() { };
@@ -58,22 +58,22 @@ public:
 	ListIt &operator--() { _ptr = _ptr->prev; return (*this); };
 	ListIt operator--(int) { ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
 
-	Node<T> *as_node() { return (_ptr); };
+	N *as_node() { return (_ptr); };
 };
 
-template <typename T>
+template <typename T, typename N>
 class ReverseListIt
 {
 public:
-	typedef Node<T>			value_type;
+	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
 	typedef T *				pointer;
 	typedef T &				reference;
 private:
-	Node<T> *_ptr;
+	N	*_ptr;
 public:
 	ReverseListIt() : _ptr(NULL) { };
-	ReverseListIt(Node<T> *ptr) : _ptr(ptr) { };
+	ReverseListIt(N *ptr) : _ptr(ptr) { };
 	ReverseListIt(const ReverseListIt &it) : _ptr(it._ptr) { };
 	ReverseListIt &operator=(const ReverseListIt &it) { _ptr = it._ptr; return (*this); };
 	~ReverseListIt() { };
@@ -90,32 +90,32 @@ public:
 	ReverseListIt &operator--() { _ptr = _ptr->next; return (*this); };
 	ReverseListIt operator--(int) {	ReverseListIt tmp = *this; _ptr = _ptr->next; return (tmp); };
 
-	Node<T> *as_node() { return (_ptr); };
+	N *as_node() { return (_ptr); };
 };
 
 template < typename T, typename Alloc = std::allocator<T> >
 class list
 {
 public:
-	typedef T											value_type;
-	typedef Alloc										allocator_type;
-	typedef typename allocator_type::reference			reference;
-	typedef typename allocator_type::const_reference	const_reference;
-	typedef typename allocator_type::pointer			pointer;
-	typedef typename allocator_type::const_pointer		const_pointer;
-	typedef ListIt<T>									iterator;
-	typedef ListIt<const T>								const_iterator;
-	typedef ReverseListIt<T>							reverse_iterator;
-	typedef ReverseListIt<const T>						const_reverse_iterator;
-	typedef ptrdiff_t									difference_type;
-	typedef size_t										size_type;
+	typedef T												value_type;
+	typedef Node<value_type>								_Node;
+	typedef Alloc											allocator_type;
+	typedef typename allocator_type::reference				reference;
+	typedef typename allocator_type::const_reference		const_reference;
+	typedef typename allocator_type::pointer				pointer;
+	typedef typename allocator_type::const_pointer			const_pointer;
+	typedef ListIt<value_type, _Node>						iterator;
+	typedef ListIt<const value_type, const _Node>			const_iterator;
+	typedef ReverseListIt<value_type, _Node>				reverse_iterator;
+	typedef ReverseListIt<const value_type, const _Node>	const_reverse_iterator;
+	typedef ptrdiff_t										difference_type;
+	typedef size_t											size_type;
 
 private:
-	typedef Node<T>		_Node;
-	_Node				*_head;
-	_Node				*_tail;
-	size_type			_size;
-	allocator_type		_alloc;
+	_Node						*_head;
+	_Node						*_tail;
+	size_type					_size;
+	allocator_type				_alloc;
 	
 	typedef typename Alloc::template rebind<_Node>::other node_alloc;
 
@@ -440,13 +440,33 @@ public:
 				erase(it);
 	}
 	template <class Predicate>
-	void remove_if (Predicate pred)
+	void remove_if(Predicate pred)
 	{
 		for (iterator it = begin(); it != end(); ++it)
 			if (pred(*it))
 				erase(it);
 	}
-
+	void unique()
+	{
+		unique(is_equal<T>);
+	}
+	template <class BinaryPredicate>
+	void unique(BinaryPredicate binary_pred)
+	{
+		iterator it = ++begin();
+		while (it != end())
+		{
+			iterator tmp = it;
+			if (binary_pred(*it, *(--tmp)))
+			{
+				++tmp;++tmp;
+				erase(it);
+				it = tmp;
+			}
+			else
+				++it;
+		}
+	}
 };
 
 //	Non-member function overloads

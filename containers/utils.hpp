@@ -31,6 +31,12 @@ bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 	return true;
 }
 
+template <typename T>
+bool is_equal(T &v1, T &v2)
+{
+	return (v1 == v2);
+}
+
 template <class InputIterator1, class InputIterator2>
 bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 								InputIterator2 first2, InputIterator2 last2)

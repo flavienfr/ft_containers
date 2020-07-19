@@ -6,11 +6,13 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 21:06:07 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 13:00:27 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.hpp"
+
+#include <cmath>
 
 #define PRINT_SIZE(lst) std::cout << "Size= " << lst.size();
 #define PRINT_LIST(type, lst) for (type::iterator it = lst.begin(); it != lst.end(); ++it) std::cout <<*it<< " ";
@@ -28,7 +30,6 @@ static void	std_begin_end()
 		int myints[] = {75,23,65,42,13};
 		std::list<int> mylist (myints,myints+5);		
 		std::list<int>::iterator itend = mylist.end();
-		PRINT("IT:", *(itend));LINE;
 		std::cout << "mylist contains:";
 		for (std::list<int>::iterator it=mylist.begin(); it !=itend; ++it)
 		  std::cout << ' ' << *it;
@@ -38,7 +39,6 @@ static void	std_begin_end()
 		std::list<int> mylist;
 		for (int i=1; i<=5; ++i) mylist.push_back(i);		
 		std::list<int>::reverse_iterator itend = mylist.rend();
-		PRINT("IT:", *(itend));LINE;
 		std::cout << "mylist backwards:";
 		for (std::list<int>::reverse_iterator rit=mylist.rbegin(); rit!=itend; ++rit)
 			std::cout << ' ' << *rit;
@@ -50,7 +50,6 @@ static void	ft_begin_end()
 		int myints[] = {75,23,65,42,13};
 		ft::list<int> mylist (myints,myints+5);		
 		ft::list<int>::iterator itend = mylist.end();
-		PRINT("IT:", *(itend));LINE;
 		std::cout << "mylist contains:";
 		for (ft::list<int>::iterator it=mylist.begin(); it != itend; ++it)
 		  std::cout << ' ' << *it;
@@ -60,7 +59,6 @@ static void	ft_begin_end()
 		ft::list<int> mylist;
 		for (int i=1; i<=5; ++i) mylist.push_back(i);		
 		ft::list<int>::reverse_iterator itend = mylist.rend();
-		PRINT("IT:", *(itend));LINE;
 		std::cout << "mylist backwards:";
 		for (ft::list<int>::reverse_iterator rit=mylist.rbegin(); rit!=itend; ++rit)
 			std::cout << ' ' << *rit;	
@@ -490,11 +488,39 @@ static void ft_remove_if()
 	mylist.remove_if (is_odd());               // 36 20	
 	PRINT_LIST(ft::list<int>, mylist);
 }
+bool same_integral_part (double first, double second)
+{ return ( int(first)==int(second) ); }
+struct is_near { bool operator() (double first, double second) { return (fabs(first-second)<5.0); } };
+static void std_unique()
+{
+	double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
+	                     12.77, 73.35, 72.25, 15.3,  72.25 };
+	std::list<double> mylist (mydoubles,mydoubles+10);
+
+	//mylist.sort();
+	mylist.unique();
+	mylist.unique (same_integral_part);
+	mylist.unique (is_near());
+	PRINT_LIST(std::list<double>, mylist);
+}
+static void ft_unique()
+{
+	double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
+	                     12.77, 73.35, 72.25, 15.3,  72.25 };
+	ft::list<double> mylist (mydoubles,mydoubles+10);
+	
+	//mylist.sort();
+	mylist.unique();
+	mylist.unique (same_integral_part);
+	mylist.unique (is_near());
+	PRINT_LIST(ft::list<double>, mylist);
+}
 static void	Operations()
 {
 	//tester(std_splice, ft_splice, "slice");
-	tester(std_remove, ft_remove, "remove");
-	tester(std_remove_if, ft_remove_if, "remove_if");
+	//tester(std_remove, ft_remove, "remove");
+	//tester(std_remove_if, ft_remove_if, "remove_if");
+	tester(std_unique, ft_unique, "unique");
 }
 
 //	Non-member function overloads
@@ -524,11 +550,11 @@ static void ft_operators()
 	c.push_back(30);c.push_back(20);c.push_back(10);
 
 	if (a==b) std::cout << "a and b are equal\n";
-	//if (b!=c) std::cout << "b and c are not equal\n";
-	//if (b<c) std::cout << "b is less than c\n";
-	//if (c>b) std::cout << "c is greater than b\n";
-	//if (a<=b) std::cout << "a is less than or equal to b\n";
-	//if (a>=b) std::cout << "a is greater than or equal to b";
+	if (b!=c) std::cout << "b and c are not equal\n";
+	if (b<c) std::cout << "b is less than c\n";
+	if (c>b) std::cout << "c is greater than b\n";
+	if (a<=b) std::cout << "a is less than or equal to b\n";
+	if (a>=b) std::cout << "a is greater than or equal to b";
 }
 static void Non_member()
 {
@@ -541,6 +567,6 @@ void	list_test()
 	//Capacity();
 	//Element_access();
 	//Modifiers();
-	//Operations();
-	Non_member();
+	Operations();
+	//Non_member();
 }
