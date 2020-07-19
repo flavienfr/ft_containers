@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 17:28:04 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 18:06:43 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -500,7 +500,11 @@ public:
 	}
 	void reverse()
 	{
-		
+		iterator begin = this->begin();
+		iterator end = --this->end();
+		_head = end.as_node();
+		for (size_t i = 0; i < (_size / 2); ++i, ++begin, --end)
+			swap_node(begin.as_node(), end.as_node());
 	}
 };
 

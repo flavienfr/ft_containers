@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 17:28:04 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 18:06:43 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -553,14 +553,14 @@ static void ft_sort()
 static void std_reverse()
 {
 	std::list<int> mylist;	
-	for (int i=1; i<10; ++i) mylist.push_back(i);	
+	for (int i=1; i<4; ++i) mylist.push_back(i);	
 	mylist.reverse();
 	PRINT_LIST(std::list<int>, mylist);
 }
 static void ft_reverse()
 {
 	ft::list<int> mylist;	
-	for (int i=1; i<10; ++i) mylist.push_back(i);	
+	for (int i=1; i<4; ++i) mylist.push_back(i);
 	mylist.reverse();
 	PRINT_LIST(ft::list<int>, mylist);
 }
