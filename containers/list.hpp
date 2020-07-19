@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 14:43:06 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 17:28:04 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,6 +467,9 @@ public:
 				++it;
 		}
 	}
+	void merge (list& x);
+	template <class Compare>
+	void merge (list& x, Compare comp);
 	void sort()
 	{
 		sort(is_less<T>);
@@ -488,13 +491,16 @@ public:
 						_head = it2.as_node();
 					swap_node(it1.as_node(), it2.as_node());
 					is_sort = 0;
-					swap(it1, it2);
+					template_swap(it1, it2);
 				}
 				++it1;
 				++it2;
 			}
-
 		}
+	}
+	void reverse()
+	{
+		
 	}
 };
 

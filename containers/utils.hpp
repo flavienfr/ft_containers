@@ -65,13 +65,15 @@ void	template_swap(T &a, T &b)
 }
 
 template <typename T>
-void	swap_node(T &n1, T &n2)
+void	swap_node(T *n1, T *n2)
 {
+	T *tmp = n1->prev;
+
 	n1->next = n2->next;
 	n1->prev = n2;
 	n1->next->prev = n1;
 
-	n2->prev = n1->prev;
+	n2->prev = tmp;
 	n2->next = n1;
 	n2->prev->next = n2;
 }

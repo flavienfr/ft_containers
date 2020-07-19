@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 13:00:27 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 17:28:04 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -497,7 +497,7 @@ static void std_unique()
 	                     12.77, 73.35, 72.25, 15.3,  72.25 };
 	std::list<double> mylist (mydoubles,mydoubles+10);
 
-	//mylist.sort();
+	mylist.sort();
 	mylist.unique();
 	mylist.unique (same_integral_part);
 	mylist.unique (is_near());
@@ -509,18 +509,69 @@ static void ft_unique()
 	                     12.77, 73.35, 72.25, 15.3,  72.25 };
 	ft::list<double> mylist (mydoubles,mydoubles+10);
 	
-	//mylist.sort();
+	mylist.sort();
 	mylist.unique();
 	mylist.unique (same_integral_part);
 	mylist.unique (is_near());
 	PRINT_LIST(ft::list<double>, mylist);
+}
+bool compare_nocase (const std::string& first, const std::string& second)
+{
+  unsigned int i=0;
+  while ( (i<first.length()) && (i<second.length()) )
+  {
+    if (tolower(first[i])<tolower(second[i])) return true;
+    else if (tolower(first[i])>tolower(second[i])) return false;
+    ++i;
+  }
+  return ( first.length() < second.length() );
+}
+static void std_sort()
+{
+	std::list<std::string> mylist;
+	std::list<std::string>::iterator it;
+	mylist.push_back ("one");
+	mylist.push_back ("two");
+	mylist.push_back ("Three");	
+	mylist.sort();	
+	PRINT_LIST(std::list<std::string>, mylist);LINE;
+	mylist.sort(compare_nocase);
+	PRINT_LIST(std::list<std::string>, mylist);
+}
+static void ft_sort()
+{
+	ft::list<std::string> mylist;
+	ft::list<std::string>::iterator it;
+	mylist.push_back ("one");
+	mylist.push_back ("two");
+	mylist.push_back ("Three");	
+	mylist.sort();	
+	PRINT_LIST(ft::list<std::string>, mylist);LINE;
+	mylist.sort(compare_nocase);
+	PRINT_LIST(ft::list<std::string>, mylist);
+}
+static void std_reverse()
+{
+	std::list<int> mylist;	
+	for (int i=1; i<10; ++i) mylist.push_back(i);	
+	mylist.reverse();
+	PRINT_LIST(std::list<int>, mylist);
+}
+static void ft_reverse()
+{
+	ft::list<int> mylist;	
+	for (int i=1; i<10; ++i) mylist.push_back(i);	
+	mylist.reverse();
+	PRINT_LIST(ft::list<int>, mylist);
 }
 static void	Operations()
 {
 	//tester(std_splice, ft_splice, "slice");
 	//tester(std_remove, ft_remove, "remove");
 	//tester(std_remove_if, ft_remove_if, "remove_if");
-	tester(std_unique, ft_unique, "unique");
+	//tester(std_unique, ft_unique, "unique");
+	//tester(std_sort, ft_sort, "sort");
+	tester(std_reverse, ft_reverse, "reverse");
 }
 
 //	Non-member function overloads
