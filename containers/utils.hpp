@@ -37,6 +37,12 @@ bool is_equal(T &v1, T &v2)
 	return (v1 == v2);
 }
 
+template <typename T>
+bool is_less(T &v1, T &v2)
+{
+	return (v1 < v2);
+}
+
 template <class InputIterator1, class InputIterator2>
 bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
 								InputIterator2 first2, InputIterator2 last2)
@@ -56,6 +62,18 @@ void	template_swap(T &a, T &b)
 	T tmp(a);
 	a = b;
 	b = tmp;
+}
+
+template <typename T>
+void	swap_node(T &n1, T &n2)
+{
+	n1->next = n2->next;
+	n1->prev = n2;
+	n1->next->prev = n1;
+
+	n2->prev = n1->prev;
+	n2->next = n1;
+	n2->prev->next = n2;
 }
 
 template<typename value_type>

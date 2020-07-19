@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 13:00:27 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/19 14:43:06 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -465,6 +465,35 @@ public:
 			}
 			else
 				++it;
+		}
+	}
+	void sort()
+	{
+		sort(is_less<T>);
+	}
+	template <class Compare>
+	void sort(Compare comp)
+	{
+		int is_sort = 0;
+		while (!is_sort)
+		{
+			iterator it1 = begin();
+			iterator it2 = ++begin();
+			is_sort = 1;
+			while (it2 != end())
+			{
+				if (comp(*it2, *it1))//ou inverse
+				{
+					if (it1.as_node() == _head)
+						_head = it2.as_node();
+					swap_node(it1.as_node(), it2.as_node());
+					is_sort = 0;
+					swap(it1, it2);
+				}
+				++it1;
+				++it2;
+			}
+
 		}
 	}
 };
