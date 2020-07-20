@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 18:06:43 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:04:12 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** 	set _tail with value size_t;
-**
+**	const iterator
 */
 
 #ifndef LIST_HPP
@@ -415,6 +415,8 @@ public:
 	}
 	void splice(iterator position, list &x, iterator first, iterator last)
 	{
+		if (first == last)
+			return ;
 		if (position == _head)
 			_head = first.as_node();
 		if (first == x._head && &x != this)
@@ -467,9 +469,28 @@ public:
 				++it;
 		}
 	}
-	void merge (list& x);
+	void merge(list& x)
+	{
+		merge(x, is_less<T>);
+	}
 	template <class Compare>
-	void merge (list& x, Compare comp);
+	void merge(list& x, Compare comp)
+	{
+		if (&x == this)
+			return ;
+		iterator first_x = x.begin();
+		iterator last_x = x.begin();
+		for (iterator it = begin(); it != end(); ++it)
+		{
+			while (comp(*last_x, *it) && last_x != x.end())
+				last_x++;
+			splice (it, x, first_x, last_x);
+			first_x = last_x;
+			if (first_x == x.end())
+				break ;
+		}
+		splice (end(), x, first_x, x.end());
+	}
 	void sort()
 	{
 		sort(is_less<T>);
@@ -504,12 +525,14 @@ public:
 		iterator end = --this->end();
 		_head = end.as_node();
 		for (size_t i = 0; i < (_size / 2); ++i, ++begin, --end)
+		{
 			swap_node(begin.as_node(), end.as_node());
+			template_swap(begin, end);
+		}
 	}
 };
 
 //	Non-member function overloads
-
 template <class T, class Alloc>
 void swap(list<T,Alloc> &x, list<T,Alloc> &y)
 {

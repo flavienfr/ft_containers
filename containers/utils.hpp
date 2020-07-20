@@ -67,15 +67,33 @@ void	template_swap(T &a, T &b)
 template <typename T>
 void	swap_node(T *n1, T *n2)
 {
-	T *tmp = n1->prev;
+	if (n1->next == n2 && n2->prev == n1)
+	{
+		T *tmp = n1->prev;
 
-	n1->next = n2->next;
-	n1->prev = n2;
-	n1->next->prev = n1;
+		n1->next = n2->next;
+		n1->prev = n2;
+		n1->next->prev = n1;
 
-	n2->prev = tmp;
-	n2->next = n1;
-	n2->prev->next = n2;
+		n2->prev = tmp;
+		n2->next = n1;
+		n2->prev->next = n2;
+	}
+	else
+	{
+		T *tmp_prev = n1->prev;
+		T *tmp_next = n1->next;
+
+		n1->next = n2->next;
+		n1->prev = n2->prev;
+		n1->next->prev = n1;
+		n1->prev->next = n1;
+
+		n2->prev = tmp_prev;
+		n2->next = tmp_next;
+		n2->prev->next = n2;
+		n2->next->prev = n2;
+	}
 }
 
 template<typename value_type>

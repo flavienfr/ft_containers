@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/19 18:06:43 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/20 16:10:53 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 
 #define PRINT_SIZE(lst) std::cout << "Size= " << lst.size();
 #define PRINT_LIST(type, lst) for (type::iterator it = lst.begin(); it != lst.end(); ++it) std::cout <<*it<< " ";
+#define PRINT_LIST_CONST(type, lst) for (type::const_iterator it = lst.begin(); it != lst.end(); ++it) std::cout <<*it<< " ";
+#define PRINT_LIST_REVERSE(type, lst) for (type::reverse_iterator it = lst.rbegin(); it != lst.rend(); ++it) std::cout <<*it<< " ";
+#define PRINT_LIST_REVERSE_CONST(type, lst) for (type::const_reverse_iterator it = lst.rbegin(); it != lst.rend(); ++it) std::cout <<*it<< " ";
 #define PRINT(str, value) std::cout << str << ": " << value;
 #define LINE std::cout << std::endl;
 
@@ -401,7 +404,7 @@ static void	Modifiers()
 	tester(std_erase, ft_erase, "erase");
 	tester(std_swap, ft_swap, "swap");
 	tester(std_resize, ft_resize, "resize");
-}//test return insert and erase. aboort ici
+}
 
 //	Operations
 static void std_splice()
@@ -553,25 +556,79 @@ static void ft_sort()
 static void std_reverse()
 {
 	std::list<int> mylist;	
-	for (int i=1; i<4; ++i) mylist.push_back(i);	
+	for (int i=1; i<9; ++i) mylist.push_back(i);	
 	mylist.reverse();
-	PRINT_LIST(std::list<int>, mylist);
+	
+	//for (std::list<int>::const_iterator it = mylist.begin(); it != mylist.end(); ++it)
+	//	std::cout <<*it<< " ";
+	//LINE;
+	PRINT_LIST_CONST(std::list<int>, mylist);LINE;
+	PRINT_LIST_REVERSE(std::list<int>, mylist);
 }
 static void ft_reverse()
 {
 	ft::list<int> mylist;	
-	for (int i=1; i<4; ++i) mylist.push_back(i);
+	for (int i=1; i<9; ++i) mylist.push_back(i);
 	mylist.reverse();
-	PRINT_LIST(ft::list<int>, mylist);
+	//for (ft::list<int>::const_iterator it = mylist.begin(); it != mylist.end(); ++it)
+	//	std::cout <<*it<< " ";
+	//LINE;
+	PRINT_LIST(ft::list<int>, mylist);LINE;
+	PRINT_LIST_REVERSE(ft::list<int>, mylist);
+}
+bool mycomparison (double first, double second)
+{ return ( int(first)<int(second) ); }
+static void std_merge()
+{
+	std::list<double> first, second;	
+	first.push_back (3.1);
+	first.push_back (2.2);
+	first.push_back (2.9);	
+	second.push_back (3.7);
+	second.push_back (7.1);
+	second.push_back (1.4);	
+	first.sort();
+	second.sort();
+	PRINT_LIST(std::list<double>, first);LINE;
+	PRINT_LIST(std::list<double>, second);LINE;
+	first.merge(second);
+	PRINT_LIST(std::list<double>, first);LINE;
+	PRINT_LIST(std::list<double>, second);LINE;
+	second.push_back (2.1);	
+	first.merge(second, mycomparison);
+	PRINT_LIST(std::list<double>, first);LINE;
+	PRINT_LIST(std::list<double>, second);
+}
+static void ft_merge()
+{
+	ft::list<double> first, second;	
+	first.push_back (3.1);
+	first.push_back (2.2);
+	first.push_back (2.9);	
+	second.push_back (3.7);
+	second.push_back (7.1);
+	second.push_back (1.4);	
+	first.sort();
+	second.sort();
+	PRINT_LIST(ft::list<double>, first);LINE;
+	PRINT_LIST(ft::list<double>, second);LINE;
+	first.merge(second);
+	PRINT_LIST(ft::list<double>, first);LINE;
+	PRINT_LIST(ft::list<double>, second);LINE;
+	second.push_back (2.1);	
+	first.merge(second, mycomparison);
+	PRINT_LIST(ft::list<double>, first);LINE;
+	PRINT_LIST(ft::list<double>, second);
 }
 static void	Operations()
 {
-	//tester(std_splice, ft_splice, "slice");
-	//tester(std_remove, ft_remove, "remove");
-	//tester(std_remove_if, ft_remove_if, "remove_if");
-	//tester(std_unique, ft_unique, "unique");
-	//tester(std_sort, ft_sort, "sort");
+	tester(std_splice, ft_splice, "slice");
+	tester(std_remove, ft_remove, "remove");
+	tester(std_remove_if, ft_remove_if, "remove_if");
+	tester(std_unique, ft_unique, "unique");
+	tester(std_sort, ft_sort, "sort");
 	tester(std_reverse, ft_reverse, "reverse");
+	tester(std_merge, ft_merge, "merge");
 }
 
 //	Non-member function overloads
@@ -614,10 +671,10 @@ static void Non_member()
 
 void	list_test()
 {
-	//Iterators();
-	//Capacity();
-	//Element_access();
-	//Modifiers();
+	Iterators();
+	Capacity();
+	Element_access();
+	Modifiers();
 	Operations();
-	//Non_member();
+	Non_member();
 }
