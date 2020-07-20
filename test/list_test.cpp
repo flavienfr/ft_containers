@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/20 16:10:53 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/20 18:42:25 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,30 @@ static void	ft_begin_end()
 			std::cout << ' ' << *rit;	
 	}
 }
+static void std_const_iterator()
+{
+	std::list<double>lst;
+	lst.push_front(1);
+	lst.push_front(0);
+	lst.push_front(0);
+	lst.push_front(1);
+	PRINT_LIST_CONST(std::list<double>, lst);
+}
+static void ft_const_iterator()
+{
+	ft::list<double>lst;
+	lst.push_front(1);
+	lst.push_front(0);
+	lst.push_front(0);
+	lst.push_front(1);
+	//for (ft::list<double>::const_iterator it = lst.begin(); it != lst.end(); ++it)
+	//	std::cout <<*it<< " ";
+	//PRINT_LIST_CONST(ft::list<double>, lst);
+}
 static void	Iterators()
 {
 	tester(std_begin_end, ft_begin_end, "begin_end");
+	tester(std_const_iterator, ft_const_iterator, "const_iterator");
 }
 
 //	Capacity

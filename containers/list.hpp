@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/20 16:04:12 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/20 18:43:06 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ public:
 	typedef typename allocator_type::pointer				pointer;
 	typedef typename allocator_type::const_pointer			const_pointer;
 	typedef ListIt<value_type, _Node>						iterator;
-	typedef ListIt<const value_type, const _Node>			const_iterator;
+	typedef ListIt<const value_type, const _Node>						const_iterator;
 	typedef ReverseListIt<value_type, _Node>				reverse_iterator;
 	typedef ReverseListIt<const value_type, const _Node>	const_reverse_iterator;
 	typedef ptrdiff_t										difference_type;
@@ -474,7 +474,7 @@ public:
 		merge(x, is_less<T>);
 	}
 	template <class Compare>
-	void merge(list& x, Compare comp)
+	void merge(list &x, Compare comp)
 	{
 		if (&x == this)
 			return ;
