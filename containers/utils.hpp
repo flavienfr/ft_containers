@@ -16,8 +16,8 @@ struct pair
 
 	pair() : first(first()), seconde(seconde()) {};
 	template<class U, class V>
-	pair (const pair<U,V> &pr) : first(pr.first), seconde(pr.first) {};//pas sur
-	pair (const first_type &a, const second_type &b) : first(a), seconde(b) {};
+	pair(const pair<U,V> &pr) : first(pr.first), seconde(pr.first) {};//pas sur
+	pair(const first_type &a, const second_type &b) : first(a), seconde(b) {};
 };
 
 template <typename T>

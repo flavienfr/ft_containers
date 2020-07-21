@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/21 18:21:57 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 18:51:32 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,16 @@ public:
 	//typedef ReverseListIt<T, const T>					const_reverse_iterator;
 	typedef ptrdiff_t									difference_type;
 	typedef size_t										size_type;
+
+	explicit map(const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type());
+	template <class InputIterator>
+	map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(),
+	const allocator_type &alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator());	
+	map(const map &x);
+
+
 };
 
-}
+} // namespace
 
 #endif

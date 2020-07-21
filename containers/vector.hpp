@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/21 16:31:34 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 18:51:34 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ public:
 	//	Constructor Destructor Assignator
 	explicit vector(const allocator_type &alloc = allocator_type()); //default (1)
 	explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()); //fill (2)
-	vector(iterator first, iterator last, const allocator_type& alloc = allocator_type()); //range (3)
+	template <class InputIterator>
+	vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator()); //range (3)
 	vector(const vector &x); //copy (4)
 	vector &operator=(const vector &x);
 	~vector();
@@ -163,13 +164,15 @@ public:
 	const_reference	back() const;
 
 	//	Modifiers
-	void		assign(iterator first, iterator last);
+	template <class InputIterator>
+	void		assign(InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator());
 	void		assign(size_type n, const value_type& val);
 	void		push_back(const value_type& val);
 	void		pop_back();
 	iterator	insert(iterator position, const value_type& val);
     void		insert(iterator position, size_type n, const value_type& val);
-    void		insert(iterator position, iterator first, iterator last);
+	template <class InputIterator>
+    void		insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter = InputIterator());
 	iterator	erase(iterator position);
 	iterator	erase(iterator first, iterator last);
 	void		swap(vector& x);
@@ -192,7 +195,8 @@ _size(n), _capacity(n), _alloc(alloc)
 		_alloc.construct(_vector + i, val);
 }
 template <typename T, typename Alloc>	// range
-vector<T, Alloc>::vector(iterator first, iterator last, const allocator_type &alloc) : _alloc(alloc)
+template <class InputIterator>
+vector<T, Alloc>::vector(InputIterator first, InputIterator last, const allocator_type &alloc, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter) : _alloc(alloc)
 {
 	_size = last - first;//cast ??? 
 	_capacity = _size;
@@ -398,7 +402,8 @@ typename vector<T, Alloc>::const_reference	vector<T, Alloc>::back() const
 
 //	Modifiers
 template <typename T, typename Alloc>
-void								vector<T, Alloc>::assign(iterator first, iterator last)
+template <class InputIterator>
+void								vector<T, Alloc>::assign(InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter)
 {
 	size_type n = last - first;
 	for (size_type i = 0; i < _size; i++)
@@ -555,7 +560,8 @@ void 								vector<T, Alloc>::insert(iterator position, size_type n, const valu
 	_size += n;
 }
 template <typename T, typename Alloc>
-void 								vector<T, Alloc>::insert(iterator position, iterator first, iterator last)
+template <class InputIterator>
+void 								vector<T, Alloc>::insert(iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!is_integral<InputIterator>::value, InputIterator>::type isIter)
 {
 	size_t n = last - first;
 
