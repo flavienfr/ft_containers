@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/16 16:41:16 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 16:31:35 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 #define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity();
 #define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) std::cout <<vec[i]<< " ";
+#define PRINT_VECTOR_CONST(type, vec) for (type::const_iterator it = vec.begin(); it != vec.end(); ++it) std::cout <<*it<< " ";
+#define PRINT_VECTOR_REVERSE(type, vec) for (type::reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) std::cout <<*it<< " ";
+#define PRINT_VECTOR_REVERSE_CONST(type, vec) for (type::const_reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) std::cout <<*it<< " ";
 #define NEW_LINE std::cout << std::endl;
 
 
@@ -30,7 +33,7 @@ extern std::ofstream std_container;
 
 
 //	Constructor Destructor Assignator
-void	std_constructor()
+static void	std_constructor()
 {
 	{
 		std::vector<int>vect;  
@@ -68,7 +71,7 @@ void	std_constructor()
 			std::cout << vect2[i] << " ";
 	}
 }
-void	ft_constructor()
+static void	ft_constructor()
 {
 	{
 		ft::vector<int>vect;  
@@ -106,7 +109,7 @@ void	ft_constructor()
 			std::cout << vect2[i] << " ";
 	}
 }
-void	std_assignation()
+static void	std_assignation()
 {
 	{
 		std::vector<int> vec1;
@@ -151,7 +154,7 @@ void	std_assignation()
   		std::cout << "Size of bar: " << int(bar.size());
 	}
 }
-void	ft_assignation()
+static void	ft_assignation()
 {
 	{
 		ft::vector<int> vec1;
@@ -196,14 +199,14 @@ void	ft_assignation()
   		std::cout << "Size of bar: " << int(bar.size());
 	}
 }
-void	Constructor_Destructor_Assignator()
+static void	Constructor_Destructor_Assignator()
 {
 	tester(std_constructor, ft_constructor, "Constructor");
 	tester(std_assignation, ft_assignation, "assignation");
 }
 
 //	Capacity
-void	std_max_size()
+static void	std_max_size()
 {
 	std::vector<int>vec;
 	std::cout << vec.max_size() << std::endl;	
@@ -216,7 +219,7 @@ void	std_max_size()
 	//std::vector<bool>vec5;
 	//std::cout << vec5.max_size();
 }
-void	ft_max_size()
+static void	ft_max_size()
 {
 	ft::vector<int>vec;
 	std::cout << vec.max_size() << std::endl;	
@@ -229,7 +232,7 @@ void	ft_max_size()
 	//ft::vector<bool>vec5;
 	//std::cout << vec5.max_size();
 }
-void	std_resize()
+static void	std_resize()
 {
 	std::vector<int> myvector;
 
@@ -243,7 +246,7 @@ void	std_resize()
 		std::cout << ' ' << myvector[i];
 	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
 }
-void	ft_resize()
+static void	ft_resize()
 {
 	ft::vector<int> myvector;
 
@@ -257,7 +260,7 @@ void	ft_resize()
 		std::cout << ' ' << myvector[i];
 	std::cout << std::endl<< "size:"<< myvector.size()<< " capacity:" << myvector.capacity();
 }
-void	std_capacity()
+static void	std_capacity()
 {
 	{
 		std::vector<int> myvector(215);
@@ -274,7 +277,7 @@ void	std_capacity()
 		std::cout << "max_size: " << myvector.max_size() << '\n';
 	}
 }
-void	ft_capacity()
+static void	ft_capacity()
 {
 	{
 		std::vector<int> myvector(215);
@@ -291,7 +294,7 @@ void	ft_capacity()
 		std::cout << "max_size: " << myvector.max_size() << '\n';
 	}
 }
-void	std_empty()
+static void	std_empty()
 {
 	std::vector<int> myvector;
 	int sum (0);
@@ -303,7 +306,7 @@ void	std_empty()
 	}
 	std::cout << "total: " << sum;
 }
-void	ft_empty()
+static void	ft_empty()
 {
 	ft::vector<int> myvector;
 	int sum (0);
@@ -315,7 +318,7 @@ void	ft_empty()
 	}
 	std::cout << "total: " << sum;
 }
-void	std_reserve()
+static void	std_reserve()
 {
 	std::vector<int>::size_type sz;
 
@@ -360,7 +363,7 @@ void	std_reserve()
   		}
 	}
 }
-void	ft_reserve()
+static void	ft_reserve()
 {
 	ft::vector<int>::size_type sz;
 
@@ -405,7 +408,7 @@ void	ft_reserve()
   		}
 	}
 }
-void	Capacity()
+static void	Capacity()
 {
 	tester(std_max_size, ft_max_size, "max_size");
 	tester(std_capacity, ft_capacity, "capacity");
@@ -415,7 +418,7 @@ void	Capacity()
 }
 
 //	Element access
-void	std_operator_selection()
+static void	std_operator_selection()
 {
 	{
 		std::vector<int> myvector (10);
@@ -447,7 +450,7 @@ void	std_operator_selection()
 			std::cout << ' ' << myvector[i];
 	}
 }
-void	ft_operator_selection()
+static void	ft_operator_selection()
 {
 	{
 		ft::vector<int> myvector (10);
@@ -479,7 +482,7 @@ void	ft_operator_selection()
 			std::cout << ' ' << myvector[i];
 	}
 }
-void	std_at()
+static void	std_at()
 {
 	std::vector<int> myvector (10);   // 10 zero-initialized ints
 
@@ -498,7 +501,7 @@ void	std_at()
 		std::cout  << '\n' << e.what();
 	}
 }
-void	ft_at()
+static void	ft_at()
 {
 	ft::vector<int> myvector (10);   // 10 zero-initialized ints
 
@@ -517,7 +520,7 @@ void	ft_at()
 		std::cout  << '\n' << e.what();
 	}
 }
-void	std_font_back()
+static void	std_font_back()
 {
 	{
 		std::vector<int> myvector;
@@ -541,7 +544,7 @@ void	std_font_back()
 			std::cout << ' ' << myvector[i];
 	}
 }
-void	ft_font_back()
+static void	ft_font_back()
 {
 	{
 		ft::vector<int> myvector;
@@ -565,7 +568,7 @@ void	ft_font_back()
 			std::cout << ' ' << myvector[i];
 	}
 }
-void	Element_access()
+static void	Element_access()
 {
 	tester(std_operator_selection, ft_operator_selection, "operator_selection");
 	tester(std_at, ft_at, "at");
@@ -573,7 +576,7 @@ void	Element_access()
 }
 
 //	Iterators
-void	std_begin()
+static void	std_begin()
 {
 	{
 		std::vector<int> myvector;
@@ -594,7 +597,7 @@ void	std_begin()
 		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
 	}
 }
-void	ft_begin()
+static void	ft_begin()
 {
 	{
 		ft::vector<int> myvector;
@@ -615,13 +618,38 @@ void	ft_begin()
 		std::cout << *it  << " == "<< *it1 << " it == it1 " << (it == it1);
 	}
 }
-void	Iterators()
+static void	std_const_iterator_2()
+{
+	std::vector<double>vec;
+	vec.push_back(0);
+	vec.push_back(1);
+	vec.push_back(2);
+	vec.push_back(3);
+	PRINT_VECTOR_CONST(std::vector<double>, vec);NEW_LINE;
+	PRINT_VECTOR(vec);NEW_LINE;
+	PRINT_VECTOR_REVERSE_CONST(std::vector<double>, vec);NEW_LINE;
+	PRINT_VECTOR_REVERSE(std::vector<double>, vec);
+}
+static void	ft_const_iterator_2()
+{
+	ft::vector<double>vec;
+	vec.push_back(0);
+	vec.push_back(1);
+	vec.push_back(2);
+	vec.push_back(3);
+	PRINT_VECTOR_CONST(ft::vector<double>, vec);NEW_LINE;
+	PRINT_VECTOR(vec);NEW_LINE;
+	PRINT_VECTOR_REVERSE_CONST(ft::vector<double>, vec);NEW_LINE;
+	PRINT_VECTOR_REVERSE(ft::vector<double>, vec);
+}
+static void	Iterators()
 {
 	tester(std_begin, ft_begin, "begin");
+	tester(std_const_iterator_2, ft_const_iterator_2, "const_iterator_2");
 }
 
 //	ClassIterator
-void	std_construct_assign()
+static void	std_construct_assign()
 {
 	{
 		std::vector<int>vec;
@@ -636,7 +664,7 @@ void	std_construct_assign()
 		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
 	}
 }
-void	ft_construct_assign()
+static void	ft_construct_assign()
 {
 	{
 		ft::vector<int>vec;
@@ -651,7 +679,7 @@ void	ft_construct_assign()
 		std::cout << "it: " << *it << " it2: " << *it2 << " it3: " << *it3;
 	}
 }
-void	std_equivalent()
+static void	std_equivalent()
 {
 	std::vector<double>vec;
 	vec.push_back(15.6);
@@ -665,7 +693,7 @@ void	std_equivalent()
 	std::cout<< "it != it2: "<< (it != it2);
 
 }
-void	ft_equivalent()
+static void	ft_equivalent()
 {
 	ft::vector<double>vec;
 	vec.push_back(15.6);
@@ -679,7 +707,7 @@ void	ft_equivalent()
 	std::cout<< "it != it2: "<< (it != it2);
 
 }
-void	std_access()
+static void	std_access()
 {
 	std::vector<int>vecint;
 	vecint.push_back(15);
@@ -691,7 +719,7 @@ void	std_access()
 
 	std::cout << "it->: " << it->capacity();
 }
-void	ft_access()
+static void	ft_access()
 {
 	ft::vector<int>vecint;
 	vecint.push_back(15);
@@ -703,7 +731,7 @@ void	ft_access()
 
 	std::cout << "it->: " << it->capacity();
 }
-void	std_operator_increment_decrement()
+static void	std_operator_increment_decrement()
 {
 	{
 		std::vector<float>vec;
@@ -720,7 +748,7 @@ void	std_operator_increment_decrement()
 		std::cout << *--it << " ";
 	}
 }
-void	ft_operator_increment_decrement()
+static void	ft_operator_increment_decrement()
 {
 	{
 		ft::vector<float>vec;
@@ -737,7 +765,7 @@ void	ft_operator_increment_decrement()
 		std::cout << *--it << " ";
 	}
 }
-void	std_addition_soustraction()
+static void	std_addition_soustraction()
 {
 	std::vector<float>vec;
 	vec.push_back(10.3);
@@ -763,7 +791,7 @@ void	std_addition_soustraction()
 		std::cout << " it - it: " << it - it;
 	}
 }
-void	ft_addition_soustraction()
+static void	ft_addition_soustraction()
 {
 	ft::vector<float>vec;
 	vec.push_back(10.3);
@@ -789,7 +817,7 @@ void	ft_addition_soustraction()
 		std::cout << " it - it: " << it - it;
 	}
 }
-void	std_compare()
+static void	std_compare()
 {
 	std::vector<int>vec;
 	vec.push_back(1);
@@ -802,7 +830,7 @@ void	std_compare()
 	it2 = it2 - 1; 
 	std::cout<< "it <= it2= " << (it <= it2) << " it >= it2= " << (it >= it2);
 }
-void	ft_compare()
+static void	ft_compare()
 {
 	ft::vector<int>vec;
 	vec.push_back(1);
@@ -815,7 +843,7 @@ void	ft_compare()
 	it2 = it2 - 1; 
 	std::cout<< "it <= it2= " << (it <= it2) << " it >= it2= " << (it >= it2);
 }
-void	std_selector()
+static void	std_selector()
 {
 	std::vector<float>vec;
 	std::vector<float>::iterator it;
@@ -833,7 +861,7 @@ void	std_selector()
 		i++;
 	}
 }
-void	ft_selector()
+static void	ft_selector()
 {
 	ft::vector<float>vec;
 	ft::vector<float>::iterator it;
@@ -851,7 +879,7 @@ void	ft_selector()
 		i++;
 	}
 }
-void	std_const_iterator()
+static void	std_const_iterator()
 {
 	{
 		std::vector<std::string>vec;
@@ -890,7 +918,7 @@ void	std_const_iterator()
 		}
 	}
 }
-void	ft_const_iterator()
+static void	ft_const_iterator()
 {
 	{
 		ft::vector<std::string>vec;
@@ -928,7 +956,7 @@ void	ft_const_iterator()
 		}
 	}
 }
-void	std_reverse_iterator()
+static void	std_reverse_iterator()
 {
   	std::vector<int> myvector (5);  // 5 default-constructed ints
 
@@ -941,7 +969,7 @@ void	std_reverse_iterator()
   	for (std::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
   		std::cout << ' ' << *it;
 }
-void	ft_reverse_iterator()
+static void	ft_reverse_iterator()
 {
   	ft::vector<int> myvector (5);  // 5 default-constructed ints
 
@@ -954,7 +982,7 @@ void	ft_reverse_iterator()
   	for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
   		std::cout << ' ' << *it;
 }
-void	ClassIterator()
+static void	ClassIterator()
 {
 	tester(std_construct_assign, ft_construct_assign, "construct_assign");
 	tester(std_equivalent, ft_equivalent, "equivalent");
@@ -968,7 +996,7 @@ void	ClassIterator()
 }
 
 //	Modifiers
-void	std_assign()
+static void	std_assign()
 {
 	std::vector<int> first;
 	std::vector<int> second;
@@ -992,7 +1020,7 @@ void	std_assign()
 	PRINT_VECTOR(second);
 	PRINT_VECTOR(third);
 }
-void	ft_assign()
+static void	ft_assign()
 {
 	ft::vector<int> first;
 	ft::vector<int> second;
@@ -1016,7 +1044,7 @@ void	ft_assign()
 	PRINT_VECTOR(second);
 	PRINT_VECTOR(third);
 }
-void	std_clear()
+static void	std_clear()
 {
 	std::vector<int> myvector;
 	myvector.push_back (100);
@@ -1047,7 +1075,7 @@ void	std_clear()
 	for (unsigned i=0; i<myvector.size(); i++)
 	  std::cout << ' ' << myvector[i];
 }
-void	ft_clear()
+static void	ft_clear()
 {
 	ft::vector<int> myvector;
 	myvector.push_back (100);
@@ -1078,7 +1106,7 @@ void	ft_clear()
 	for (unsigned i=0; i<myvector.size(); i++)
 	  std::cout << ' ' << myvector[i];
 }
-void	std_pop_back()
+static void	std_pop_back()
 {
 	std::vector<int> myvector;
 	int sum (0);
@@ -1095,7 +1123,7 @@ void	std_pop_back()
 	std::cout << "The elements of myvector add up to " << sum << std::endl;
 	std::cout << "myvector.empty(): " << myvector.empty() << " size " << myvector.size();
 }
-void	ft_pop_back()
+static void	ft_pop_back()
 {
 	ft::vector<int> myvector;
 	int sum (0);
@@ -1111,7 +1139,7 @@ void	ft_pop_back()
 	std::cout << "The elements of myvector add up to " << sum << std::endl;
 	std::cout << "myvector.empty(): " << myvector.empty() << " size " << myvector.size();
 }
-void	std_erase()
+static void	std_erase()
 {
 	{
 		std::vector<int> myvector;
@@ -1147,7 +1175,7 @@ void	std_erase()
 			std::cout << ' ' << myvector[i][0];
 	}
 }
-void	ft_erase()
+static void	ft_erase()
 {
 	{
 		ft::vector<int> myvector;
@@ -1183,7 +1211,7 @@ void	ft_erase()
 			std::cout << ' ' << myvector[i][0];
 	}
 }
-void	std_insert()
+static void	std_insert()
 {
 	{
 		std::vector<int>vec(4);
@@ -1227,7 +1255,7 @@ void	std_insert()
   		PRINT_VECTOR(myvector);
 	}
 }
-void	ft_insert()
+static void	ft_insert()
 {
 	{
 		ft::vector<int>vec(4);
@@ -1272,7 +1300,7 @@ void	ft_insert()
 
 	}
 }
-void	std_swap()
+static void	std_swap()
 {
 	{
 		std::vector<int> foo (3,100);   // three ints with a value of 100
@@ -1311,7 +1339,7 @@ void	std_swap()
 		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
 	}*/
 }
-void	ft_swap()
+static void	ft_swap()
 {
 	{
 		ft::vector<int> foo (3,100);   // three ints with a value of 100
@@ -1351,7 +1379,7 @@ void	ft_swap()
 	}*/
 }
 
-void	Modifiers()
+static void	Modifiers()
 {
 	tester(std_assign, ft_assign, "assign");
 	tester(std_clear, ft_clear, "clear");
@@ -1362,7 +1390,7 @@ void	Modifiers()
 }
 
 //	Non_member
-void	std_swap2()
+static void	std_swap2()
 {
 	std::vector<int> foo (3,100);   // three ints with a value of 100
 	std::vector<int> bar (5,200);   // five ints with a value of 200
@@ -1399,7 +1427,7 @@ void	std_swap2()
 		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
 	}*/
 }
-void	ft_swap2()
+static void	ft_swap2()
 {
 	ft::vector<int> foo (3,100);   // three ints with a value of 100
 	ft::vector<int> bar (5,200);   // five ints with a value of 200
@@ -1436,7 +1464,7 @@ void	ft_swap2()
 		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
 	}*/
 }
-void	std_relational_operators()
+static void	std_relational_operators()
 {
 	std::vector<int> foo (2,100);   // three ints with a value of 10
 	std::vector<int> bar (4,100);   // two ints with a value of 200
@@ -1448,7 +1476,7 @@ void	std_relational_operators()
 	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 }
-void	ft_relational_operators()
+static void	ft_relational_operators()
 {
 	ft::vector<int> foo (2,100);   // three ints with a value of 10
 	ft::vector<int> bar (4,100);   // two ints with a value of 200
@@ -1460,7 +1488,7 @@ void	ft_relational_operators()
 	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
 	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
 }
-void	Non_member()
+static void	Non_member()
 {
 	tester(std_swap2, ft_swap2, "swap2");
 	tester(std_relational_operators, ft_relational_operators, "relational_operators");
@@ -1476,8 +1504,3 @@ void vector_test()
 	Modifiers();
 	Non_member();
 }
-
-/*
-ID test:
-- template au lieu de deux fonction casi identique
-*/

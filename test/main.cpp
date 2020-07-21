@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 12:46:16 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/18 20:59:39 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 15:46:34 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int main(int ac, char **av)
 	if (ac == 2)
 		output_stream = atoi(av[1]);
 
-	//vector_test();
-	list_test();
+	vector_test();
+	//list_test();
 	
 	return (0);
 }
