@@ -1,64 +1,24 @@
 #ifndef UTILIS_HPP
 # define UTILIS_HPP
 
+#include <functional>
+
 namespace ft {
 
-template <typename T>
-struct Node
+template< class T1, class T2 >
+struct pair
 {
-	T		value;
-	Node	*prev;
-	Node	*next;
+	typedef T1 first_type;
+	typedef T2 second_type;
 
-	Node() : value(T()), prev(NULL), next(NULL) {};
-	Node(const T &value) : value(value), prev(NULL), next(NULL) {};
-	Node(const T &value, Node *prev, Node *next) : value(value), prev(prev), next(next) {};
+	first_type	first;
+	second_type	seconde;
+
+	pair() : first(first()), seconde(seconde()) {};
+	template<class U, class V>
+	pair (const pair<U,V> &pr) : first(pr.first), seconde(pr.first) {};//pas sur
+	pair (const first_type &a, const second_type &b) : first(a), seconde(b) {};
 };
-
-template <class InputIterator1, class InputIterator2>
-bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
-{
-	while (first1!=last1)
-	{
-		if (!(*first1 == *first2))
-		  return false;
-		++first1; ++first2;
-	}
-	return true;
-}
-
-template <typename T>
-bool is_equal(T &v1, T &v2)
-{
-	return (v1 == v2);
-}
-
-template <typename T>
-bool is_less(T &v1, T &v2)
-{
-	return (v1 < v2);
-}
-
-template <class InputIterator1, class InputIterator2>
-bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
-								InputIterator2 first2, InputIterator2 last2)
-{
-	while (first1!=last1)
-	{
-		if (first2==last2 || *first2<*first1) return false;
-		else if (*first1<*first2) return true;
-		++first1; ++first2;
-	}
-	return (first2!=last2);
-}
-
-template <typename T>
-void	template_swap(T &a, T &b)
-{
-	T tmp(a);
-	a = b;
-	b = tmp;
-}
 
 template <typename T>
 void	swap_node(T *n1, T *n2)
@@ -90,6 +50,61 @@ void	swap_node(T *n1, T *n2)
 		n2->prev->next = n2;
 		n2->next->prev = n2;
 	}
+}
+
+template <typename T>
+struct Node
+{
+	T		value;
+	Node	*prev;
+	Node	*next;
+
+	Node() : value(T()), prev(NULL), next(NULL) {};
+	Node(const T &value) : value(value), prev(NULL), next(NULL) {};
+	Node(const T &value, Node *prev, Node *next) : value(value), prev(prev), next(next) {};
+};
+
+template <class InputIterator1, class InputIterator2>
+bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+{
+	while (first1!=last1)
+	{
+		if (!(*first1 == *first2))
+		  return false;
+		++first1; ++first2;
+	}
+	return true;
+}
+
+template <class T> struct equal_to : std::binary_function <T,T,bool>
+{
+	bool operator() (const T& x, const T& y) const {return x==y;}
+};
+
+template <class T> struct less : std::binary_function<T,T,bool>	// keep or delete functinal ?
+{
+	bool operator() (const T& x, const T& y) const {return x<y;}
+};
+
+template <class InputIterator1, class InputIterator2>
+bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+								InputIterator2 first2, InputIterator2 last2)
+{
+	while (first1!=last1)
+	{
+		if (first2==last2 || *first2<*first1) return false;
+		else if (*first1<*first2) return true;
+		++first1; ++first2;
+	}
+	return (first2!=last2);
+}
+
+template <typename T>
+void	template_swap(T &a, T &b)
+{
+	T tmp(a);
+	a = b;
+	b = tmp;
 }
 
 template<typename value_type>

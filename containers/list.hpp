@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/21 15:39:39 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 18:21:58 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@
 # define LIST_HPP
 
 # include <memory>			// allocator
-//# include <stdexcept>		// exeption throw
 # include <iostream>		// std::cout debug
-//# include <limits>		// limits
 # include "utils.hpp"		// node
 # include "iterators.hpp"	// iterators
 
@@ -438,7 +436,7 @@ public:
 	}
 	void unique()
 	{
-		unique(is_equal<T>);
+		unique(equal_to<T>());
 	}
 	template <class BinaryPredicate>
 	void unique(BinaryPredicate binary_pred)
@@ -459,7 +457,7 @@ public:
 	}
 	void merge(list& x)
 	{
-		merge(x, is_less<T>);
+		merge(x, less<T>());
 	}
 	template <class Compare>
 	void merge(list &x, Compare comp)
@@ -481,7 +479,7 @@ public:
 	}
 	void sort()
 	{
-		sort(is_less<T>);
+		sort(less<T>());
 	}
 	template <class Compare>
 	void sort(Compare comp)
