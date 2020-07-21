@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 18:52:33 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/20 18:54:38 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 15:05:25 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,29 @@
 # define ITERATORS_HPP
 
 # include <memory>		// ptrdiff_t
+# include "utils.hpp"
 
-template <typename T, typename N>
-class BaseListIt
+namespace ft {
+
+/* list container iterator */
+template <typename T>
+class ListBaseIt
 {
-public:
-	typedef T				value_type;
-	typedef ptrdiff_t		difference_type;
-	typedef T *				pointer;
-	typedef T &				reference;
-protected:
-	N	*_ptr;
-public:
-	BaseListIt() : _ptr(NULL) { };
-	BaseListIt(N *ptr) : _ptr(ptr) { };
-	BaseListIt(const BaseListIt &it) : _ptr(it._ptr) { };
-	BaseListIt &operator=(const BaseListIt &it) { _ptr = it._ptr; return (*this); };
-	virtual ~BaseListIt() { };
+private:
+	ListBaseIt();
 
-	N *as_node() { return (_ptr); };
+protected:
+	Node<T> *_ptr;
+
+public:
+	ListBaseIt(Node<T> *ptr) : _ptr(ptr){};
+	virtual ~ListBaseIt(){};
+	Node<T> *as_node() const { return _ptr; };//why const 
+
+	bool operator==(const ListBaseIt &rhs) { return (_ptr == rhs._ptr); };
+	bool operator!=(const ListBaseIt &rhs) { return (_ptr != rhs._ptr); };
 };
+
+}
 
 #endif

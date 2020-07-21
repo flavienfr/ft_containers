@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/20 18:42:25 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 15:39:40 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,26 @@ static void	ft_begin_end()
 static void std_const_iterator()
 {
 	std::list<double>lst;
-	lst.push_front(1);
-	lst.push_front(0);
 	lst.push_front(0);
 	lst.push_front(1);
-	PRINT_LIST_CONST(std::list<double>, lst);
+	lst.push_front(2);
+	lst.push_front(3);
+	PRINT_LIST_CONST(std::list<double>, lst);LINE;
+	PRINT_LIST(std::list<double>, lst);LINE;
+	PRINT_LIST_REVERSE_CONST(std::list<double>, lst);LINE;
+	PRINT_LIST_REVERSE(std::list<double>, lst);
 }
 static void ft_const_iterator()
 {
 	ft::list<double>lst;
-	lst.push_front(1);
-	lst.push_front(0);
 	lst.push_front(0);
 	lst.push_front(1);
-	//for (ft::list<double>::const_iterator it = lst.begin(); it != lst.end(); ++it)
-	//	std::cout <<*it<< " ";
-	//PRINT_LIST_CONST(ft::list<double>, lst);
+	lst.push_front(2);
+	lst.push_front(3);
+	PRINT_LIST_CONST(ft::list<double>, lst);LINE;
+	PRINT_LIST(ft::list<double>, lst);LINE;
+	PRINT_LIST_REVERSE_CONST(ft::list<double>, lst);LINE;
+	PRINT_LIST_REVERSE(ft::list<double>, lst);
 }
 static void	Iterators()
 {

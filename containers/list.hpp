@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/20 18:43:06 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/21 15:39:39 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,96 +20,83 @@
 #ifndef LIST_HPP
 # define LIST_HPP
 
-# include <memory>		// allocator
-//# include <stdexcept>	// exeption throw
-# include <iostream>	// std::cout debug
-//# include <limits>	// limits
-# include "utils.hpp"	// node
+# include <memory>			// allocator
+//# include <stdexcept>		// exeption throw
+# include <iostream>		// std::cout debug
+//# include <limits>		// limits
+# include "utils.hpp"		// node
+# include "iterators.hpp"	// iterators
 
 
 namespace ft {
 
-template <typename T, typename N>
-class ListIt
+template <typename T, typename CT>
+class ListIt : public ListBaseIt<T>
 {
 public:
-	typedef T				value_type;
-	typedef ptrdiff_t		difference_type;
-	typedef T *				pointer;
-	typedef T &				reference;
-private:
-	N	*_ptr;
-public:
-	ListIt() : _ptr(NULL) { };
-	ListIt(N *ptr) : _ptr(ptr) { };
-	ListIt(const ListIt &it) : _ptr(it._ptr) { };
-	ListIt &operator=(const ListIt &it) { _ptr = it._ptr; return (*this); };
-	~ListIt() { };
+	typedef T			value_type;
+	typedef ptrdiff_t	difference_type;
+	typedef CT *		pointer;
+	typedef CT &		reference;
 
-	friend bool operator==(const ListIt &lhs, const ListIt &rhs) { return (lhs._ptr == rhs._ptr); };
-	friend bool operator!=(const ListIt &lhs, const ListIt &rhs) { return (lhs._ptr != rhs._ptr); };
+	ListIt() : ListBaseIt<T>(NULL) { };
+	ListIt(Node<T> *ptr) : ListBaseIt<T>(ptr) { };
+	ListIt(const ListBaseIt<T> &it) : ListBaseIt<T>(it.as_node()) { };
+	ListIt &operator=(const ListIt &it) { this->_ptr = it._ptr; return (*this); };
+	virtual ~ListIt() { };
 
-	reference operator*() { return (_ptr->value); };
-	pointer operator->() { return (&_ptr->value); };
+	reference operator*() { return (this->_ptr->value); };
+	pointer operator->() { return (&this->_ptr->value); };
 
-	ListIt &operator++() { _ptr = _ptr->next; return (*this); };
-	ListIt operator++(int) { ListIt tmp = *this; _ptr = _ptr->next; return (tmp);};
+	ListIt &operator++() { this->_ptr = this->_ptr->next; return (*this); };
+	ListIt operator++(int) { ListIt tmp = *this; this->_ptr = this->_ptr->next; return (tmp);};
 
-	ListIt &operator--() { _ptr = _ptr->prev; return (*this); };
-	ListIt operator--(int) { ListIt tmp = *this; _ptr = _ptr->prev; return (tmp); };
-
-	N *as_node() { return (_ptr); };
+	ListIt &operator--() { this->_ptr = this->_ptr->prev; return (*this); };
+	ListIt operator--(int) { ListIt tmp = *this; this->_ptr = this->_ptr->prev; return (tmp); };
 };
 
-template <typename T, typename N>
-class ReverseListIt
+template <typename T, typename CT>
+class ReverseListIt : public ListBaseIt<T>
 {
 public:
 	typedef T				value_type;
 	typedef ptrdiff_t		difference_type;
-	typedef T *				pointer;
-	typedef T &				reference;
-private:
-	N	*_ptr;
-public:
-	ReverseListIt() : _ptr(NULL) { };
-	ReverseListIt(N *ptr) : _ptr(ptr) { };
-	ReverseListIt(const ReverseListIt &it) : _ptr(it._ptr) { };
-	ReverseListIt &operator=(const ReverseListIt &it) { _ptr = it._ptr; return (*this); };
-	~ReverseListIt() { };
+	typedef CT *			pointer;
+	typedef CT &			reference;
 
-	friend bool operator==(const ReverseListIt &lhs, const ReverseListIt &rhs) { return (lhs._ptr == rhs._ptr); };
-	friend bool operator!=(const ReverseListIt &lhs, const ReverseListIt &rhs) { return (lhs._ptr != rhs._ptr); };
+	ReverseListIt() : ListBaseIt<T>(NULL) { };
+	ReverseListIt(Node<T> *ptr) : ListBaseIt<T>(ptr) { };
+	ReverseListIt(const ListBaseIt<T> &it) : ListBaseIt<T>(it.as_node()) { };
+	ReverseListIt &operator=(const ReverseListIt &it) { this->_ptr = it._ptr; return (*this); };
+	virtual ~ReverseListIt() { };
 
-	reference operator*() { return (_ptr->value); };
-	pointer operator->() { return (&_ptr->value); };
+	reference operator*() { return (this->_ptr->value); };
+	pointer operator->() { return (&this->_ptr->value); };
 
-	ReverseListIt &operator++() { _ptr = _ptr->prev; return (*this); };
-	ReverseListIt operator++(int) {	ReverseListIt tmp = *this; _ptr = _ptr->prev; return (tmp);};
+	ReverseListIt &operator++() { this->_ptr = this->_ptr->prev; return (*this); };
+	ReverseListIt operator++(int) {	ReverseListIt tmp = *this; this->_ptr = this->_ptr->prev; return (tmp);};
 
-	ReverseListIt &operator--() { _ptr = _ptr->next; return (*this); };
-	ReverseListIt operator--(int) {	ReverseListIt tmp = *this; _ptr = _ptr->next; return (tmp); };
-
-	N *as_node() { return (_ptr); };
+	ReverseListIt &operator--() { this->_ptr = this->_ptr->next; return (*this); };
+	ReverseListIt operator--(int) {	ReverseListIt tmp = *this; this->_ptr = this->_ptr->next; return (tmp); };
 };
 
 template < typename T, typename Alloc = std::allocator<T> >
 class list
 {
 public:
-	typedef T												value_type;
-	typedef Node<value_type>								_Node;
-	typedef Alloc											allocator_type;
-	typedef typename allocator_type::reference				reference;
-	typedef typename allocator_type::const_reference		const_reference;
-	typedef typename allocator_type::pointer				pointer;
-	typedef typename allocator_type::const_pointer			const_pointer;
-	typedef ListIt<value_type, _Node>						iterator;
-	typedef ListIt<const value_type, const _Node>						const_iterator;
-	typedef ReverseListIt<value_type, _Node>				reverse_iterator;
-	typedef ReverseListIt<const value_type, const _Node>	const_reverse_iterator;
-	typedef ptrdiff_t										difference_type;
-	typedef size_t											size_type;
+	typedef T											value_type;
+	typedef Node<value_type>							_Node;
+	typedef Alloc										allocator_type;
+	typedef typename allocator_type::reference			reference;
+	typedef typename allocator_type::const_reference	const_reference;
+	typedef typename allocator_type::pointer			pointer;
+	typedef typename allocator_type::const_pointer		const_pointer;
+	typedef ListIt<T, T>								iterator;
+	typedef ListIt<T, const T>							const_iterator;
+	typedef ReverseListIt<T, T>							reverse_iterator;
+	typedef ReverseListIt<T, const T>					const_reverse_iterator;
+	typedef ptrdiff_t									difference_type;
+	typedef size_t										size_type;
 
 private:
 	_Node						*_head;
@@ -152,6 +139,7 @@ private:
 		n1->next = n2;
 		n2->prev = n1;
 	}
+
 public:
 	//	Constructor Destructor Assignator
 	explicit list(const allocator_type &alloc = allocator_type()) :
