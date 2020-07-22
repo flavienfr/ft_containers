@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/21 18:51:36 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/22 19:38:35 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,6 @@ private:
 	{
 		_head = create_node();
 		_tail = _head;
-		_tail->next =_head;//maybe useless
-		_tail->prev =_head;//maybe useless
-		_head->next = _tail;//maybe useless
-		_head->prev = _tail;//maybe useless
 	}
 	void	link(_Node *n1, _Node *n2)
 	{
@@ -159,7 +155,7 @@ public:
 		(void)isIter;
 		init_list();
 		for (InputIterator it = first; it != last; ++it)
-			push_back(*it);//test withi *it
+			push_back(*it);//insrt is better
 	}
 	list(const list& x)
 	{
@@ -167,7 +163,7 @@ public:
 		_size = x._size;
 		init_list();
 		for (iterator it = x.begin(); it != x.end(); ++it)
-			push_back(*it);//test withi *it
+			push_back(*it);//insrt is better
 	}
 	list& operator= (const list& x)
 	{

@@ -8,10 +8,13 @@
 #include <list>
 #include "vector.hpp"
 #include <vector>
+#include "map.hpp"
+#include <map>
 
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text);
 
 void	vector_test();
 void	list_test();
+void	map_test();
 
 #endif

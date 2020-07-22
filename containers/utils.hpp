@@ -5,7 +5,7 @@
 
 namespace ft {
 
-template< class T1, class T2 >
+template < class T1, class T2 >
 struct pair
 {
 	typedef T1 first_type;
@@ -18,7 +18,39 @@ struct pair
 	template<class U, class V>
 	pair(const pair<U,V> &pr) : first(pr.first), seconde(pr.first) {};//pas sur
 	pair(const first_type &a, const second_type &b) : first(a), seconde(b) {};
+	pair& operator= (const pair& pr)
+	{
+		first = pr.first;
+		seconde = pr.seconde;
+	};
 };
+
+template <typename T>
+struct BST_node
+{
+	T			value;
+	BST_node	*parent;
+	BST_node	*left;
+	BST_node	*right;
+
+	BST_node() : value(value()), parent(NULL), left(NULL), right(NULL)  {}
+	BST_node(const T &value) : value(value), parent(NULL), left(NULL), right(NULL) {}
+	BST_node(const T &value, const BST_node *parent, const BST_node *left, const BST_node *right) :
+	value(value), parent(NULL), left(left), right(right) {}
+};
+
+template <typename T>
+struct Node
+{
+	T		value;
+	Node	*prev;
+	Node	*next;
+
+	Node() : value(T()), prev(NULL), next(NULL) {};
+	Node(const T &value) : value(value), prev(NULL), next(NULL) {};
+	Node(const T &value, Node *prev, Node *next) : value(value), prev(prev), next(next) {};
+};
+
 
 template <typename T>
 void	swap_node(T *n1, T *n2)
@@ -51,18 +83,6 @@ void	swap_node(T *n1, T *n2)
 		n2->next->prev = n2;
 	}
 }
-
-template <typename T>
-struct Node
-{
-	T		value;
-	Node	*prev;
-	Node	*next;
-
-	Node() : value(T()), prev(NULL), next(NULL) {};
-	Node(const T &value) : value(value), prev(NULL), next(NULL) {};
-	Node(const T &value, Node *prev, Node *next) : value(value), prev(prev), next(next) {};
-};
 
 template <class InputIterator1, class InputIterator2>
 bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/21 18:51:41 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/22 12:42:07 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,12 @@
 
 #include "main.hpp"
 
-#include "vector.hpp"
-#include <vector>
-
 #define PRINT_SIZE_CAPACITY(vec) std::cout << "Size= " << vec.size() << " Capacity= " << vec.capacity();
 #define PRINT_VECTOR(vec) for (size_t i = 0; i < vec.size(); ++i) std::cout <<vec[i]<< " ";
 #define PRINT_VECTOR_CONST(type, vec) for (type::const_iterator it = vec.begin(); it != vec.end(); ++it) std::cout <<*it<< " ";
 #define PRINT_VECTOR_REVERSE(type, vec) for (type::reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) std::cout <<*it<< " ";
 #define PRINT_VECTOR_REVERSE_CONST(type, vec) for (type::const_reverse_iterator it = vec.rbegin(); it != vec.rend(); ++it) std::cout <<*it<< " ";
 #define NEW_LINE std::cout << std::endl;
-
-
-extern bool output_stream;
-extern std::ofstream ft_container;
-extern std::ofstream std_container;
-
 
 //	Constructor Destructor Assignator
 static void	std_constructor()
