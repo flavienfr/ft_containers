@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/23 15:40:59 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/23 16:33:41 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,32 @@ public:
 
 	MapIt &operator++()
 	{
-		if (this->_ptr->parent == NULL)
-			return (iterator(this->_ptr));
-		if (this->_ptr->right == NULL)
-			return (iterator(this->_ptr));
-		
-		//this->_ptr = this->_ptr->next; return (*this); 
+		BST_node<T> *prev = NULL;
+		while (this->_ptr->parent != NULL)
+		{
+			if (this->_ptr->right != prev)
+				return (iterator(this->_ptr->right));
+			prev = this->_ptr;
+			this->_ptr = this->_ptr->parent;
+		}
+		return (iterator(this->_ptr));
 	}
-	MapIt operator++(int) { MapIt tmp = *this; this->_ptr = this->_ptr->next; return (tmp);};
-
-	MapIt &operator--() { this->_ptr = this->_ptr->prev; return (*this); };
-	MapIt operator--(int) { MapIt tmp = *this; this->_ptr = this->_ptr->prev; return (tmp); };
+	MapIt operator++(int)
+	{ MapIt tmp = *this; ++this->_ptr; return (tmp);};
+	MapIt &operator--()
+	{
+		BST_node<T> *prev = NULL;
+		while (this->_ptr->parent != NULL)
+		{
+			if (this->_ptr->left != prev)
+				return (iterator(this->_ptr->left));
+			prev = this->_ptr;
+			this->_ptr = this->_ptr->parent;
+		}
+		return (iterator(this->_ptr));
+	}
+	MapIt operator--(int)
+	{ MapIt tmp = *this; --this->_ptr; return (tmp); }
 };
 
 template < class Key,											// map::key_type
@@ -139,15 +154,27 @@ public:
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
-		insert(_head, val);
+		return (my_insert(_head, val));//-head isssue icciicicicci
 	}
-	iterator insert(iterator position, const value_type &val)//create private function with input iterator
+	iterator insert(iterator position, const value_type &val)
+	{//define spcefic condition for empty map
+		return (my_insert(position, val).first);
+	}
+	template <class InputIterator>
+	void insert(InputIterator first, InputIterator last)
 	{
-		if (val->first < position->first)
+		for (InputIterator it = first; it != last; ++it)
+			my_insert(it, *it);
+	}
+private:
+	template <class InputIterator>
+	pair<iterator,bool> my_insert(InputIterator position, const value_type &val)
+	{
+				if (val->first < position->first)
 		{
 			iterator tmp = position;
 			if ((--position).first == NULL)
-				return (create_node(val, tmp.as_node()));
+				return (ft::pair<InputIterator, bool>(create_node(val, tmp.as_node()), true));
 			else
 				insert(position, val);
 		}
@@ -155,18 +182,13 @@ public:
 		{
 			iterator tmp = position;
 			if ((++position).first == NULL)
-				return (create_node(val, tmp.as_node()));
+				return (ft::pair<InputIterator, bool>(create_node(val, tmp.as_node()), true));
 			else
 				insert(position, val);
 		}
-		return (position);
+		return (ft::pair<InputIterator, bool>(position, false));
 	}
-	template <class InputIterator>
-	void insert(InputIterator first, InputIterator last)
-	{
-		for (InputIterator it = first; it != last; ++it)
-			insert(it, *it); //call the private function 
-	}
+public:
 
 };
 

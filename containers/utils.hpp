@@ -12,16 +12,16 @@ struct pair
 	typedef T2 second_type;
 
 	first_type	first;
-	second_type	seconde;
+	second_type	second;
 
-	pair() : first(first()), seconde(seconde()) {};
+	pair() : first(first()), second(second()) {};
 	template<class U, class V>
-	pair(const pair<U,V> &pr) : first(pr.first), seconde(pr.first) {};//pas sur
-	pair(const first_type &a, const second_type &b) : first(a), seconde(b) {};
+	pair(const pair<U,V> &pr) : first(pr.first), second(pr.first) {};//pas sur
+	pair(const first_type &a, const second_type &b) : first(a), second(b) {};
 	pair& operator= (const pair& pr)
 	{
 		first = pr.first;
-		seconde = pr.seconde;
+		second = pr.second;
 	};
 };
 
