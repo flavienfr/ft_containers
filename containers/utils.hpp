@@ -14,7 +14,7 @@ struct pair
 	first_type	first;
 	second_type	second;
 
-	pair() : first(first()), second(second()) {};
+	pair() : first(), second() {};
 	template<class U, class V>
 	pair(const pair<U,V> &pr) : first(pr.first), second(pr.first) {};//pas sur
 	pair(const first_type &a, const second_type &b) : first(a), second(b) {};
@@ -31,15 +31,15 @@ pair<T1,T2> make_pair(T1 x, T2 y)
 	return (pair<T1,T2>(x,y));
 }
 
-template <typename Key, typename T>
+template <typename T>
 struct BST_node
 {
-	pair<Key, T>	item;
-	BST_node		*parent;
-	BST_node		*left;
-	BST_node		*right;
+	T			item;
+	BST_node	*parent;
+	BST_node	*left;
+	BST_node	*right;
 
-	BST_node() : item(item()), parent(NULL), left(NULL), right(NULL)  {}
+	BST_node() : item(), parent(NULL), left(NULL), right(NULL)  {}
 	BST_node(const T &item, const BST_node *parent, const BST_node *left, const BST_node *right) :
 	item(item), parent(NULL), left(left), right(right) {}
 };

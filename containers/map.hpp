@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/23 18:52:07 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/23 19:06:11 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ private:
 	template <class InputIterator>
 	pair<iterator,bool> my_insert(InputIterator position, const value_type &val)
 	{
-		if (val->first < position->first)
+		if (val.first < position->first)
 		{
 			iterator tmp = position;
 			if ((--position).first == NULL)
@@ -180,7 +180,7 @@ private:
 			else
 				insert(position, val);
 		}
-		else if (val->first > val->first)
+		else if (val.first > position->first)
 		{
 			iterator tmp = position;
 			if ((++position).first == NULL)

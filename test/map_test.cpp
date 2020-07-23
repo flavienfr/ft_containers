@@ -30,9 +30,10 @@ static void std_insert()
 }
 static void ft_insert()
 {
-	ft::map<char,int> mymap;	
-	// first insert function version (single parameter):
-	//mymap.insert ( ft::pair<char,int>('a',100) );
+	ft::map<char,int> mymap;
+
+	//first insert function version (single parameter):
+	mymap.insert ( ft::pair<char,int>('a',100) );
 	//mymap.insert ( ft::pair<char,int>('z',200) );	
 /*	ft::pair<ft::map<char,int>::iterator,bool> ret;
 	ret = mymap.insert ( ft::pair<char,int>('z',500) );
