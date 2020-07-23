@@ -31,13 +31,13 @@ pair<T1,T2> make_pair(T1 x, T2 y)
 	return (pair<T1,T2>(x,y));
 }
 
-template <typename T>
+template <typename Key, typename T>
 struct BST_node
 {
-	T			item;
-	BST_node	*parent;
-	BST_node	*left;
-	BST_node	*right;
+	pair<Key, T>	item;
+	BST_node		*parent;
+	BST_node		*left;
+	BST_node		*right;
 
 	BST_node() : item(item()), parent(NULL), left(NULL), right(NULL)  {}
 	BST_node(const T &item, const BST_node *parent, const BST_node *left, const BST_node *right) :

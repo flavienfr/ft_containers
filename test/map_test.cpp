@@ -32,9 +32,9 @@ static void ft_insert()
 {
 	ft::map<char,int> mymap;	
 	// first insert function version (single parameter):
-	mymap.insert ( ft::pair<char,int>('a',100) );
-	mymap.insert ( ft::pair<char,int>('z',200) );	
-	ft::pair<ft::map<char,int>::iterator,bool> ret;
+	//mymap.insert ( ft::pair<char,int>('a',100) );
+	//mymap.insert ( ft::pair<char,int>('z',200) );	
+/*	ft::pair<ft::map<char,int>::iterator,bool> ret;
 	ret = mymap.insert ( ft::pair<char,int>('z',500) );
 	if (ret.second==false) {
 		std::cout << "element 'z' already existed";
@@ -53,7 +53,7 @@ static void ft_insert()
 		std::cout << it->first << " => " << it->second << '\n';	
 	std::cout << "anothermap contains:\n";
 	for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
+		std::cout << it->first << " => " << it->second << '\n';*/
 }
 static void	Modifiers()
 {
@@ -63,4 +63,17 @@ static void	Modifiers()
 void map_test()
 {
 	Modifiers();
+/*
+	std::map<int,int> mymap;
+	// first insert function version (single parameter):
+	mymap.insert ( std::pair<int,int>(1,100) );
+	mymap.insert ( std::pair<int,int>(0,200) );	
+
+	std::map<int,int>::iterator it = mymap.begin();
+
+	// showing contents:
+	std::cout << "mymap contains:\n";
+	for (it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';	
+*/
 }

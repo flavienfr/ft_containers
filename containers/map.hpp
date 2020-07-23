@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/23 16:33:41 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/23 18:52:07 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ public:
 private:
 	_Node			*_head;
 	_Node			*_tail;
-	key_compare 	*comp;
+	key_compare 	comp;
 	allocator_type	_alloc;
 	size_type		_size;
 
@@ -151,6 +151,8 @@ public:
 		insert(x._head, x._tail);///to dev
 	}
 
+	//	Iterators
+
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
@@ -170,7 +172,7 @@ private:
 	template <class InputIterator>
 	pair<iterator,bool> my_insert(InputIterator position, const value_type &val)
 	{
-				if (val->first < position->first)
+		if (val->first < position->first)
 		{
 			iterator tmp = position;
 			if ((--position).first == NULL)
