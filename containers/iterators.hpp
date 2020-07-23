@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 18:52:33 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/21 18:51:41 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/23 14:02:12 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,27 @@
 
 namespace ft {
 
-/* list container iterator */
+//	map container iterator
+template <typename T>
+class MapBaseIt
+{
+private:
+	MapBaseIt();
+
+protected:
+	BST_node<T> *_ptr;
+
+public:
+	MapBaseIt(BST_node<T> *ptr) : _ptr(ptr){};
+	virtual ~MapBaseIt(){};
+
+	BST_node<T> *as_node() const { return _ptr; };
+
+	bool operator==(const MapBaseIt &rhs) { return (_ptr == rhs._ptr); };
+	bool operator!=(const MapBaseIt &rhs) { return (_ptr != rhs._ptr); };
+};
+
+//	list container iterator
 template <typename T>
 class ListBaseIt
 {
@@ -38,6 +58,7 @@ public:
 	bool operator!=(const ListBaseIt &rhs) { return (_ptr != rhs._ptr); };
 };
 
+//	vector container iterator
 template <typename T>
 class VectBaseIt
 {

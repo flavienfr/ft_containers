@@ -25,18 +25,23 @@ struct pair
 	};
 };
 
+template <class T1, class T2>
+pair<T1,T2> make_pair(T1 x, T2 y)
+{
+	return (pair<T1,T2>(x,y));
+}
+
 template <typename T>
 struct BST_node
 {
-	T			value;
+	T			item;
 	BST_node	*parent;
 	BST_node	*left;
 	BST_node	*right;
 
-	BST_node() : value(value()), parent(NULL), left(NULL), right(NULL)  {}
-	BST_node(const T &value) : value(value), parent(NULL), left(NULL), right(NULL) {}
-	BST_node(const T &value, const BST_node *parent, const BST_node *left, const BST_node *right) :
-	value(value), parent(NULL), left(left), right(right) {}
+	BST_node() : item(item()), parent(NULL), left(NULL), right(NULL)  {}
+	BST_node(const T &item, const BST_node *parent, const BST_node *left, const BST_node *right) :
+	item(item), parent(NULL), left(left), right(right) {}
 };
 
 template <typename T>

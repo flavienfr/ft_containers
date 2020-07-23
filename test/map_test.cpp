@@ -2,29 +2,34 @@
 
 void map_test()
 {
-/*	  
-    // empty map container 
-    std::map<int, int> gquiz2; 
-  
-    // insert elements in random order
-    gquiz2.insert(std::pair<int, int>(5, 50));
-    gquiz2.insert(std::pair<int, int>(6, 40));
-    gquiz2.insert(std::pair<int, int>(7, 60));
+  std::map<char,int> mymap;
 
-	std::vector<int>vec(4, 42);
+  // first insert function version (single parameter):
+  mymap.insert ( std::pair<char,int>('b',100) );
+  mymap.insert ( std::pair<char,int>('z',200) );
 
-    std::map<int, int> gquiz1(vec.begin(), vec.end()); 
-	
-  
-    // printing map gquiz1 
-    std::map<int, int>::iterator itr; 
-    std::cout << "\nThe map gquiz1 is : \n"; 
-    std::cout << "\tKEY\tELEMENT\n";
-	itr = gquiz1.begin();
-    for (; itr != gquiz1.end(); ++itr) { 
-        std::cout << '\t' << itr->first 
-             << '\t' << itr->second << '\n'; 
-    } 
-    std::cout << std::endl;
-	*/
+  std::pair<std::map<char,int>::iterator,bool> ret;
+  ret = mymap.insert ( std::pair<char,int>('z',500) );
+  if (ret.second==false) {
+    std::cout << "element 'z' already existed";
+    std::cout << " with a value of " << ret.first->second << '\n';
+  }
+
+  // second insert function version (with hint position):
+  std::map<char,int>::iterator it = mymap.begin();
+  mymap.insert (it, std::pair<char,int>('c',300));  // max efficiency inserting
+  mymap.insert (it, std::pair<char,int>('a',400));  // no max efficiency inserting
+
+  // third insert function version (range insertion):
+  std::map<char,int> anothermap;
+  anothermap.insert(mymap.begin(),mymap.find('c'));
+
+  // showing contents:
+  std::cout << "mymap contains:\n";
+  for (it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+
+  std::cout << "anothermap contains:\n";
+  for (it=anothermap.begin(); it!=anothermap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
 }
