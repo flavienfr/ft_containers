@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/23 19:06:11 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/24 20:59:50 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 namespace ft {
 
-template <typename T, typename CT>// add compare
+template <typename T, typename CT>// add compare !
 class MapIt : public MapBaseIt<T>
 {
 public:
@@ -32,7 +32,7 @@ public:
 	typedef CT &		reference;
 
 	MapIt() : MapBaseIt<T>(NULL) { };
-	MapIt(Node<T> *ptr) : MapBaseIt<T>(ptr) { };
+	MapIt(BST_node<T> *ptr) : MapBaseIt<T>(ptr) { };
 	MapIt(const MapBaseIt<T> &it) : MapBaseIt<T>(it.as_node()) { };
 	MapIt &operator=(const MapIt &it) { this->_ptr = it._ptr; return (*this); };
 	virtual ~MapIt() { };
@@ -46,11 +46,14 @@ public:
 		while (this->_ptr->parent != NULL)
 		{
 			if (this->_ptr->right != prev)
-				return (iterator(this->_ptr->right));
+			{
+				this->_ptr = this->_ptr->right;
+				return (*this);
+			}
 			prev = this->_ptr;
 			this->_ptr = this->_ptr->parent;
 		}
-		return (iterator(this->_ptr));
+		return (*this);
 	}
 	MapIt operator++(int)
 	{ MapIt tmp = *this; ++this->_ptr; return (tmp);};
@@ -60,11 +63,14 @@ public:
 		while (this->_ptr->parent != NULL)
 		{
 			if (this->_ptr->left != prev)
-				return (iterator(this->_ptr->left));
+			{
+				this->_ptr = this->_ptr->left;
+				return (*this);
+			}
 			prev = this->_ptr;
 			this->_ptr = this->_ptr->parent;
 		}
-		return (iterator(this->_ptr));
+		return (*this);
 	}
 	MapIt operator--(int)
 	{ MapIt tmp = *this; --this->_ptr; return (tmp); }
@@ -88,7 +94,7 @@ public:
 	typedef typename allocator_type::const_reference	const_reference;
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
-	typedef MapIt<T, T>									iterator;
+	typedef MapIt<value_type, value_type>				iterator;
 	//typedef ListIt<T, const T>						const_iterator;
 	//typedef ReverseListIt<T, T>						reverse_iterator;
 	//typedef ReverseListIt<T, const T>					const_reverse_iterator;
@@ -104,13 +110,13 @@ private:
 
 	typedef typename Alloc::template rebind<_Node>::other node_alloc;
 //put that in BST_NODE
-	_Node	*create_node(const T &val, _Node *parent, _Node *left, _Node *right)
+	_Node	*create_node(const value_type &val, _Node *parent, _Node *left, _Node *right)
 	{
 		_Node *node = node_alloc(_alloc).allocate(1);
 		node_alloc(_alloc).construct(node, _Node(val, parent, left, right));
 		return (node);
 	}
-	_Node	*create_node(const T &val, _Node *parent)
+	_Node	*create_node(const value_type &val, _Node *parent)
 	{
 		_Node *node = node_alloc(_alloc).allocate(1);
 		node_alloc(_alloc).construct(node, _Node(val, parent, NULL, NULL));
@@ -124,10 +130,9 @@ private:
 	}
 	void	init_BST()
 	{
-		_head = create_node();
-		_tail = _head;
+		_tail = create_node();
+		_head = NULL;
 	}
-
 
 public:
 	//	Allocation
@@ -142,21 +147,24 @@ public:
 	comp(comp), _alloc(alloc), _size(0)
 	{
 		init_BST();
-		insert(first, last);///to dev
+		insert(first, last);
 	}
 	map(const map &x) :
 	comp(x.comp), _alloc(x._alloc), _size(x._size)
 	{
 		init_BST();
-		insert(x._head, x._tail);///to dev
+		insert(x._head, x._tail);
 	}
 
 	//	Iterators
+	iterator begin();
+	//const_iterator begin() const;
 
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
-		return (my_insert(_head, val));//-head isssue icciicicicci
+		iterator it  = iterator(_head);
+		return (my_insert(iterator(_head), val));//-head isssue icciicicicci
 	}
 	iterator insert(iterator position, const value_type &val)
 	{//define spcefic condition for empty map
@@ -166,29 +174,26 @@ public:
 	void insert(InputIterator first, InputIterator last)
 	{
 		for (InputIterator it = first; it != last; ++it)
-			my_insert(it, *it);
+			my_insert(iterator(_head), *it);
 	}
-private:
-	template <class InputIterator>
-	pair<iterator,bool> my_insert(InputIterator position, const value_type &val)
+private://put that in static in btree node
+	pair<iterator,bool> my_insert(iterator position, const value_type &val)
 	{
-		if (val.first < position->first)
+		if (val.first < position->first)//comp
 		{
-			iterator tmp = position;
-			if ((--position).first == NULL)
-				return (ft::pair<InputIterator, bool>(create_node(val, tmp.as_node()), true));
+			if (position.as_node()->left == NULL)
+				return (ft::pair<iterator, bool>(iterator(create_node(val, position.as_node())), true));
 			else
-				insert(position, val);
+				insert(--position, val);//--pos ou it(pos.node->left)
 		}
-		else if (val.first > position->first)
+		else if (val.first > position->first)//comp
 		{
-			iterator tmp = position;
-			if ((++position).first == NULL)
-				return (ft::pair<InputIterator, bool>(create_node(val, tmp.as_node()), true));
+			if (position.as_node()->right == NULL)
+				return (ft::pair<iterator, bool>(iterator(create_node(val, position.as_node())), true));
 			else
-				insert(position, val);
+				insert(--position, val);
 		}
-		return (ft::pair<InputIterator, bool>(position, false));
+		return (ft::pair<iterator, bool>(position, false));
 	}
 public:
 

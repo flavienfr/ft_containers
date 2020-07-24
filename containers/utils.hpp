@@ -18,10 +18,11 @@ struct pair
 	template<class U, class V>
 	pair(const pair<U,V> &pr) : first(pr.first), second(pr.first) {};//pas sur
 	pair(const first_type &a, const second_type &b) : first(a), second(b) {};
-	pair& operator= (const pair& pr)
+	pair &operator= (const pair& pr)
 	{
 		first = pr.first;
 		second = pr.second;
+		return (*this);
 	};
 };
 
@@ -40,7 +41,7 @@ struct BST_node
 	BST_node	*right;
 
 	BST_node() : item(), parent(NULL), left(NULL), right(NULL)  {}
-	BST_node(const T &item, const BST_node *parent, const BST_node *left, const BST_node *right) :
+	BST_node(const T &item, BST_node *parent, BST_node *left, BST_node *right) :
 	item(item), parent(NULL), left(left), right(right) {}
 };
 
