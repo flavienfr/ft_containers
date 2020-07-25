@@ -1,15 +1,12 @@
 #include "main.hpp"
 
-template<class map>
-void	print_map(map mymap)
-{
-	typename map::iterator it = mymap.begin();
-	while (it != mymap.end())
-	{
-		std::cout << it->first << " => " << it->second;
-		if (++it != mymap.end())
-			std::cout << '\n';
-	}
+//#define PRINT_MAP(type, c) for (typemame type::iterator it = c.begin(); it != c.end(); it++) { std::cout << "(" << it->first << ", " << it->second << ")"<< " ";} std::cout << std::endl;
+
+template <typename Map>
+void print_map(Map c)
+{//std::cout << "what its's going on here !" << c.begin()->first << "\n";
+	for (typename Map::iterator it = c.begin(); it != c.end(); it++)
+		std::cout << "(" << it->first << ", " << it->second << ")" << " ";
 }
 
 //	Modifiers
@@ -18,7 +15,14 @@ static void std_insert()
 	std::map<char,int> mymap;	
 	// first insert function version (single parameter):
 	mymap.insert ( std::pair<char,int>('a',100) );
-	mymap.insert ( std::pair<char,int>('z',200) );
+	mymap.insert ( std::pair<char,int>('v',58) );
+	mymap.insert ( std::pair<char,int>('d',190) );
+	//mymap.insert ( std::pair<char,int>('y',60) );
+	//mymap.insert ( std::pair<char,int>('g',300) );
+	//mymap.insert ( std::pair<char,int>('k',500) );
+	//mymap.insert ( std::pair<char,int>('z',200) );
+	//std::cout << mymap.begin()->first <<" => "<< mymap.begin()->second << std::endl;
+	//std::cout << (--mymap.end())->first <<" => "<< (--mymap.end())->second << std::endl;
 	print_map(mymap);
 
 /*	std::pair<std::map<char,int>::iterator,bool> ret;
@@ -48,8 +52,27 @@ static void ft_insert()
 
 	//first insert function version (single parameter):
 	mymap.insert ( ft::pair<char,int>('a',100) );
-	mymap.insert ( ft::pair<char,int>('z',200) );
-	print_map(mymap);
+	mymap.insert ( ft::pair<char,int>('v',58) );
+	mymap.insert ( ft::pair<char,int>('d',190) );
+	//mymap.insert ( ft::pair<char,int>('y',60) );
+	//mymap.insert ( ft::pair<char,int>('g',300) );
+	//mymap.insert ( ft::pair<char,int>('k',500) );
+	//mymap.insert ( ft::pair<char,int>('z',200) );
+	//std::cout << mymap.begin()->first <<" => "<< mymap.begin()->second << std::endl;
+	//std::cout << (--mymap.end())->first <<" => "<< (--mymap.end())->second << std::endl;
+	//print_map(mymap);
+
+	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); it++)
+		std::cout << "(" << it->first << ", " << it->second << ")" << " ";
+
+	//for (ft::map<char,int>::iterator it = mymap.rbegin(); it != mymap.end(); it++)
+	//	std::cout << "(" << it->first << ", " << it->second << ")" << " ";
+
+//=	for (ft::map<char,int>::iterator it = mymap.begin(); it != mymap.end(); ++it)
+//=	{
+//=		std::cout << it->first << " => " << it ->second << std::endl;
+//=	}
+
 //	ft::pair<ft::map<char,int>::iterator,bool> ret;
 //	ret = mymap.insert ( ft::pair<char,int>('z',500) );
 //	if (ret.second==false) {

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/25 13:10:44 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/25 18:28:05 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,38 @@ public:
 	reference operator*() { return (this->_ptr->item); };
 	pointer operator->() { return (&this->_ptr->item); };
 
-	MapIt &operator++()//metre tail dedans pour pour gain de temps
+	MapIt &operator++()//etablir une récursive
 	{
 		BST_node<T> *prev = NULL;
-		while (this->_ptr->parent != NULL)
+
+		while (!(this->_ptr->left == this->_ptr->parent && this->_ptr->left != NULL))
 		{
 			if (this->_ptr->right != prev)
 			{
-				this->_ptr = this->_ptr->right;
+				if (this->_ptr->left != NULL)
+					while (this->_ptr->left != NULL)
+						this->_ptr = this->_ptr->left;
+				else
+					this->_ptr = this->_ptr->right;
 				return (*this);
 			}
-			prev = this->_ptr;
-			this->_ptr = this->_ptr->parent;
+			else
+			{
+				prev = this->_ptr;
+				this->_ptr = this->_ptr->parent;
+				if (this->ptr->right != prev)
+					return (*this);
+			}
 		}
 		return (*this);
 	}
 	MapIt operator++(int)
-	{ MapIt tmp = *this; ++this->_ptr; return (tmp);};
+	{ MapIt tmp = *this; ++*this; return (tmp);};
 	MapIt &operator--()
 	{
 		BST_node<T> *prev = NULL;
-		while (this->_ptr->parent != NULL)
+
+		do
 		{
 			if (this->_ptr->left != prev)
 			{
@@ -69,11 +80,11 @@ public:
 			}
 			prev = this->_ptr;
 			this->_ptr = this->_ptr->parent;
-		}
+		} while (this->_ptr->parent != NULL);
 		return (*this);
 	}
 	MapIt operator--(int)
-	{ MapIt tmp = *this; --this->_ptr; return (tmp); }
+	{ MapIt tmp = *this; --*this; return (tmp);};
 };
 
 template < class Key,											// map::key_type
@@ -167,6 +178,8 @@ public:
 		return (iterator(_tail));
 	}
 	//const_iterator end() const;
+	//reverse_iterator rbegin();
+	//const_reverse_iterator rbegin() const;
 
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
@@ -188,17 +201,17 @@ private://put that in static in btree node
 	{
 		if (_size == 0)
 		{
-			_Node *node = create_node(val, NULL);
-			_head = node;
+			_head = create_node(val, NULL);//add tail
+			is_new_tail(_head);
 			_size++;
-			return (ft::pair<iterator, bool>(iterator(node), true));
+			return (ft::pair<iterator, bool>(iterator(_head), true));
 		}
-		if (val.first < position->first)//comp
+		else if (val.first < position->first)//comp
 		{
 			if (position.as_node()->left == NULL)
 			{
 				_Node *node = create_node(val, position.as_node());
-				is_new_tail_head(node);
+				is_new_tail(node);//impossible ?
 				_size++;
 				return (ft::pair<iterator, bool>(iterator(node), true));
 			}
@@ -207,10 +220,11 @@ private://put that in static in btree node
 		}
 		else if (val.first > position->first)//comp
 		{
-			if (position.as_node()->right == NULL)
+			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
 			{
 				_Node *node = create_node(val, position.as_node());
-				is_new_tail_head(node);
+				position.as_node()->right = node;
+				is_new_tail(node);
 				_size++;
 				return (ft::pair<iterator, bool>(iterator(node), true));
 			}
@@ -219,10 +233,15 @@ private://put that in static in btree node
 		}
 		return (ft::pair<iterator, bool>(position, false));
 	}
-	void	is_new_tail_head(_Node *node)
+	void	is_new_tail(_Node *node)
 	{
 		if (_tail->parent == NULL || _tail->parent->item.first < node->item.first) // comp
+		{
 			_tail->parent = node;
+			_tail->left = node;
+			_tail->right = _head;//mettre ici ?
+			node->right = _tail;
+		}
 	}
 public:
 
