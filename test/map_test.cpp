@@ -47,9 +47,9 @@ static void ft_insert()
 	ft::map<char,int> mymap;
 
 	//first insert function version (single parameter):
-	//mymap.insert ( ft::pair<char,int>('a',100) );
-	//mymap.insert ( ft::pair<char,int>('z',200) );
-	//print_map(mymap);
+	mymap.insert ( ft::pair<char,int>('a',100) );
+	mymap.insert ( ft::pair<char,int>('z',200) );
+	print_map(mymap);
 //	ft::pair<ft::map<char,int>::iterator,bool> ret;
 //	ret = mymap.insert ( ft::pair<char,int>('z',500) );
 //	if (ret.second==false) {
@@ -59,7 +59,7 @@ static void ft_insert()
 	// second insert function version (with hint position):
 /*	ft::map<char,int>::iterator it = mymap.begin();
 	mymap.insert (it, ft::pair<char,int>('b',300));  // max efficiency inserting
-	mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting	
+	mymap.insert (it, ft::pair<char,int>('c',400));  // no max efficiency inserting
 	// third insert function version (range insertion):
 	ft::map<char,int> anothermap;
 	anothermap.insert(mymap.begin(),mymap.find('c'));	
@@ -78,9 +78,9 @@ static void	Modifiers()
 
 void map_test()
 {
-	//Modifiers();
+	Modifiers();
 
-
+/*
 	std::map<int,int> mymap;
 	// first insert function version (single parameter):
 	mymap.insert ( std::pair<int,int>(1,100) );
@@ -89,7 +89,7 @@ void map_test()
 	if (mymap.begin() == mymap.end())
 		std::cout<< "oui\n";
 	std::map<int,int>::iterator it = mymap.begin();
-/*
+
 	// showing contents:
 	std::cout << "mymap contains:\n";
 	for (it=mymap.begin(); it!=mymap.end(); ++it)

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/24 20:59:50 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/25 13:10:44 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ public:
 	reference operator*() { return (this->_ptr->item); };
 	pointer operator->() { return (&this->_ptr->item); };
 
-	MapIt &operator++()
+	MapIt &operator++()//metre tail dedans pour pour gain de temps
 	{
 		BST_node<T> *prev = NULL;
 		while (this->_ptr->parent != NULL)
@@ -131,7 +131,7 @@ private:
 	void	init_BST()
 	{
 		_tail = create_node();
-		_head = NULL;
+		_head = _tail;
 	}
 
 public:
@@ -153,18 +153,25 @@ public:
 	comp(x.comp), _alloc(x._alloc), _size(x._size)
 	{
 		init_BST();
-		insert(x._head, x._tail);
+		insert(iterator(x._head), iterator(x._tail));
 	}
 
 	//	Iterators
-	iterator begin();
+	iterator begin()
+	{
+		return (iterator(_head));
+	}
 	//const_iterator begin() const;
+	iterator end()
+	{
+		return (iterator(_tail));
+	}
+	//const_iterator end() const;
 
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
-		iterator it  = iterator(_head);
-		return (my_insert(iterator(_head), val));//-head isssue icciicicicci
+		return (my_insert(iterator(_head), val));
 	}
 	iterator insert(iterator position, const value_type &val)
 	{//define spcefic condition for empty map
@@ -179,21 +186,43 @@ public:
 private://put that in static in btree node
 	pair<iterator,bool> my_insert(iterator position, const value_type &val)
 	{
+		if (_size == 0)
+		{
+			_Node *node = create_node(val, NULL);
+			_head = node;
+			_size++;
+			return (ft::pair<iterator, bool>(iterator(node), true));
+		}
 		if (val.first < position->first)//comp
 		{
 			if (position.as_node()->left == NULL)
-				return (ft::pair<iterator, bool>(iterator(create_node(val, position.as_node())), true));
+			{
+				_Node *node = create_node(val, position.as_node());
+				is_new_tail_head(node);
+				_size++;
+				return (ft::pair<iterator, bool>(iterator(node), true));
+			}
 			else
-				insert(--position, val);//--pos ou it(pos.node->left)
+				insert(--position, val);
 		}
 		else if (val.first > position->first)//comp
 		{
 			if (position.as_node()->right == NULL)
-				return (ft::pair<iterator, bool>(iterator(create_node(val, position.as_node())), true));
+			{
+				_Node *node = create_node(val, position.as_node());
+				is_new_tail_head(node);
+				_size++;
+				return (ft::pair<iterator, bool>(iterator(node), true));
+			}
 			else
-				insert(--position, val);
+				insert(++position, val);
 		}
 		return (ft::pair<iterator, bool>(position, false));
+	}
+	void	is_new_tail_head(_Node *node)
+	{
+		if (_tail->parent == NULL || _tail->parent->item.first < node->item.first) // comp
+			_tail->parent = node;
 	}
 public:
 
