@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/25 18:28:05 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/25 18:59:56 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,17 @@ public:
 		{
 			if (this->_ptr->right != prev)
 			{
+				this->_ptr = this->_ptr->right;
 				if (this->_ptr->left != NULL)
 					while (this->_ptr->left != NULL)
 						this->_ptr = this->_ptr->left;
-				else
-					this->_ptr = this->_ptr->right;
 				return (*this);
 			}
 			else
 			{
 				prev = this->_ptr;
 				this->_ptr = this->_ptr->parent;
-				if (this->ptr->right != prev)
+				if (this->_ptr->right != prev)
 					return (*this);
 			}
 		}
@@ -211,6 +210,7 @@ private://put that in static in btree node
 			if (position.as_node()->left == NULL)
 			{
 				_Node *node = create_node(val, position.as_node());
+				position.as_node()->left = node;
 				is_new_tail(node);//impossible ?
 				_size++;
 				return (ft::pair<iterator, bool>(iterator(node), true));
