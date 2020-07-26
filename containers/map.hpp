@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/26 13:29:13 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/26 17:32:54 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ public:
 	{
 		BST_node<T> *prev = NULL;
 
-		while (1)//replace by while 1
+		while (1)
 		{
 			if (this->_ptr->right != prev)
 			{
@@ -57,15 +57,13 @@ public:
 			}
 			else
 			{
-				//std::cout << "pre drama\n";
 				prev = this->_ptr;
-				//std::cout << "post drama " << this->_ptr << "\n";
 				this->_ptr = this->_ptr->parent;
 				if (this->_ptr->right != prev)
 					return (*this);
 			}
 		}
-		return (*this);
+		//return (*this);
 	}
 	MapIt operator++(int)
 	{ MapIt tmp = *this; ++*this; return (tmp);};
@@ -73,17 +71,25 @@ public:
 	{
 		BST_node<T> *prev = NULL;
 
-		do
+		while (1)
 		{
 			if (this->_ptr->left != prev)
 			{
+				prev = this->_ptr;
 				this->_ptr = this->_ptr->left;
+				if (this->_ptr->right != NULL && this->_ptr->right != prev)//prev protect why here
+					while (this->_ptr->right != NULL)
+						this->_ptr = this->_ptr->right;
 				return (*this);
 			}
-			prev = this->_ptr;
-			this->_ptr = this->_ptr->parent;
-		} while (this->_ptr->parent != NULL);
-		return (*this);
+			else
+			{
+				prev = this->_ptr;
+				this->_ptr = this->_ptr->parent;
+				if (this->_ptr->right == NULL || this->_ptr->right == prev)
+					return (*this);
+			}
+		}
 	}
 	MapIt operator--(int)
 	{ MapIt tmp = *this; --*this; return (tmp);};
@@ -144,7 +150,7 @@ private:
 	}
 	void	init_BST()
 	{
-		_tail = create_node();
+		_tail = create_node(value_type('T',42), NULL);
 		_head = _tail;
 	}
 
@@ -208,21 +214,23 @@ private://put that in static in btree node
 		{
 			_root = _head = create_node(val, _tail);
 			is_new_tail(_head);
+			//std::cout << "size=0" << std::endl;
 		}
 		else if (val.first < position->first)//comp
-		{
+		{//std::cout << "val.first < position->first:" << val.first <<" < "<< position->first << std::endl;
 			if (position.as_node()->left == NULL)
 			{					
 				node = create_node(val, position.as_node());
-				if (val.first < _head->item.first)
-					_head = node;
 				position.as_node()->left = node;
+				if (val.first < _head->item.first)//COMP
+					_head = node;
 			}
 			else
-				insert(--position, val);
+				return (my_insert(iterator(position.as_node()->left), val));
+			//return (my_insert(--position, val));//insert(iterator(position.as_node()->left), val);
 		}
 		else if (val.first > position->first)//comp
-		{
+		{//std::cout << "val.first > position->first: " << val.first <<" > "<< position->first << std::endl;
 			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
 			{
 				node = create_node(val, position.as_node());
@@ -230,10 +238,14 @@ private://put that in static in btree node
 				is_new_tail(node);
 			}
 			else
-				insert(++position, val);
+				return (my_insert(iterator(position.as_node()->right), val));
+			//return (my_insert(++position, val));//better ?
 		}
 		else
+		{//std::cout << "equality" << std::endl;
 			return (ft::pair<iterator, bool>(position, false));
+		}
+		//std::cout << "end" << std::endl;
 		_size++;
 		return (ft::pair<iterator, bool>(iterator(node), true));
 	}

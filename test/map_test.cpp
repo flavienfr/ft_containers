@@ -12,17 +12,16 @@ void print_map(Map c)
 //	Modifiers
 static void std_insert()
 {
-	std::map<char,int> mymap;	
+	std::map<char,int> mymap;
 	// first insert function version (single parameter):
 	mymap.insert ( std::pair<char,int>('a',100) );
 	mymap.insert ( std::pair<char,int>('v',58) );
 	mymap.insert ( std::pair<char,int>('d',190) );
-	//mymap.insert ( std::pair<char,int>('y',60) );
-	//mymap.insert ( std::pair<char,int>('g',300) );
-	//mymap.insert ( std::pair<char,int>('k',500) );
-	//mymap.insert ( std::pair<char,int>('z',200) );
-	std::cout << (mymap.begin())->first <<" => "<<  (mymap.begin())->second << std::endl;
-	std::cout << (--mymap.end())->first <<" => "<< (--mymap.end())->second << std::endl;
+	mymap.insert ( std::pair<char,int>('y',60) );
+	mymap.insert ( std::pair<char,int>('g',300) );
+	mymap.insert ( std::pair<char,int>('k',500) );
+	mymap.insert ( std::pair<char,int>('z',200) );
+
 	print_map(mymap);
 
 }
@@ -32,15 +31,20 @@ static void ft_insert()
 	ft::map<char,int> mymap;
 
 	//first insert function version (single parameter):
-	mymap.insert ( ft::pair<char,int>('a',190) );
-
+	mymap.insert ( ft::pair<char,int>('a',100) );
 	mymap.insert ( ft::pair<char,int>('v',58) );
+	mymap.insert ( ft::pair<char,int>('d',190) );
+	mymap.insert ( ft::pair<char,int>('y',60) );
+	mymap.insert ( ft::pair<char,int>('g',300) );
+	mymap.insert ( ft::pair<char,int>('k',500) );
+	mymap.insert ( ft::pair<char,int>('z',200) );
 
-	mymap.insert ( ft::pair<char,int>('d',100) );
-	//mymap.insert ( ft::pair<char,int>('y',60) );
-	//mymap.insert ( ft::pair<char,int>('g',300) );
-	//mymap.insert ( ft::pair<char,int>('k',500) );
-	//mymap.insert ( ft::pair<char,int>('z',200) );
+	//std::cout << mymap.begin()->first << std::endl;
+	//std::cout << mymap.begin().as_node()->right->item.first << std::endl;
+	//std::cout << mymap.begin().as_node()->right->left->item.first << std::endl;
+	//std::cout << mymap.begin().as_node()->right->left->right->item.first << std::endl;
+	//std::cout << mymap.begin().as_node()->right->right->item.first << std::endl;
+
 	
 	//std::cout << (mymap.begin())->first <<" => "<<  (mymap.begin())->second << std::endl;
 	//std::cout << (--mymap.end())->first <<" => "<< (--mymap.end())->second << std::endl;
