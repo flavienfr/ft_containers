@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/25 18:59:56 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/26 13:29:13 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,22 @@ public:
 	{
 		BST_node<T> *prev = NULL;
 
-		while (!(this->_ptr->left == this->_ptr->parent && this->_ptr->left != NULL))
+		while (1)//replace by while 1
 		{
 			if (this->_ptr->right != prev)
 			{
+				prev = this->_ptr;
 				this->_ptr = this->_ptr->right;
-				if (this->_ptr->left != NULL)
+				if (this->_ptr->left != NULL && this->_ptr->left != prev)
 					while (this->_ptr->left != NULL)
 						this->_ptr = this->_ptr->left;
 				return (*this);
 			}
 			else
 			{
+				//std::cout << "pre drama\n";
 				prev = this->_ptr;
+				//std::cout << "post drama " << this->_ptr << "\n";
 				this->_ptr = this->_ptr->parent;
 				if (this->_ptr->right != prev)
 					return (*this);
@@ -112,6 +115,7 @@ public:
 	typedef size_t										size_type;
 
 private:
+	_Node			*_root;
 	_Node			*_head;
 	_Node			*_tail;
 	key_compare 	comp;
@@ -183,37 +187,36 @@ public:
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
-		return (my_insert(iterator(_head), val));
+		return (my_insert(iterator(_root), val));
 	}
 	iterator insert(iterator position, const value_type &val)
 	{//define spcefic condition for empty map
-		return (my_insert(position, val).first);
+		return (my_insert(position, val).first);//can make strange thing ??
 	}
 	template <class InputIterator>
 	void insert(InputIterator first, InputIterator last)
 	{
 		for (InputIterator it = first; it != last; ++it)
-			my_insert(iterator(_head), *it);
+			my_insert(iterator(_root), *it);
 	}
 private://put that in static in btree node
 	pair<iterator,bool> my_insert(iterator position, const value_type &val)
-	{
+	{//egalité ?
+		_Node *node;
+
 		if (_size == 0)
 		{
-			_head = create_node(val, NULL);//add tail
+			_root = _head = create_node(val, _tail);
 			is_new_tail(_head);
-			_size++;
-			return (ft::pair<iterator, bool>(iterator(_head), true));
 		}
 		else if (val.first < position->first)//comp
 		{
 			if (position.as_node()->left == NULL)
-			{
-				_Node *node = create_node(val, position.as_node());
+			{					
+				node = create_node(val, position.as_node());
+				if (val.first < _head->item.first)
+					_head = node;
 				position.as_node()->left = node;
-				is_new_tail(node);//impossible ?
-				_size++;
-				return (ft::pair<iterator, bool>(iterator(node), true));
 			}
 			else
 				insert(--position, val);
@@ -222,16 +225,17 @@ private://put that in static in btree node
 		{
 			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
 			{
-				_Node *node = create_node(val, position.as_node());
+				node = create_node(val, position.as_node());
 				position.as_node()->right = node;
 				is_new_tail(node);
-				_size++;
-				return (ft::pair<iterator, bool>(iterator(node), true));
 			}
 			else
 				insert(++position, val);
 		}
-		return (ft::pair<iterator, bool>(position, false));
+		else
+			return (ft::pair<iterator, bool>(position, false));
+		_size++;
+		return (ft::pair<iterator, bool>(iterator(node), true));
 	}
 	void	is_new_tail(_Node *node)
 	{
@@ -239,7 +243,7 @@ private://put that in static in btree node
 		{
 			_tail->parent = node;
 			_tail->left = node;
-			_tail->right = _head;//mettre ici ?
+			_tail->right = _root;//mettre ici ?
 			node->right = _tail;
 		}
 	}

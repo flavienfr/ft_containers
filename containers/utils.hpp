@@ -42,7 +42,7 @@ struct BST_node
 
 	BST_node() : item(), parent(NULL), left(NULL), right(NULL)  {}
 	BST_node(const T &item, BST_node *parent, BST_node *left, BST_node *right) :
-	item(item), parent(NULL), left(left), right(right) {}
+	item(item), parent(parent), left(left), right(right) {}
 };
 
 template <typename T>
