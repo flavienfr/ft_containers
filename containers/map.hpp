@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/26 19:48:50 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/26 20:30:20 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,8 +221,7 @@ private:
 	}
 	void	init_BST()
 	{
-		_tail = create_node(value_type('T',42), NULL);
-		_head = _tail;
+		_head =_tail = create_node(value_type('T',42), NULL);
 	}
 
 public:
@@ -241,8 +240,8 @@ public:
 		insert(first, last);
 	}
 	map(const map &x) :
-	comp(x.comp), _alloc(x._alloc), _size(x._size)
-	{
+	comp(x.comp), _alloc(x._alloc), _size(0)
+	{// Warning dirty copy construct like list
 		init_BST();
 		insert(iterator(x._head), iterator(x._tail));
 	}
@@ -301,7 +300,7 @@ private://put that in static in btree node
 	{//egalité ?
 		_Node *node;
 
-		if (_size == 0)
+		if (_size == 0)//ou root == NULL
 		{
 			_root = _head = create_node(val, _tail);
 			is_new_tail(_head);
