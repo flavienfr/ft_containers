@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 18:52:33 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/24 21:00:00 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/26 19:10:14 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ public:
 	virtual ~VectBaseIt(){};
 
 	T *as_ptr() const { return _ptr; };
-
+//put key comp here
 	bool operator==	(const VectBaseIt &rhs) { return (_ptr == rhs._ptr); };
 	bool operator!=	(const VectBaseIt &rhs) { return (_ptr != rhs._ptr); };
 	bool operator<	(const VectBaseIt &rhs) const { return (_ptr < rhs._ptr); };

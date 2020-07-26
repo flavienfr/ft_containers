@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/26 17:32:54 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/26 19:48:50 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ public:
 	reference operator*() { return (this->_ptr->item); };
 	pointer operator->() { return (&this->_ptr->item); };
 
-	MapIt &operator++()//etablir une récursive
+	MapIt &operator++()
 	{
 		BST_node<T> *prev = NULL;
 
@@ -63,7 +63,6 @@ public:
 					return (*this);
 			}
 		}
-		//return (*this);
 	}
 	MapIt operator++(int)
 	{ MapIt tmp = *this; ++*this; return (tmp);};
@@ -86,13 +85,85 @@ public:
 			{
 				prev = this->_ptr;
 				this->_ptr = this->_ptr->parent;
-				if (this->_ptr->right == NULL || this->_ptr->right == prev)
+				if (/*this->_ptr->right == NULL || */this->_ptr->right == prev)
 					return (*this);
 			}
 		}
 	}
 	MapIt operator--(int)
 	{ MapIt tmp = *this; --*this; return (tmp);};
+};
+
+template <typename T, typename CT>// add compare !
+class ReverseMapIt : public MapBaseIt<T>
+{
+public:
+	typedef T			value_type;
+	typedef ptrdiff_t	difference_type;
+	typedef CT *		pointer;
+	typedef CT &		reference;
+
+	ReverseMapIt() : MapBaseIt<T>(NULL) { };
+	ReverseMapIt(BST_node<T> *ptr) : MapBaseIt<T>(ptr) { };
+	ReverseMapIt(const MapBaseIt<T> &it) : MapBaseIt<T>(it.as_node()) { };
+	ReverseMapIt &operator=(const ReverseMapIt &it) { this->_ptr = it._ptr; return (*this); };
+	virtual ~ReverseMapIt() { };
+
+	reference operator*() { return (this->_ptr->item); };
+	pointer operator->() { return (&this->_ptr->item); };
+
+	ReverseMapIt &operator++()
+	{
+		BST_node<T> *prev = NULL;
+
+		while (1)
+		{
+			if (this->_ptr->left != prev)
+			{
+				prev = this->_ptr;
+				this->_ptr = this->_ptr->left;
+				if (this->_ptr->right != NULL && this->_ptr->right != prev)//prev protect why here
+					while (this->_ptr->right != NULL)
+						this->_ptr = this->_ptr->right;
+				return (*this);
+			}
+			else
+			{
+				prev = this->_ptr;
+				this->_ptr = this->_ptr->parent;
+				if (/*this->_ptr->right == NULL || */this->_ptr->right == prev)
+					return (*this);
+			}
+		}
+	}
+	ReverseMapIt operator++(int)
+	{ ReverseMapIt tmp = *this; ++*this; return (tmp);};
+	ReverseMapIt &operator--()
+	{
+		BST_node<T> *prev = NULL;
+
+		while (1)
+		{
+			if (this->_ptr->right != prev)
+			{
+				prev = this->_ptr;
+				this->_ptr = this->_ptr->right;
+				if (this->_ptr->left != NULL && this->_ptr->left != prev)
+					while (this->_ptr->left != NULL)
+						this->_ptr = this->_ptr->left;
+				return (*this);
+			}
+			else
+			{
+				prev = this->_ptr;
+				this->_ptr = this->_ptr->parent;
+				if (this->_ptr->right != prev)
+					return (*this);
+			}
+		}
+	}
+	ReverseMapIt operator--(int)
+	{ ReverseMapIt tmp = *this; --*this; return (tmp);};
 };
 
 template < class Key,											// map::key_type
@@ -114,9 +185,9 @@ public:
 	typedef typename allocator_type::pointer			pointer;
 	typedef typename allocator_type::const_pointer		const_pointer;
 	typedef MapIt<value_type, value_type>				iterator;
-	//typedef ListIt<T, const T>						const_iterator;
-	//typedef ReverseListIt<T, T>						reverse_iterator;
-	//typedef ReverseListIt<T, const T>					const_reverse_iterator;
+	typedef MapIt<value_type, const value_type>			const_iterator;
+	typedef ReverseMapIt<value_type, value_type>		reverse_iterator;
+	typedef ReverseMapIt<value_type, const value_type>	const_reverse_iterator;
 	typedef ptrdiff_t									difference_type;
 	typedef size_t										size_type;
 
@@ -181,14 +252,34 @@ public:
 	{
 		return (iterator(_head));
 	}
-	//const_iterator begin() const;
+	const_iterator begin() const
+	{
+		return (const_iterator(_head));
+	}
 	iterator end()
 	{
 		return (iterator(_tail));
 	}
-	//const_iterator end() const;
-	//reverse_iterator rbegin();
-	//const_reverse_iterator rbegin() const;
+	const_iterator end() const
+	{
+		return (const_iterator(_tail));	
+	}
+	reverse_iterator rbegin()
+	{
+		return (reverse_iterator(_tail->parent));
+	}
+	const_reverse_iterator rbegin() const
+	{
+		return (const_reverse_iterator(_tail->parent));
+	}
+	reverse_iterator rend()
+	{
+		return (reverse_iterator(_tail));
+	}
+	const_reverse_iterator rend() const
+	{
+		return (const_reverse_iterator(_tail));
+	}
 
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
@@ -216,20 +307,20 @@ private://put that in static in btree node
 			is_new_tail(_head);
 			//std::cout << "size=0" << std::endl;
 		}
-		else if (val.first < position->first)//comp
+		else if (key_compare()(val.first, position->first))
 		{//std::cout << "val.first < position->first:" << val.first <<" < "<< position->first << std::endl;
 			if (position.as_node()->left == NULL)
 			{					
 				node = create_node(val, position.as_node());
 				position.as_node()->left = node;
-				if (val.first < _head->item.first)//COMP
+				if (key_compare()(val.first, _head->item.first))
 					_head = node;
 			}
 			else
 				return (my_insert(iterator(position.as_node()->left), val));
 			//return (my_insert(--position, val));//insert(iterator(position.as_node()->left), val);
 		}
-		else if (val.first > position->first)//comp
+		else if (key_compare()(position->first, val.first))
 		{//std::cout << "val.first > position->first: " << val.first <<" > "<< position->first << std::endl;
 			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
 			{
