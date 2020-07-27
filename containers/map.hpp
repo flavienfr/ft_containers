@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/27 18:53:58 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/27 18:57:25 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,11 +273,11 @@ public:
 	}
 	reverse_iterator rbegin()
 	{
-		return (reverse_iterator(_tail->parent));//right au lieu de parent ?
+		return (reverse_iterator(_tail));//tail au lieu de rail->parent ?
 	}
 	const_reverse_iterator rbegin() const
 	{
-		return (const_reverse_iterator(_tail->parent));
+		return (const_reverse_iterator(_tail));//tail au lieu de rail->parent ?
 	}
 	reverse_iterator rend()
 	{
