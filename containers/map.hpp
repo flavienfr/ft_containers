@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/26 20:30:20 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/27 15:18:18 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ private:
 	void	init_BST()
 	{
 		_head =_tail = create_node(value_type('T',42), NULL);
+		_root = NULL;//pas utile
 	}
 
 public:
@@ -242,6 +243,13 @@ public:
 	map(const map &x) :
 	comp(x.comp), _alloc(x._alloc), _size(0)
 	{// Warning dirty copy construct like list
+		init_BST();
+		insert(iterator(x._head), iterator(x._tail));
+	}
+	map &operator= (const map& x)
+	{
+		_size = 0;
+		comp = x.comp;
 		init_BST();
 		insert(iterator(x._head), iterator(x._tail));
 	}
@@ -280,6 +288,26 @@ public:
 		return (const_reverse_iterator(_tail));
 	}
 
+	//	Capacity
+	bool empty() const
+	{
+		return (_size == 0 ? true: false);
+	}
+	size_type size() const
+	{
+		return (_size);
+	}
+	size_type max_size() const
+	{
+		return (node_alloc(_alloc).max_size());
+	}
+
+	//	Element access
+	mapped_type &operator[] (const key_type &k)
+	{
+		return ((*((insert(ft::make_pair(k,mapped_type()))).first)).second);
+	}
+
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
@@ -297,13 +325,13 @@ public:
 	}
 private://put that in static in btree node
 	pair<iterator,bool> my_insert(iterator position, const value_type &val)
-	{//egalité ?
+	{
 		_Node *node;
 
 		if (_size == 0)//ou root == NULL
 		{
-			_root = _head = create_node(val, _tail);
-			is_new_tail(_head);
+			node = _root = _head = create_node(val, _tail);
+			is_new_tail(node);
 			//std::cout << "size=0" << std::endl;
 		}
 		else if (key_compare()(val.first, position->first))
@@ -317,7 +345,6 @@ private://put that in static in btree node
 			}
 			else
 				return (my_insert(iterator(position.as_node()->left), val));
-			//return (my_insert(--position, val));//insert(iterator(position.as_node()->left), val);
 		}
 		else if (key_compare()(position->first, val.first))
 		{//std::cout << "val.first > position->first: " << val.first <<" > "<< position->first << std::endl;
@@ -329,7 +356,6 @@ private://put that in static in btree node
 			}
 			else
 				return (my_insert(iterator(position.as_node()->right), val));
-			//return (my_insert(++position, val));//better ?
 		}
 		else
 		{//std::cout << "equality" << std::endl;

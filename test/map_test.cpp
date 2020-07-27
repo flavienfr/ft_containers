@@ -1,4 +1,5 @@
 #include "main.hpp"
+#include "utils.hpp"
 
 #define LINE std::cout << "\n";
 
@@ -26,8 +27,82 @@ void print_const_reverse_map(Map &c)
 	for (typename Map::const_reverse_iterator it = c.rbegin(); it != c.rend(); it++)
 		std::cout << "(" << it->first << ", " << it->second << ")" << " ";
 }
-//	Modifiers
 
+//	Capacity
+static void std_empty()
+{
+	std::map<char,int> mymap;	
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;	
+	while (!mymap.empty())
+	{
+	  std::cout << mymap.begin()->first << " => " << mymap.begin()->second << " ";
+	  mymap.erase(mymap.begin());
+	}
+}
+static void ft_empty()
+{/*
+	ft::map<char,int> mymap;	
+	mymap['a']=10;
+	mymap['b']=20;
+	mymap['c']=30;	
+	while (!mymap.empty())
+	{
+	  std::cout << mymap.begin()->first << " => " << mymap.begin()->second << " ";
+	  mymap.erase(mymap.begin());
+	}
+*/	
+}
+static void std_size()
+{
+	std::map<char,int> mymap;
+	mymap['a']=101;
+	mymap['b']=202;
+	mymap['c']=302;	
+	std::cout << "mymap.size() is " << mymap.size() << std::endl;
+	print_const_map(mymap);
+}
+static void ft_size()
+{
+	ft::map<char,int> mymap;
+	mymap['a']=101;
+	mymap['b']=202;
+	mymap['c']=302;	
+	std::cout << "mymap.size() is " << mymap.size() << std::endl;
+	print_const_map(mymap);
+}
+static void std_max_size()
+{
+	int i;
+	std::map<int,int> mymap;	
+	if (mymap.max_size()>1000)
+	{
+	  for (i=0; i<1000; i++) mymap[i]=0;
+	  std::cout << "The map contains 1000 elements.";
+	}
+	else std::cout << "The map could not hold 1000 elements.";
+}
+static void ft_max_size()
+{
+	int i;
+	ft::map<int,int> mymap;	
+	if (mymap.max_size()>1000)
+	{
+	  for (i=0; i<1000; i++) mymap[i]=0;
+	  std::cout << "The map contains 1000 elements.";
+	}
+	else std::cout << "The map could not hold 1000 elements.";
+}
+
+static void Capacity()
+{
+	tester(std_empty, ft_empty, "empty");
+	tester(std_size, ft_size, "size");
+	tester(std_max_size, ft_max_size, "max_size");
+}
+
+//	Modifiers
 static void std_insert()
 {
 	{
@@ -53,7 +128,6 @@ static void std_insert()
 		print_const_reverse_map(mymap);
 	}
 }
-
 static void ft_insert()
 {
 	{
@@ -79,7 +153,6 @@ static void ft_insert()
 		print_const_reverse_map(mymap);
 	}
 }
-
 static void	Modifiers()
 {
 	tester(std_insert, ft_insert, "insert");
@@ -87,7 +160,8 @@ static void	Modifiers()
 
 void map_test()
 {
-	Modifiers();
+	Capacity();
+	//Modifiers();
 
 /*
 	std::map<int,int> mymap;
