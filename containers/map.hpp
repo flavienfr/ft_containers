@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/27 20:19:10 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:46:22 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,12 +379,22 @@ private://put that in static in btree node
 public:
 //if _head ++_head 
 	void erase(iterator position)
-	{/*
-		_Node *node;
+	{
+		_Node *pos = position.as_node();
 
-		if (position->as_node()->right == NULL && position->as_node()->left == NULL)
+		if ((pos->right == NULL || pos->right == _tail)
+			&& (pos->left == NULL || pos->left == _tail))
 		{
-
+			if (pos->parent->right == pos)
+				pos->parent->right = pos->right;
+			else
+				pos->parent->left = pos->left;
+			if (pos->right == _tail)
+				_tail->left = pos->parent;
+			//delete pos
+			node_alloc(_alloc).destroy(pos);
+			node_alloc(_alloc).deallocate(pos, 1);
+			_size--;
 		}
 		else if ()
 		{
