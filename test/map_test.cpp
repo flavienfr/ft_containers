@@ -207,8 +207,8 @@ static void ft_erase()
 }
 static void	Modifiers()
 {
-	//tester(std_insert, ft_insert, "insert");
-	tester(std_erase, ft_erase, "erase");
+	tester(std_insert, ft_insert, "insert");
+	//tester(std_erase, ft_erase, "erase");
 }
 
 //	Operations

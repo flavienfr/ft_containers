@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/27 18:57:25 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/27 20:19:10 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,11 +273,11 @@ public:
 	}
 	reverse_iterator rbegin()
 	{
-		return (reverse_iterator(_tail));//tail au lieu de rail->parent ?
+		return (reverse_iterator(_tail->parent));
 	}
 	const_reverse_iterator rbegin() const
 	{
-		return (const_reverse_iterator(_tail));//tail au lieu de rail->parent ?
+		return (const_reverse_iterator(_tail->parent));
 	}
 	reverse_iterator rend()
 	{
@@ -371,7 +371,7 @@ private://put that in static in btree node
 		{
 			_tail->parent = node;
 			_tail->left = node;
-			_tail->right = _head;//mettre ici ? root ou head ?
+			_tail->right = _root;//mettre ici ? root ou head ?
 			node->right = _tail;
 		}
 	}
@@ -379,7 +379,7 @@ private://put that in static in btree node
 public:
 //if _head ++_head 
 	void erase(iterator position)
-	{
+	{/*
 		_Node *node;
 
 		if (position->as_node()->right == NULL && position->as_node()->left == NULL)
@@ -395,7 +395,7 @@ public:
 			//two children => select the nearest less node
 			//_root=YES _head=NO _tail=NO
 		}
-	}
+	*/}
 	size_type erase(const key_type& k);
 	void erase(iterator first, iterator last);
 //	Operations
