@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/27 15:18:18 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/27 18:53:58 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ private:
 	}
 	void	init_BST()
 	{
-		_head =_tail = create_node(value_type('T',42), NULL);
+		_head =_tail = create_node();
 		_root = NULL;//pas utile
 	}
 
@@ -273,7 +273,7 @@ public:
 	}
 	reverse_iterator rbegin()
 	{
-		return (reverse_iterator(_tail->parent));
+		return (reverse_iterator(_tail->parent));//right au lieu de parent ?
 	}
 	const_reverse_iterator rbegin() const
 	{
@@ -371,11 +371,58 @@ private://put that in static in btree node
 		{
 			_tail->parent = node;
 			_tail->left = node;
-			_tail->right = _root;//mettre ici ?
+			_tail->right = _head;//mettre ici ? root ou head ?
 			node->right = _tail;
 		}
 	}
+
 public:
+//if _head ++_head 
+	void erase(iterator position)
+	{
+		_Node *node;
+
+		if (position->as_node()->right == NULL && position->as_node()->left == NULL)
+		{
+
+		}
+		else if ()
+		{
+
+		}
+		else
+		{
+			//two children => select the nearest less node
+			//_root=YES _head=NO _tail=NO
+		}
+	}
+	size_type erase(const key_type& k);
+	void erase(iterator first, iterator last);
+//	Operations
+iterator find(const key_type &k)
+{
+	iterator it;
+	for (it = _head; it != _tail; ++it)//root ou head
+		if (!key_compare()(it->first, k)  && !key_compare()(k, it->first))
+			break ;
+	return (it);
+}
+const_iterator find(const key_type &k) const
+{
+	const_iterator it;
+	for (it = _head; it != _tail; ++it)//root ou head
+		if (!key_compare()(it->first, k)  && !key_compare()(k, it->first))
+			break ;
+	return (it);
+}
+size_type count (const key_type &k) const
+{
+	if (find(k).as_node() == _tail)
+		return (0);
+	return (1);
+}
+
+
 
 };
 
