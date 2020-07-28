@@ -186,7 +186,7 @@ static void ft_insert()
 }
 static void std_erase()
 {
-	/*{
+	{
 		std::map<char,int> mymap;
 		std::map<char,int>::iterator it;	
 		mymap['a']=10;
@@ -204,15 +204,19 @@ static void std_erase()
 		PRINT_SIZE(mymap);
 	}
 	LINE;
-	*/{
+	{
 		std::map<char,int> mymap;
 		std::map<char,int>::iterator it;	
-		mymap['f']=60;	
-		mymap['a']=10;
 		mymap['e']=50;
 		mymap['c']=30;
-		mymap['b']=20;
 		mymap['d']=40;
+		mymap['d']=40;
+		mymap['k']=40;
+		mymap['n']=40;
+		mymap['g']=40;
+		mymap['a']=10;
+		mymap['f']=60;	
+		mymap['b']=20;
 		it=mymap.find('a');
 		mymap.erase (it);                   // erasing by iterator	
 		mymap.erase ('c');                  // erasing by key	
@@ -224,7 +228,7 @@ static void std_erase()
 }
 static void ft_erase()
 {
-	/*{
+	{
 		ft::map<char,int> mymap;
 		ft::map<char,int>::iterator it;	
 		mymap['a']=10;
@@ -242,34 +246,65 @@ static void ft_erase()
 		PRINT_SIZE(mymap);
 	}
 	LINE;
-	*/{
+	{
 		ft::map<char,int> mymap;
 		ft::map<char,int>::iterator it;	
-		mymap['f']=60;	
-		mymap['a']=10;
 		mymap['e']=50;
 		mymap['c']=30;
-		mymap['b']=20;
 		mymap['d']=40;
+		mymap['d']=40;
+		mymap['k']=40;
+		mymap['n']=40;
+		mymap['g']=40;
+		mymap['a']=10;
+		mymap['f']=60;	
+		mymap['b']=20;
 		it=mymap.find('a');
 		mymap.erase (it);                   // erasing by iterator	
 		mymap.erase ('c');                  // erasing by key	
 		it=mymap.find ('e');
-		mymap.erase (it);
-		//mymap.erase ( it, mymap.end() );    // erasing by range
-//it=mymap.find('f');
-//ft::BST_node<ft::pair<const char, int> > *pos = it.as_node();
-//std::cout << "pos->left: "<< pos->left->item.first<< " pos->right: " << pos->right->item.first <<std::endl;
-//std::cout << mymap.begin().as_node()->item.first << std::endl;
-		
-		//print_const_map(mymap);LINE;
+		mymap.erase ( it, mymap.end() );    // erasing by range
+		print_const_map(mymap);LINE;
 		PRINT_SIZE(mymap);
 	}
+}
+static void std_swap()
+{
+	std::map<char,int> foo,bar;	
+	foo['x']=100;
+	foo['y']=200;	
+	bar['a']=11;
+	bar['b']=22;
+	bar['c']=33;	
+	foo.swap(bar);	
+	std::cout << "foo contains:\n";
+	for (std::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';	
+	std::cout << "bar contains:\n";
+	for (std::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+}
+static void ft_swap()
+{
+	ft::map<char,int> foo,bar;	
+	foo['x']=100;
+	foo['y']=200;	
+	bar['a']=11;
+	bar['b']=22;
+	bar['c']=33;	
+	foo.swap(bar);	
+	std::cout << "foo contains:\n";
+	for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';	
+	std::cout << "bar contains:\n";
+	for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
 }
 static void	Modifiers()
 {
 	//tester(std_insert, ft_insert, "insert");
-	tester(std_erase, ft_erase, "erase");
+	//tester(std_erase, ft_erase, "erase");
+	//tester(std_swap, ft_swap, "swap");
 }
 
 //	Operations

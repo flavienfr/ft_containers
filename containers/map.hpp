@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/28 17:51:39 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/28 18:23:52 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -385,7 +385,7 @@ public:
 		if ((pos->right == NULL || pos->right == _tail)
 			&& (pos->left == NULL || pos->left == _tail))
 		{
-			std::cout << "!!! NULL NULL !!!" <<std::endl;
+		//std::cout << "!!! NULL NULL !!!" <<std::endl;
 			new_node = pos->parent;
 			if (new_node->right == pos)
 				new_node->right = pos->right;
@@ -395,8 +395,8 @@ public:
 		else if (((pos->right == NULL || pos->right == _tail) && pos->left != NULL)
 			|| ((pos->left == NULL || pos->left == _tail) && pos->right != NULL && pos->right != _tail))
 		{
-			std::cout << "!!! NULL NODE !!!" <<std::endl;
-			new_node = (pos->right != NULL || pos->right != _tail) ? pos->right : pos->left;
+		//std::cout << "!!! NULL NODE !!!" <<std::endl;
+			new_node = (pos->right != NULL && pos->right != _tail) ? pos->right : pos->left;			
 			new_node->parent = pos->parent;
 			if (pos->parent->right == pos)
 				pos->parent->right = new_node;
@@ -405,7 +405,7 @@ public:
 		}
 		else //two children => select the nearest less node
 		{
-			std::cout << "!!! NODE NODE !!!" <<std::endl;
+		//std::cout << "!!! NODE NODE !!!" <<std::endl;
 			new_node = (--iterator(pos)).as_node();
 			new_node->right = pos->right;
 			pos->right->parent = new_node;
@@ -415,8 +415,11 @@ public:
 			else
 				pos->parent->left = new_node;
 		}
-		if (_tail->left == pos)
+		if (_tail->left == pos)//sure its nez node ?
+		{
 			_tail->left = new_node;
+			new_node->right = _tail;
+		}
 		if (pos == _root)
 			_root = new_node;
 		if (pos == _head)
@@ -440,6 +443,14 @@ public:
 		while (it != last)
 			erase(it++);
 	}
+	void swap (map &x)
+	{
+		template_swap(_root, x._root);
+		template_swap(_head, x._head);
+		template_swap(_tail, x._tail);
+		template_swap(_size, x._size);
+	}
+
 //	Operations
 iterator find(const key_type &k)
 {
