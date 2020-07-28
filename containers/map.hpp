@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/28 18:55:09 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/28 19:00:15 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,7 +444,7 @@ public:
 		erase(it);
 		return (1);
 	}
-	void erase(iterator first, iterator last)
+	void erase(iterator first, iterator last)//ICICICIICICI BAAAAADD NEED RECODE
 	{
 		iterator it = first;
 		while (it != last)
@@ -457,16 +457,9 @@ public:
 		template_swap(_tail, x._tail);
 		template_swap(_size, x._size);
 	}
-	void clear()//not sure if go back into dell node   ?????
+	void clear()
 	{
-		iterator it = begin();
-		while (it != end())
-		{
-			iterator del = it++;
-			node_alloc(_alloc).destroy(del.as_node());// pair of string ??
-			node_alloc(_alloc).deallocate(del.as_node(), 1);
-		}
-		_size = 0;
+		erase(begin(), end());
 	}
 
 //	Operations
