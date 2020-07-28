@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/27 20:46:22 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/28 15:12:15 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,31 +381,49 @@ public:
 	void erase(iterator position)
 	{
 		_Node *pos = position.as_node();
+		_Node *new_node;
 
 		if ((pos->right == NULL || pos->right == _tail)
 			&& (pos->left == NULL || pos->left == _tail))
 		{
-			if (pos->parent->right == pos)
-				pos->parent->right = pos->right;
+			new_node = pos->parent;
+			if (new_node->right == pos)
+				new_node->right = pos->right;
 			else
-				pos->parent->left = pos->left;
-			if (pos->right == _tail)
-				_tail->left = pos->parent;
-			//delete pos
-			node_alloc(_alloc).destroy(pos);
-			node_alloc(_alloc).deallocate(pos, 1);
-			_size--;
+				new_node->left = NULL;
 		}
-		else if ()
+		else if (((pos->right == NULL || pos->right == _tail) && pos->left != NULL)
+			|| ((pos->left == NULL || pos->left == _tail) && pos->right != NULL && pos->right != _tail))
 		{
-
+			new_node = (pos->right != NULL || pos->right != _tail) ? pos->right : pos->left;
+			new_node->parent = pos->parent;
+			if (pos->parent->right == pos)
+				pos->parent->right = new_node;
+			else
+				pos->parent->left = new_node;
 		}
-		else
+		else //two children => select the nearest less node
 		{
-			//two children => select the nearest less node
-			//_root=YES _head=NO _tail=NO
+			new_node = pos;
+			--new_node;
+			new_node->right = pos->right;
+			pos->right->parent = new_node;
+			new_node->parent = pos->parent;
+			if (pos->parent->right == pos)
+				pos->parent->right = new_node;
+			else
+				pos->parent->left = new_node;
 		}
-	*/}
+		if (_tail->left == pos)
+			_tail->left = new_node;
+		if (pos == _root)
+			_root = new_node;
+		if (pos == _head)
+			_head = new_node;
+		node_alloc(_alloc).destroy(pos);
+		node_alloc(_alloc).deallocate(pos, 1);
+		_size--;
+	}
 	size_type erase(const key_type& k);
 	void erase(iterator first, iterator last);
 //	Operations
