@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/28 15:12:15 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/28 17:51:39 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -376,16 +376,16 @@ private://put that in static in btree node
 		}
 	}
 
-public:
-//if _head ++_head 
+public: 
 	void erase(iterator position)
 	{
 		_Node *pos = position.as_node();
 		_Node *new_node;
-
+		
 		if ((pos->right == NULL || pos->right == _tail)
 			&& (pos->left == NULL || pos->left == _tail))
 		{
+			std::cout << "!!! NULL NULL !!!" <<std::endl;
 			new_node = pos->parent;
 			if (new_node->right == pos)
 				new_node->right = pos->right;
@@ -395,6 +395,7 @@ public:
 		else if (((pos->right == NULL || pos->right == _tail) && pos->left != NULL)
 			|| ((pos->left == NULL || pos->left == _tail) && pos->right != NULL && pos->right != _tail))
 		{
+			std::cout << "!!! NULL NODE !!!" <<std::endl;
 			new_node = (pos->right != NULL || pos->right != _tail) ? pos->right : pos->left;
 			new_node->parent = pos->parent;
 			if (pos->parent->right == pos)
@@ -404,8 +405,8 @@ public:
 		}
 		else //two children => select the nearest less node
 		{
-			new_node = pos;
-			--new_node;
+			std::cout << "!!! NODE NODE !!!" <<std::endl;
+			new_node = (--iterator(pos)).as_node();
 			new_node->right = pos->right;
 			pos->right->parent = new_node;
 			new_node->parent = pos->parent;
@@ -419,13 +420,26 @@ public:
 		if (pos == _root)
 			_root = new_node;
 		if (pos == _head)
-			_head = new_node;
+			_head = (++iterator(_head)).as_node();
 		node_alloc(_alloc).destroy(pos);
 		node_alloc(_alloc).deallocate(pos, 1);
-		_size--;
+		--_size;
 	}
-	size_type erase(const key_type& k);
-	void erase(iterator first, iterator last);
+	size_type erase(const key_type &k)
+	{
+		iterator it = find(k);
+		
+		if (it == _tail)
+			return (0);
+		erase(it);
+		return (1);
+	}
+	void erase(iterator first, iterator last)
+	{
+		iterator it = first;
+		while (it != last)
+			erase(it++);
+	}
 //	Operations
 iterator find(const key_type &k)
 {
@@ -449,8 +463,6 @@ size_type count (const key_type &k) const
 		return (0);
 	return (1);
 }
-
-
 
 };
 

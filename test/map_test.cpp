@@ -2,6 +2,7 @@
 #include "utils.hpp"
 
 #define LINE std::cout << "\n";
+#define PRINT_SIZE(mymap) std::cout << "Map size = " << mymap.size();
 
 template <typename Map>
 void print_map(Map &c)
@@ -185,30 +186,90 @@ static void ft_insert()
 }
 static void std_erase()
 {
-	std::map<char,int> mymap;
-	std::map<char,int>::iterator it;	
-	// insert some values:
-	//mymap['a']=10;
-	//mymap['b']=20;
-	//mymap['c']=30;
-	//mymap['d']=40;
-	//mymap['e']=50;
-	//mymap['f']=60;	
-	//it=mymap.find('b');
-	//mymap.erase (it);                   // erasing by iterator	
-	//mymap.erase ('c');                  // erasing by key	
-	//it=mymap.find ('e');
-	//mymap.erase ( it, mymap.end() );    // erasing by range
-
-	print_const_map(mymap);
+	/*{
+		std::map<char,int> mymap;
+		std::map<char,int>::iterator it;	
+		mymap['a']=10;
+		mymap['b']=20;
+		mymap['c']=30;
+		mymap['d']=40;
+		mymap['e']=50;
+		mymap['f']=60;	
+		it=mymap.find('b');
+		mymap.erase (it);                   // erasing by iterator	
+		mymap.erase ('c');                  // erasing by key	
+		it=mymap.find ('e');
+		mymap.erase ( it, mymap.end() );    // erasing by range
+		print_const_map(mymap);LINE;
+		PRINT_SIZE(mymap);
+	}
+	LINE;
+	*/{
+		std::map<char,int> mymap;
+		std::map<char,int>::iterator it;	
+		mymap['f']=60;	
+		mymap['a']=10;
+		mymap['e']=50;
+		mymap['c']=30;
+		mymap['b']=20;
+		mymap['d']=40;
+		it=mymap.find('a');
+		mymap.erase (it);                   // erasing by iterator	
+		mymap.erase ('c');                  // erasing by key	
+		it=mymap.find ('e');
+		mymap.erase ( it, mymap.end() );    // erasing by range
+		print_const_map(mymap);LINE;
+		PRINT_SIZE(mymap);
+	}
 }
 static void ft_erase()
 {
+	/*{
+		ft::map<char,int> mymap;
+		ft::map<char,int>::iterator it;	
+		mymap['a']=10;
+		mymap['b']=20;
+		mymap['c']=30;
+		mymap['d']=40;
+		mymap['e']=50;
+		mymap['f']=60;	
+		it=mymap.find('b');
+		mymap.erase (it);                   // erasing by iterator	
+		mymap.erase ('c');                  // erasing by key	
+		it=mymap.find ('e');
+		mymap.erase ( it, mymap.end() );    // erasing by range
+		print_const_map(mymap);LINE;
+		PRINT_SIZE(mymap);
+	}
+	LINE;
+	*/{
+		ft::map<char,int> mymap;
+		ft::map<char,int>::iterator it;	
+		mymap['f']=60;	
+		mymap['a']=10;
+		mymap['e']=50;
+		mymap['c']=30;
+		mymap['b']=20;
+		mymap['d']=40;
+		it=mymap.find('a');
+		mymap.erase (it);                   // erasing by iterator	
+		mymap.erase ('c');                  // erasing by key	
+		it=mymap.find ('e');
+		mymap.erase (it);
+		//mymap.erase ( it, mymap.end() );    // erasing by range
+//it=mymap.find('f');
+//ft::BST_node<ft::pair<const char, int> > *pos = it.as_node();
+//std::cout << "pos->left: "<< pos->left->item.first<< " pos->right: " << pos->right->item.first <<std::endl;
+//std::cout << mymap.begin().as_node()->item.first << std::endl;
+		
+		//print_const_map(mymap);LINE;
+		PRINT_SIZE(mymap);
+	}
 }
 static void	Modifiers()
 {
-	tester(std_insert, ft_insert, "insert");
-	//tester(std_erase, ft_erase, "erase");
+	//tester(std_insert, ft_insert, "insert");
+	tester(std_erase, ft_erase, "erase");
 }
 
 //	Operations
