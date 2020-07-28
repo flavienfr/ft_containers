@@ -156,7 +156,8 @@ static void std_insert()
 		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
 		print_reverse_map(mymap);LINE;
-		print_const_reverse_map(mymap);
+		print_const_reverse_map(mymap);LINE;
+		PRINT_SIZE(mymap);
 	}
 }
 static void ft_insert()
@@ -181,7 +182,8 @@ static void ft_insert()
 		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
 		print_reverse_map(mymap);LINE;
-		print_const_reverse_map(mymap);
+		print_const_reverse_map(mymap);LINE;
+		PRINT_SIZE(mymap);
 	}
 }
 static void std_erase()
@@ -300,11 +302,44 @@ static void ft_swap()
 	for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 }
+static void std_clear()
+{
+	std::map<char,int> mymap;	
+	mymap['x']=100;
+	mymap['y']=200;
+	mymap['z']=300;	
+	std::cout << "mymap contains:\n";
+	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';	
+	mymap.clear();
+	mymap['a']=1101;
+	mymap['b']=2202;	
+	std::cout << "mymap contains:\n";
+	for (std::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+}
+static void ft_clear()
+{
+	ft::map<char,int> mymap;	
+	mymap['x']=100;
+	mymap['y']=200;
+	mymap['z']=300;	
+	std::cout << "mymap contains:\n";
+	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';	
+	mymap.clear();
+	mymap['a']=1101;
+	mymap['b']=2202;	
+	std::cout << "mymap contains:\n";
+	for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+}
 static void	Modifiers()
 {
-	//tester(std_insert, ft_insert, "insert");
-	//tester(std_erase, ft_erase, "erase");
-	//tester(std_swap, ft_swap, "swap");
+	tester(std_insert, ft_insert, "insert");
+	tester(std_erase, ft_erase, "erase");
+	tester(std_swap, ft_swap, "swap");
+	tester(std_clear, ft_clear, "clear");
 }
 
 //	Operations

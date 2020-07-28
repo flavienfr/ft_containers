@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/28 18:23:52 by froussel         ###   ########.fr       */
+/*   Updated: 2020/07/28 18:55:09 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,8 @@ private:
 	}
 	void	init_BST()
 	{
-		_head =_tail = create_node();
+		_root = _head = _tail = create_node();
+		_tail->parent = _head;
 		_root = NULL;//pas utile
 	}
 
@@ -245,6 +246,12 @@ public:
 	{// Warning dirty copy construct like list
 		init_BST();
 		insert(iterator(x._head), iterator(x._tail));
+	}
+	~map()
+	{
+		clear();
+		node_alloc(_alloc).destroy(_tail);
+		node_alloc(_alloc).deallocate(_tail, 1);
 	}
 	map &operator= (const map& x)
 	{
@@ -449,6 +456,17 @@ public:
 		template_swap(_head, x._head);
 		template_swap(_tail, x._tail);
 		template_swap(_size, x._size);
+	}
+	void clear()//not sure if go back into dell node   ?????
+	{
+		iterator it = begin();
+		while (it != end())
+		{
+			iterator del = it++;
+			node_alloc(_alloc).destroy(del.as_node());// pair of string ??
+			node_alloc(_alloc).deallocate(del.as_node(), 1);
+		}
+		_size = 0;
 	}
 
 //	Operations
