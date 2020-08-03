@@ -334,10 +334,10 @@ static void ft_clear()
 }
 static void	Modifiers()
 {
-	tester(std_insert, ft_insert, "insert");
+	//tester(std_insert, ft_insert, "insert");
 	tester(std_erase, ft_erase, "erase");
-	tester(std_swap, ft_swap, "swap");
-	tester(std_clear, ft_clear, "clear");
+	//tester(std_swap, ft_swap, "swap");
+	//tester(std_clear, ft_clear, "clear");
 }
 
 //	Observers
@@ -513,7 +513,7 @@ static void std_equal_range()
 	std::cout << "lower bound points to: ";
 	std::cout << ret.first->first << " => " << ret.first->second << '\n';	
 	std::cout << "upper bound points to: ";
-	std::cout << ret.second->first << " => " << ret.second->second << '\n';	
+	std::cout << ret.second->first << " => " << ret.second->second;	
 }
 static void ft_equal_range()
 {
@@ -526,13 +526,13 @@ static void ft_equal_range()
 	std::cout << "lower bound points to: ";
 	std::cout << ret.first->first << " => " << ret.first->second << '\n';	
 	std::cout << "upper bound points to: ";
-	std::cout << ret.second->first << " => " << ret.second->second << '\n';	
+	std::cout << ret.second->first << " => " << ret.second->second;	
 }
 static void Operations()
 {
-	//tester(std_find, ft_find,"find");
-	//tester(std_count, ft_count,"count");
-	//tester(std_lower_bound, ft_upper_bound,"upper_bound");
+	tester(std_find, ft_find,"find");
+	tester(std_count, ft_count,"count");
+	tester(std_lower_bound, ft_upper_bound,"upper_bound");
 	tester(std_equal_range, ft_equal_range,"equal_range");
 }
 
@@ -540,7 +540,7 @@ void map_test()
 {
 	//Capacity();
 	//Element_access();
-	//Modifiers();//clear issue
+	Modifiers();//clear issue
 	//Observers();
-	Operations();
+	//Operations();
 }

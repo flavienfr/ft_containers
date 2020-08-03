@@ -6,23 +6,24 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/03 17:22:00 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/03 17:42:27 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//check expetion
+//check limits
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
 # include <memory>			// allocator
-//# include <stdexcept>		// exeption throw
 # include <iostream>		// std::cout debug
-//# include <limits>		// limits
 # include "utils.hpp"		// node
 # include "iterators.hpp"	// iterators
 
 namespace ft {
 
-template <typename T, typename CT>// add compare !
+template <typename T, typename CT>
 class MapIt : public MapBaseIt<T>
 {
 public:
@@ -92,7 +93,7 @@ public:
 	{ MapIt tmp = *this; --*this; return (tmp);};
 };
 
-template <typename T, typename CT>// add compare !
+template <typename T, typename CT>
 class ReverseMapIt : public MapBaseIt<T>
 {
 public:
@@ -211,7 +212,7 @@ private:
 	size_type		_size;
 
 	typedef typename Alloc::template rebind<_Node>::other node_alloc;
-//put that in BST_NODE
+
 	_Node	*create_node(const value_type &val, _Node *parent, _Node *left, _Node *right)
 	{
 		_Node *node = node_alloc(_alloc).allocate(1);
@@ -235,6 +236,57 @@ private:
 		_root = _head = _tail = create_node();
 		_tail->parent = _head;
 		_root = NULL;//pas utile
+	}
+	pair<iterator,bool> my_insert(iterator position, const value_type &val)
+	{
+		_Node *node;
+
+		if (_size == 0)//ou root == NULL
+		{
+			node = _root = _head = create_node(val, _tail);
+			is_new_tail(node);
+			//std::cout << "size=0" << std::endl;
+		}
+		else if (key_compare()(val.first, position->first))
+		{//std::cout << "val.first < position->first:" << val.first <<" < "<< position->first << std::endl;
+			if (position.as_node()->left == NULL)
+			{					
+				node = create_node(val, position.as_node());
+				position.as_node()->left = node;
+				if (key_compare()(val.first, _head->item.first))
+					_head = node;
+			}
+			else
+				return (my_insert(iterator(position.as_node()->left), val));
+		}
+		else if (key_compare()(position->first, val.first))
+		{//std::cout << "val.first > position->first: " << val.first <<" > "<< position->first << std::endl;
+			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
+			{
+				node = create_node(val, position.as_node());
+				position.as_node()->right = node;
+				is_new_tail(node);
+			}
+			else
+				return (my_insert(iterator(position.as_node()->right), val));
+		}
+		else
+		{//std::cout << "equality" << std::endl;
+			return (ft::pair<iterator, bool>(position, false));
+		}
+		//std::cout << "end" << std::endl;
+		_size++;
+		return (ft::pair<iterator, bool>(iterator(node), true));
+	}
+	void	is_new_tail(_Node *node)
+	{
+		if (_tail->parent == NULL || comp(_tail->parent->item.first, node->item.first))
+		{
+			_tail->parent = node;
+			_tail->left = node;
+			_tail->right = _root;
+			node->right = _tail;
+		}
 	}
 
 public:
@@ -325,6 +377,7 @@ public:
 	{
 		return ((*((insert(ft::make_pair(k,mapped_type()))).first)).second);
 	}
+	
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
@@ -340,60 +393,6 @@ public:
 		for (InputIterator it = first; it != last; ++it)
 			my_insert(iterator(_root), *it);
 	}
-private://put that in static in btree node
-	pair<iterator,bool> my_insert(iterator position, const value_type &val)
-	{
-		_Node *node;
-
-		if (_size == 0)//ou root == NULL
-		{
-			node = _root = _head = create_node(val, _tail);
-			is_new_tail(node);
-			//std::cout << "size=0" << std::endl;
-		}
-		else if (key_compare()(val.first, position->first))
-		{//std::cout << "val.first < position->first:" << val.first <<" < "<< position->first << std::endl;
-			if (position.as_node()->left == NULL)
-			{					
-				node = create_node(val, position.as_node());
-				position.as_node()->left = node;
-				if (key_compare()(val.first, _head->item.first))
-					_head = node;
-			}
-			else
-				return (my_insert(iterator(position.as_node()->left), val));
-		}
-		else if (key_compare()(position->first, val.first))
-		{//std::cout << "val.first > position->first: " << val.first <<" > "<< position->first << std::endl;
-			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
-			{
-				node = create_node(val, position.as_node());
-				position.as_node()->right = node;
-				is_new_tail(node);
-			}
-			else
-				return (my_insert(iterator(position.as_node()->right), val));
-		}
-		else
-		{//std::cout << "equality" << std::endl;
-			return (ft::pair<iterator, bool>(position, false));
-		}
-		//std::cout << "end" << std::endl;
-		_size++;
-		return (ft::pair<iterator, bool>(iterator(node), true));
-	}
-	void	is_new_tail(_Node *node)
-	{
-		if (_tail->parent == NULL || _tail->parent->item.first < node->item.first) // comp
-		{
-			_tail->parent = node;
-			_tail->left = node;
-			_tail->right = _root;//mettre ici ? root ou head ?
-			node->right = _tail;
-		}
-	}
-
-public: 
 	void erase(iterator position)
 	{
 		_Node *pos = position.as_node();
