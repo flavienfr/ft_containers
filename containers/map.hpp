@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/03 16:23:28 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/03 17:22:00 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -506,6 +506,46 @@ size_type count (const key_type &k) const
 	if (find(k).as_node() == _tail)
 		return (0);
 	return (1);
+}
+iterator lower_bound (const key_type &k)
+{
+	iterator it;
+	for (it = _head; it != _tail; ++it)
+		if (comp(it->first, k) == false)
+			break ;
+	return (it);
+}
+const_iterator lower_bound (const key_type &k) const
+{
+	const_iterator it;
+	for (it = _head; it != _tail; ++it)
+		if (comp(it->first, k) == false)
+			break ;
+	return (it);
+}
+iterator upper_bound (const key_type &k)
+{
+	iterator it;
+	for (it = _head; it != _tail; ++it)
+		if (comp(k, it->first) == true)
+			break ;
+	return (it);
+}
+const_iterator upper_bound (const key_type &k) const
+{
+	const_iterator it;
+	for (it = _head; it != _tail; ++it)
+		if (comp(k, it->first) == true)
+			break ;
+	return (it);
+}
+pair<iterator,iterator>	equal_range (const key_type &k)
+{
+	return (make_pair(lower_bound(k), upper_bound(k)));
+}
+pair<const_iterator,const_iterator>	equal_range (const key_type &k) const
+{
+	return (make_pair(lower_bound(k), upper_bound(k)));
 }
 
 };
