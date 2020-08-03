@@ -43,7 +43,7 @@ static void std_empty()
 	}
 }
 static void ft_empty()
-{/*
+{
 	ft::map<char,int> mymap;	
 	mymap['a']=10;
 	mymap['b']=20;
@@ -53,7 +53,6 @@ static void ft_empty()
 	  std::cout << mymap.begin()->first << " => " << mymap.begin()->second << " ";
 	  mymap.erase(mymap.begin());
 	}
-*/	
 }
 static void std_size()
 {
@@ -95,7 +94,6 @@ static void ft_max_size()
 	}
 	else std::cout << "The map could not hold 1000 elements.";
 }
-
 static void Capacity()
 {
 	tester(std_empty, ft_empty, "empty");
@@ -342,6 +340,67 @@ static void	Modifiers()
 	tester(std_clear, ft_clear, "clear");
 }
 
+//	Observers
+static void std_key_comp()
+{
+	std::map<char,int> mymap;	
+	std::map<char,int>::key_compare mycomp = mymap.key_comp();	
+	mymap['a']=100;
+	mymap['b']=200;
+	mymap['c']=300;	
+	std::cout << "mymap contains:\n";	
+	char highest = mymap.rbegin()->first;     // key value of last element	
+	std::map<char,int>::iterator it = mymap.begin();
+	do {
+	  std::cout << it->first << " => " << it->second << '\n';
+	} while ( mycomp((*it++).first, highest) );	
+}
+static void ft_key_comp()
+{
+	ft::map<char,int> mymap;	
+	ft::map<char,int>::key_compare mycomp = mymap.key_comp();	
+	mymap['a']=100;
+	mymap['b']=200;
+	mymap['c']=300;	
+	std::cout << "mymap contains:\n";	
+	char highest = mymap.rbegin()->first;     // key value of last element	
+	ft::map<char,int>::iterator it = mymap.begin();
+	do {
+	  std::cout << it->first << " => " << it->second << '\n';
+	} while ( mycomp((*it++).first, highest) );	
+}
+static void std_value_comp()
+{
+	std::map<char,int> mymap;	
+	mymap['x']=1001;
+	mymap['y']=2002;
+	mymap['z']=3003;	
+	std::cout << "mymap contains:\n";	
+	std::pair<char,int> highest = *mymap.rbegin();          // last element	
+	std::map<char,int>::iterator it = mymap.begin();
+	do {
+	  std::cout << it->first << " => " << it->second << '\n';
+	} while ( mymap.value_comp()(*it++, highest) );
+}
+static void ft_value_comp()
+{
+	ft::map<char,int> mymap;	
+	mymap['x']=1001;
+	mymap['y']=2002;
+	mymap['z']=3003;	
+	std::cout << "mymap contains:\n";	
+	ft::pair<char,int> highest = *mymap.rbegin();          // last element	
+	ft::map<char,int>::iterator it = mymap.begin();
+	do {
+	  std::cout << it->first << " => " << it->second << '\n';
+	} while ( mymap.value_comp()(*it++, highest) );
+}
+static void Observers()
+{
+	tester(std_key_comp, ft_key_comp, "key_comp");
+	tester(std_value_comp, ft_value_comp, "value_comp");
+}
+
 //	Operations
 static void std_find()
 {
@@ -361,7 +420,7 @@ static void std_find()
 	std::cout << "d => " << mymap.find('d')->second << '\n';
 }
 static void ft_find()
-{/*
+{
 	ft::map<char,int> mymap;
 	ft::map<char,int>::iterator it;	
 	mymap['a']=50;
@@ -376,7 +435,7 @@ static void ft_find()
 	std::cout << "a => " << mymap.find('a')->second << '\n';
 	std::cout << "c => " << mymap.find('c')->second << '\n';
 	std::cout << "d => " << mymap.find('d')->second << '\n';
-*/}
+}
 static void std_count()
 {
 	std::map<char,int> mymap;
@@ -411,7 +470,7 @@ static void ft_count()
 }
 static void Operations()
 {
-	//tester(std_find, ft_find,"find");
+	tester(std_find, ft_find,"find");
 	tester(std_count, ft_count,"count");
 }
 
@@ -419,6 +478,7 @@ void map_test()
 {
 	//Capacity();
 	//Element_access();
-	Modifiers();
+	//Modifiers();//clear issue
+	Observers();
 	//Operations();
 }

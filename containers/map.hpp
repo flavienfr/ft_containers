@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/28 19:00:15 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/03 16:23:28 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ public:
 			{
 				prev = this->_ptr;
 				this->_ptr = this->_ptr->right;
-				if (this->_ptr->left != NULL && this->_ptr->left != prev)
-					while (this->_ptr->left != NULL)
-						this->_ptr = this->_ptr->left;
+				while (this->_ptr->left != NULL && this->_ptr->left != prev)
+					prev = this->_ptr = this->_ptr->left;
 				return (*this);
 			}
 			else
@@ -76,9 +75,8 @@ public:
 			{
 				prev = this->_ptr;
 				this->_ptr = this->_ptr->left;
-				if (this->_ptr->right != NULL && this->_ptr->right != prev)//prev protect why here
-					while (this->_ptr->right != NULL)
-						this->_ptr = this->_ptr->right;
+				while (this->_ptr->right != NULL && this->_ptr->right != prev)
+					prev = this->_ptr = this->_ptr->right;
 				return (*this);
 			}
 			else
@@ -122,9 +120,8 @@ public:
 			{
 				prev = this->_ptr;
 				this->_ptr = this->_ptr->left;
-				if (this->_ptr->right != NULL && this->_ptr->right != prev)//prev protect why here
-					while (this->_ptr->right != NULL)
-						this->_ptr = this->_ptr->right;
+				while (this->_ptr->right != NULL && this->_ptr->right != prev)
+					prev = this->_ptr = this->_ptr->right;
 				return (*this);
 			}
 			else
@@ -148,9 +145,8 @@ public:
 			{
 				prev = this->_ptr;
 				this->_ptr = this->_ptr->right;
-				if (this->_ptr->left != NULL && this->_ptr->left != prev)
-					while (this->_ptr->left != NULL)
-						this->_ptr = this->_ptr->left;
+				while (this->_ptr->left != NULL && this->_ptr->left != prev)
+					prev = this->_ptr = this->_ptr->left;
 				return (*this);
 			}
 			else
@@ -190,6 +186,21 @@ public:
 	typedef ReverseMapIt<value_type, const value_type>	const_reverse_iterator;
 	typedef ptrdiff_t									difference_type;
 	typedef size_t										size_type;
+	class value_compare
+	{
+	friend class map;
+	protected:
+		Compare comp;
+		value_compare (Compare c) : comp(c) {}
+	public:
+		typedef bool result_type;
+		typedef value_type first_argument_type;
+		typedef value_type second_argument_type;
+		bool operator() (const value_type& x, const value_type& y) const
+		{
+		  return comp(x.first, y.first);
+		}
+	};
 
 private:
 	_Node			*_root;
@@ -314,7 +325,6 @@ public:
 	{
 		return ((*((insert(ft::make_pair(k,mapped_type()))).first)).second);
 	}
-
 	//	Modifiers
 	pair<iterator,bool> insert(const value_type &val)
 	{
@@ -395,7 +405,10 @@ public:
 		//std::cout << "!!! NULL NULL !!!" <<std::endl;
 			new_node = pos->parent;
 			if (new_node->right == pos)
+			{
 				new_node->right = pos->right;
+				//iiccci make draw
+			}
 			else
 				new_node->left = NULL;
 		}
@@ -425,7 +438,7 @@ public:
 		if (_tail->left == pos)//sure its nez node ?
 		{
 			_tail->left = new_node;
-			new_node->right = _tail;
+			new_node->right = _tail;//pas besoin deja mit dans cas 1
 		}
 		if (pos == _root)
 			_root = new_node;
@@ -444,11 +457,10 @@ public:
 		erase(it);
 		return (1);
 	}
-	void erase(iterator first, iterator last)//ICICICIICICI BAAAAADD NEED RECODE
+	void erase(iterator first, iterator last)//is ok ? I THINK
 	{
-		iterator it = first;
-		while (it != last)
-			erase(it++);
+		while (first != last)
+			erase(first++);
 	}
 	void swap (map &x)
 	{
@@ -459,8 +471,18 @@ public:
 	}
 	void clear()
 	{
-		erase(begin(), end());
+		erase(iterator(_head), end());//big issue
 	}
+
+//	Observers
+key_compare key_comp() const
+{
+	return (comp);
+}
+value_compare value_comp() const
+{
+	return (value_compare(comp));
+}
 
 //	Operations
 iterator find(const key_type &k)
