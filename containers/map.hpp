@@ -6,12 +6,12 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/03 17:42:27 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/04 12:07:31 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//check expetion
 //check limits
+//seg fault mac test dsanitize
 
 #ifndef MAP_HPP
 # define MAP_HPP
@@ -241,14 +241,13 @@ private:
 	{
 		_Node *node;
 
-		if (_size == 0)//ou root == NULL
+		if (_size == 0)
 		{
 			node = _root = _head = create_node(val, _tail);
 			is_new_tail(node);
-			//std::cout << "size=0" << std::endl;
 		}
 		else if (key_compare()(val.first, position->first))
-		{//std::cout << "val.first < position->first:" << val.first <<" < "<< position->first << std::endl;
+		{
 			if (position.as_node()->left == NULL)
 			{					
 				node = create_node(val, position.as_node());
@@ -260,7 +259,7 @@ private:
 				return (my_insert(iterator(position.as_node()->left), val));
 		}
 		else if (key_compare()(position->first, val.first))
-		{//std::cout << "val.first > position->first: " << val.first <<" > "<< position->first << std::endl;
+		{
 			if (position.as_node()->right == NULL || position.as_node()->right == _tail)
 			{
 				node = create_node(val, position.as_node());
@@ -271,10 +270,7 @@ private:
 				return (my_insert(iterator(position.as_node()->right), val));
 		}
 		else
-		{//std::cout << "equality" << std::endl;
 			return (ft::pair<iterator, bool>(position, false));
-		}
-		//std::cout << "end" << std::endl;
 		_size++;
 		return (ft::pair<iterator, bool>(iterator(node), true));
 	}
@@ -306,7 +302,7 @@ public:
 	}
 	map(const map &x) :
 	comp(x.comp), _alloc(x._alloc), _size(0)
-	{// Warning dirty copy construct like list
+	{
 		init_BST();
 		insert(iterator(x._head), iterator(x._tail));
 	}
@@ -384,8 +380,8 @@ public:
 		return (my_insert(iterator(_root), val));
 	}
 	iterator insert(iterator position, const value_type &val)
-	{//define spcefic condition for empty map
-		return (my_insert(position, val).first);//can make strange thing ??
+	{
+		return (my_insert(position, val).first);
 	}
 	template <class InputIterator>
 	void insert(InputIterator first, InputIterator last)
@@ -401,20 +397,15 @@ public:
 		if ((pos->right == NULL || pos->right == _tail)
 			&& (pos->left == NULL || pos->left == _tail))
 		{
-		//std::cout << "!!! NULL NULL !!!" <<std::endl;
 			new_node = pos->parent;
 			if (new_node->right == pos)
-			{
 				new_node->right = pos->right;
-				//iiccci make draw
-			}
 			else
 				new_node->left = NULL;
 		}
 		else if (((pos->right == NULL || pos->right == _tail) && pos->left != NULL)
 			|| ((pos->left == NULL || pos->left == _tail) && pos->right != NULL && pos->right != _tail))
 		{
-		//std::cout << "!!! NULL NODE !!!" <<std::endl;
 			new_node = (pos->right != NULL && pos->right != _tail) ? pos->right : pos->left;			
 			new_node->parent = pos->parent;
 			if (pos->parent->right == pos)
@@ -422,9 +413,8 @@ public:
 			else
 				pos->parent->left = new_node;
 		}
-		else //two children => select the nearest less node
+		else
 		{
-		//std::cout << "!!! NODE NODE !!!" <<std::endl;
 			new_node = (--iterator(pos)).as_node();
 			new_node->right = pos->right;
 			pos->right->parent = new_node;
@@ -434,10 +424,10 @@ public:
 			else
 				pos->parent->left = new_node;
 		}
-		if (_tail->left == pos)//sure its nez node ?
+		if (_tail->left == pos)
 		{
 			_tail->left = new_node;
-			new_node->right = _tail;//pas besoin deja mit dans cas 1
+			new_node->right = _tail;
 		}
 		if (pos == _root)
 			_root = new_node;
@@ -456,7 +446,7 @@ public:
 		erase(it);
 		return (1);
 	}
-	void erase(iterator first, iterator last)//is ok ? I THINK
+	void erase(iterator first, iterator last)
 	{
 		while (first != last)
 			erase(first++);
@@ -470,43 +460,43 @@ public:
 	}
 	void clear()
 	{
-		erase(iterator(_head), end());//big issue
+		erase(iterator(_head), end());
 	}
 
-//	Observers
-key_compare key_comp() const
+	//	Observers
+	key_compare key_comp() const
 {
 	return (comp);
 }
-value_compare value_comp() const
+	value_compare value_comp() const
 {
 	return (value_compare(comp));
 }
 
-//	Operations
-iterator find(const key_type &k)
+	//	Operations
+	iterator find(const key_type &k)
 {
 	iterator it;
-	for (it = _head; it != _tail; ++it)//root ou head
+	for (it = _head; it != _tail; ++it)
 		if (!key_compare()(it->first, k)  && !key_compare()(k, it->first))
 			break ;
 	return (it);
 }
-const_iterator find(const key_type &k) const
+	const_iterator find(const key_type &k) const
 {
 	const_iterator it;
-	for (it = _head; it != _tail; ++it)//root ou head
+	for (it = _head; it != _tail; ++it)
 		if (!key_compare()(it->first, k)  && !key_compare()(k, it->first))
 			break ;
 	return (it);
 }
-size_type count (const key_type &k) const
+	size_type count (const key_type &k) const
 {
 	if (find(k).as_node() == _tail)
 		return (0);
 	return (1);
 }
-iterator lower_bound (const key_type &k)
+	iterator lower_bound (const key_type &k)
 {
 	iterator it;
 	for (it = _head; it != _tail; ++it)
@@ -514,7 +504,7 @@ iterator lower_bound (const key_type &k)
 			break ;
 	return (it);
 }
-const_iterator lower_bound (const key_type &k) const
+	const_iterator lower_bound (const key_type &k) const
 {
 	const_iterator it;
 	for (it = _head; it != _tail; ++it)
@@ -522,7 +512,7 @@ const_iterator lower_bound (const key_type &k) const
 			break ;
 	return (it);
 }
-iterator upper_bound (const key_type &k)
+	iterator upper_bound (const key_type &k)
 {
 	iterator it;
 	for (it = _head; it != _tail; ++it)
@@ -530,7 +520,7 @@ iterator upper_bound (const key_type &k)
 			break ;
 	return (it);
 }
-const_iterator upper_bound (const key_type &k) const
+	const_iterator upper_bound (const key_type &k) const
 {
 	const_iterator it;
 	for (it = _head; it != _tail; ++it)
@@ -538,11 +528,11 @@ const_iterator upper_bound (const key_type &k) const
 			break ;
 	return (it);
 }
-pair<iterator,iterator>	equal_range (const key_type &k)
+	pair<iterator,iterator>	equal_range (const key_type &k)
 {
 	return (make_pair(lower_bound(k), upper_bound(k)));
 }
-pair<const_iterator,const_iterator>	equal_range (const key_type &k) const
+	pair<const_iterator,const_iterator>	equal_range (const key_type &k) const
 {
 	return (make_pair(lower_bound(k), upper_bound(k)));
 }

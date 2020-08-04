@@ -334,10 +334,10 @@ static void ft_clear()
 }
 static void	Modifiers()
 {
-	//tester(std_insert, ft_insert, "insert");
+	tester(std_insert, ft_insert, "insert");
 	tester(std_erase, ft_erase, "erase");
-	//tester(std_swap, ft_swap, "swap");
-	//tester(std_clear, ft_clear, "clear");
+	tester(std_swap, ft_swap, "swap");
+	tester(std_clear, ft_clear, "clear");
 }
 
 //	Observers
@@ -538,9 +538,9 @@ static void Operations()
 
 void map_test()
 {
-	//Capacity();
-	//Element_access();
+	Capacity();
+	Element_access();
 	Modifiers();//clear issue
-	//Observers();
-	//Operations();
+	Observers();
+	Operations();
 }
