@@ -6,16 +6,9 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/24 20:59:57 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/04 12:30:44 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//Allocation node par node ou tableau de node quand possible 
-
-/*
-** 	set _tail with value size_t;
-**	const iterator
-*/
 
 #ifndef LIST_HPP
 # define LIST_HPP
@@ -301,8 +294,8 @@ public:
 			_tail->prev->next = tmp;
 			_tail->prev = tmp;
 		}
-		_tail->next = _head;//add
-		_head->prev = _tail;//add
+		_tail->next = _head;
+		_head->prev = _tail;
 		++_size;
 	}
 	void pop_back()
@@ -406,8 +399,8 @@ public:
 
 		size_type count = 0;
 		for (iterator it = first; it != last; ++it, ++count);
-		_size += count; //-size sans tail
-		x._size -= count; //-size sans tail
+		_size += count;
+		x._size -= count;
 
 		_Node *new_first = first.as_node()->prev;
 		_Node *new_last = last.as_node();
