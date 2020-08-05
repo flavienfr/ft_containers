@@ -134,22 +134,28 @@ static void Element_access()
 //	Modifiers
 static void std_insert()
 {
-	{
+/*	{
 		std::map<char,int> mymap;
 
-		mymap.insert ( std::pair<char,int>('g',300) );
-		mymap.insert ( std::pair<char,int>('g',300) );
-		mymap.insert ( std::pair<char,int>('k',500) );
-		mymap.insert ( std::pair<char,int>('k',500) );
-		mymap.insert ( std::pair<char,int>('g',300) );
-		mymap.insert ( std::pair<char,int>('v',58) );
-		mymap.insert ( std::pair<char,int>('a',100) );
+		mymap.insert ( std::pair<char,int>('z',200) );
 		mymap.insert ( std::pair<char,int>('y',60) );
-		mymap.insert ( std::pair<char,int>('z',200) );
-		mymap.insert ( std::pair<char,int>('z',200) );
-		mymap.insert ( std::pair<char,int>('z',200) );
-		mymap.insert ( std::pair<char,int>('d',190) );
 		mymap.insert ( std::pair<char,int>('v',58) );
+		mymap.insert ( std::pair<char,int>('k',500) );
+		mymap.insert ( std::pair<char,int>('g',300) );
+		mymap.insert ( std::pair<char,int>('a',100) );
+		mymap.insert ( std::pair<char,int>('d',190) );
+
+		print_map(mymap);LINE;
+		print_const_map(mymap);LINE;
+		print_reverse_map(mymap);LINE;
+		print_const_reverse_map(mymap);LINE;
+		PRINT_SIZE(mymap);
+	}*/
+	{
+		ft::map<char,int> mymap;
+
+		mymap.insert ( ft::pair<char,int>('d',100) );
+		mymap.insert ( ft::pair<char,int>('b',200) );
 
 		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
@@ -160,22 +166,28 @@ static void std_insert()
 }
 static void ft_insert()
 {
+	/*{
+		ft::map<char,int> mymap;
+
+		mymap.insert ( ft::pair<char,int>('z',200) );
+		mymap.insert ( ft::pair<char,int>('y',60) );
+		mymap.insert ( ft::pair<char,int>('v',58) );
+		mymap.insert ( ft::pair<char,int>('k',500) );
+		mymap.insert ( ft::pair<char,int>('g',300) );
+		mymap.insert ( ft::pair<char,int>('a',100) );
+		mymap.insert ( ft::pair<char,int>('d',190) );
+
+		print_map(mymap);LINE;
+		print_const_map(mymap);LINE;
+		print_reverse_map(mymap);LINE;
+		print_const_reverse_map(mymap);LINE;
+		PRINT_SIZE(mymap);
+	}*/
 	{
 		ft::map<char,int> mymap;
 
-		mymap.insert ( ft::pair<char,int>('g',300) );
-		mymap.insert ( ft::pair<char,int>('g',300) );
-		mymap.insert ( ft::pair<char,int>('k',500) );
-		mymap.insert ( ft::pair<char,int>('k',500) );
-		mymap.insert ( ft::pair<char,int>('g',300) );
-		mymap.insert ( ft::pair<char,int>('v',58) );
-		mymap.insert ( ft::pair<char,int>('a',100) );
-		mymap.insert ( ft::pair<char,int>('y',60) );
-		mymap.insert ( ft::pair<char,int>('z',200) );
-		mymap.insert ( ft::pair<char,int>('z',200) );
-		mymap.insert ( ft::pair<char,int>('z',200) );
-		mymap.insert ( ft::pair<char,int>('d',190) );
-		mymap.insert ( ft::pair<char,int>('v',58) );
+		mymap.insert ( ft::pair<char,int>('d',100) );
+		mymap.insert ( ft::pair<char,int>('b',200) );
 
 		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
@@ -186,7 +198,7 @@ static void ft_insert()
 }
 static void std_erase()
 {
-	{
+	/*{
 		std::map<char,int> mymap;
 		std::map<char,int>::iterator it;	
 		mymap['a']=10;
@@ -200,10 +212,13 @@ static void std_erase()
 		mymap.erase ('c');                  // erasing by key	
 		it=mymap.find ('e');
 		mymap.erase ( it, mymap.end() );    // erasing by range
+		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
+		print_reverse_map(mymap);LINE;
+		print_const_reverse_map(mymap);LINE;
 		PRINT_SIZE(mymap);
 	}
-	LINE;
+	*/LINE;
 	{
 		std::map<char,int> mymap;
 		std::map<char,int>::iterator it;	
@@ -221,14 +236,22 @@ static void std_erase()
 		mymap.erase (it);                   // erasing by iterator	
 		mymap.erase ('c');                  // erasing by key	
 		it=mymap.find ('e');
-		mymap.erase ( it, mymap.end() );    // erasing by range
+		//mymap.erase ( it, mymap.end() );    // erasing by range
+			mymap.erase ('e');
+			//mymap.erase ('f');
+			//mymap.erase ('g');
+			//mymap.erase ('g');
+			//mymap.erase ('k');
+		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
+		print_reverse_map(mymap);LINE;
+		//print_const_reverse_map(mymap);LINE;
 		PRINT_SIZE(mymap);
 	}
 }
 static void ft_erase()
 {
-	{
+	/*{
 		ft::map<char,int> mymap;
 		ft::map<char,int>::iterator it;	
 		mymap['a']=10;
@@ -242,11 +265,14 @@ static void ft_erase()
 		mymap.erase ('c');                  // erasing by key	
 		it=mymap.find ('e');
 		mymap.erase ( it, mymap.end() );    // erasing by range
+		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
+		print_reverse_map(mymap);LINE;
+		print_const_reverse_map(mymap);LINE;
 		PRINT_SIZE(mymap);
 	}
 	LINE;
-	{
+	*/{
 		ft::map<char,int> mymap;
 		ft::map<char,int>::iterator it;	
 		mymap['e']=50;
@@ -263,8 +289,22 @@ static void ft_erase()
 		mymap.erase (it);                   // erasing by iterator	
 		mymap.erase ('c');                  // erasing by key	
 		it=mymap.find ('e');
-		mymap.erase ( it, mymap.end() );    // erasing by range
+		//mymap.erase ( it, mymap.end() );    // erasing by range
+			mymap.erase ('e');
+			//mymap.erase ('f');
+			//mymap.erase ('g');
+			//mymap.erase ('g');
+			//mymap.erase ('k');
+		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
+		
+		std::cout << "rbegin: " << mymap.rbegin()->first << std::endl;
+		std::cout << "rend: " << (--mymap.rend())->first << std::endl;
+		std::cout << "begin: " << mymap.begin()->first << std::endl;
+		std::cout << "end: " << (--mymap.end())->first << std::endl;
+		
+		print_reverse_map(mymap);LINE;
+		//print_const_reverse_map(mymap);LINE;
 		PRINT_SIZE(mymap);
 	}
 }
@@ -334,10 +374,10 @@ static void ft_clear()
 }
 static void	Modifiers()
 {
-	tester(std_insert, ft_insert, "insert");
+	//tester(std_insert, ft_insert, "insert");
 	tester(std_erase, ft_erase, "erase");
-	tester(std_swap, ft_swap, "swap");
-	tester(std_clear, ft_clear, "clear");
+	//tester(std_swap, ft_swap, "swap");
+	//tester(std_clear, ft_clear, "clear");
 }
 
 //	Observers
@@ -538,9 +578,9 @@ static void Operations()
 
 void map_test()
 {
-	Capacity();
-	Element_access();
+	//Capacity();
+	//Element_access();
 	Modifiers();//clear issue
-	Observers();
-	Operations();
+	//Observers();
+	//Operations();
 }

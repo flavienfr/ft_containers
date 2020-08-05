@@ -6,12 +6,13 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/04 12:07:31 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/05 18:36:59 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //check limits
 //seg fault mac test dsanitize
+//reconsolité tial->parent 
 
 #ifndef MAP_HPP
 # define MAP_HPP
@@ -339,11 +340,11 @@ public:
 	}
 	reverse_iterator rbegin()
 	{
-		return (reverse_iterator(_tail->parent));
+		return (reverse_iterator(_tail->left));
 	}
 	const_reverse_iterator rbegin() const
 	{
-		return (const_reverse_iterator(_tail->parent));
+		return (const_reverse_iterator(_tail->left));
 	}
 	reverse_iterator rend()
 	{
