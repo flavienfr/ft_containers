@@ -12,6 +12,8 @@
 #include <map>
 #include "stack.hpp"
 #include <stack>
+#include "queue.hpp"
+#include <queue>
 
 void	tester(void (*pf_1)(), void (*pf_2)(), std::string text);
 
@@ -19,5 +21,6 @@ void	vector_test();
 void	list_test();
 void	map_test();
 void	stack_test();
+void	queue_test();
 
 #endif

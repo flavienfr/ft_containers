@@ -69,6 +69,7 @@
 		"utility": "cpp",
 		"vector": "cpp",
 		"clocale": "cpp",
-		"memory_resource": "cpp"
+		"memory_resource": "cpp",
+		"queue": "cpp"
 	}
 }

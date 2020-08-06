@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.hpp                                          :+:      :+:    :+:   */
+/*   queue.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/08/04 12:09:19 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/06 15:39:50 by froussel         ###   ########.fr       */
+/*   Created: 2020/08/06 14:48:57 by froussel          #+#    #+#             */
+/*   Updated: 2020/08/06 17:16:12 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 namespace ft {
 
 template <class T, class Container = std::deque<T> >
-class stack
+class queue
 {
 public:
 	typedef T			value_type;
@@ -27,7 +27,7 @@ private:
 
 public:
 	//	Allocation
-	explicit stack (const container_type &ctnr = container_type())
+	explicit queue (const container_type &ctnr = container_type())
 	{
 		ctn = ctnr;
 	}
@@ -41,49 +41,56 @@ public:
 	{
 		return (ctn.size());
 	}
-	value_type& top()
+	value_type& front()
+	{
+		return (ctn.front());
+	}
+	const value_type& front() const
+	{
+		return (ctn.front());
+	}
+	value_type& back()
 	{
 		return (ctn.back());
 	}
-	const value_type& top() const
+	const value_type& back() const
 	{
 		return (ctn.back());
 	}
-	void push (const value_type &val)
+	void push (const value_type& val)
 	{
 		ctn.push_back(val);
 	}
 	void pop()
 	{
-		ctn.pop_back();
+		ctn.pop_front();
 	}
 
 	//	Non-member function overloads
-	friend bool operator== (const stack<T,Container> &lhs, const stack<T,Container> &rhs)
+	friend bool operator== (const queue<T,Container> &lhs, const queue<T,Container> &rhs)
 	{
 		return (lhs.ctn == rhs.ctn);
 	}
-	friend bool operator!= (const stack<T,Container> &lhs, const stack<T,Container> &rhs)
+	friend bool operator!= (const queue<T,Container> &lhs, const queue<T,Container> &rhs)
 	{
 		return (lhs.ctn != rhs.ctn);
 	}
-	friend bool operator<  (const stack<T,Container> &lhs, const stack<T,Container> &rhs)
+	friend bool operator<  (const queue<T,Container> &lhs, const queue<T,Container> &rhs)
 	{
 		return (lhs.ctn < rhs.ctn);
 	}
-	friend bool operator<= (const stack<T,Container> &lhs, const stack<T,Container> &rhs)
+	friend bool operator<= (const queue<T,Container> &lhs, const queue<T,Container> &rhs)
 	{
 		return (lhs.ctn <= rhs.ctn);
 	}
-	friend bool operator>  (const stack<T,Container> &lhs, const stack<T,Container> &rhs)
+	friend bool operator>  (const queue<T,Container> &lhs, const queue<T,Container> &rhs)
 	{
 		return (lhs.ctn > rhs.ctn);
 	}
-	friend bool operator>= (const stack<T,Container> &lhs, const stack<T,Container> &rhs)
+	friend bool operator>= (const queue<T,Container> &lhs, const queue<T,Container> &rhs)
 	{
 		return (lhs.ctn >= rhs.ctn);
 	}
-
 };
 
 } //namespace

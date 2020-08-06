@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 15:49:22 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/04 12:30:44 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/06 16:32:38 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ public:
 		(void)isIter;
 		init_list();
 		for (InputIterator it = first; it != last; ++it)
-			push_back(*it);//insrt is better
+			push_back(*it);
 	}
 	list(const list& x)
 	{
@@ -156,16 +156,13 @@ public:
 		_size = x._size;
 		init_list();
 		for (iterator it = x.begin(); it != x.end(); ++it)
-			push_back(*it);//insrt is better
+			push_back(*it);
 	}
-	list& operator= (const list& x)
+	list& operator= (const list &x)
 	{
-		//std::cout << "sup\n";
-
 		clear();
-		_size = x._size;
 		for (iterator it = x.begin(); it != x.end(); ++it)
-			push_back(*it);//test withi *it
+			push_back(*it);
 		return (*this);
 	}
 	~list()
@@ -481,7 +478,7 @@ public:
 			is_sort = 1;
 			while (it2 != end())
 			{
-				if (comp(*it2, *it1))//ou inverse
+				if (comp(*it2, *it1))
 				{
 					if (it1.as_node() == _head)
 						_head = it2.as_node();
