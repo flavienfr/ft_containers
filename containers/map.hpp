@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/06 14:25:22 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/06 14:35:43 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,30 @@ private:
 			node->right = _tail;
 		}
 	}
+	void virtual_erase(_Node *pos)
+	{
+		_Node *new_node;
+
+		if ((pos->right == NULL || pos->right == _tail)
+			&& (pos->left == NULL || pos->left == _tail))
+		{
+			new_node = pos->parent;
+			if (new_node->right == pos)
+				new_node->right = pos->right;
+			else
+				new_node->left = NULL;
+		}
+		else if (((pos->right == NULL || pos->right == _tail) && pos->left != NULL)
+			|| ((pos->left == NULL || pos->left == _tail) && pos->right != NULL && pos->right != _tail))
+		{
+			new_node = (pos->right != NULL && pos->right != _tail) ? pos->right : pos->left;			
+			new_node->parent = pos->parent;
+			if (pos->parent->right == pos)
+				pos->parent->right = new_node;
+			else
+				pos->parent->left = new_node;
+		}
+	}
 
 public:
 	//	Allocation
@@ -390,32 +414,6 @@ public:
 		for (InputIterator it = first; it != last; ++it)
 			my_insert(iterator(_root), *it);
 	}
-	
-	void virtual_erase(_Node *pos)
-	{
-		_Node *new_node;
-
-		if ((pos->right == NULL || pos->right == _tail)
-			&& (pos->left == NULL || pos->left == _tail))
-		{
-			new_node = pos->parent;
-			if (new_node->right == pos)
-				new_node->right = pos->right;
-			else
-				new_node->left = NULL;
-		}
-		else if (((pos->right == NULL || pos->right == _tail) && pos->left != NULL)
-			|| ((pos->left == NULL || pos->left == _tail) && pos->right != NULL && pos->right != _tail))
-		{
-			new_node = (pos->right != NULL && pos->right != _tail) ? pos->right : pos->left;			
-			new_node->parent = pos->parent;
-			if (pos->parent->right == pos)
-				pos->parent->right = new_node;
-			else
-				pos->parent->left = new_node;
-		}
-	}
-	
 	void erase(iterator position)
 	{
 		_Node *pos = position.as_node();
@@ -443,11 +441,7 @@ public:
 		else
 		{
 			new_node = (--iterator(pos)).as_node();
-			//std::cout << "pos: " << pos->item.first << std::endl;
-			//std::cout << "new_node: " << new_node->item.first << std::endl;
-
 			virtual_erase(new_node);
-
 			new_node->right = pos->right;
 			pos->right->parent = new_node;
 			new_node->parent = pos->parent;
