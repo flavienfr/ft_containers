@@ -288,7 +288,7 @@ static void ft_erase()
 		it=mymap.find('a');
 		mymap.erase (it);                   // erasing by iterator	
 		mymap.erase ('c');                  // erasing by key	
-		it=mymap.find ('e');
+	//	it=mymap.find ('e');
 		//mymap.erase ( it, mymap.end() );    // erasing by range
 			mymap.erase ('e');
 			//mymap.erase ('f');
@@ -298,10 +298,12 @@ static void ft_erase()
 		print_map(mymap);LINE;
 		print_const_map(mymap);LINE;
 		
-		std::cout << "rbegin: " << mymap.rbegin()->first << std::endl;
-		std::cout << "rend: " << (--mymap.rend())->first << std::endl;
-		std::cout << "begin: " << mymap.begin()->first << std::endl;
-		std::cout << "end: " << (--mymap.end())->first << std::endl;
+		it=mymap.find ('d');
+	//	std::cout << "left->item.first: " << it.as_node()->left->item.first << std::endl;
+		//std::cout << "rbegin: " << mymap.rbegin()->first << std::endl;
+		//std::cout << "rend: " << (++mymap.rend())->first << std::endl;
+		//std::cout << "begin: " << mymap.begin()->first << std::endl;
+		//std::cout << "end: " << (--mymap.end())->first << std::endl;
 		
 		print_reverse_map(mymap);LINE;
 		//print_const_reverse_map(mymap);LINE;

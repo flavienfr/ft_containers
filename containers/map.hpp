@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/21 17:09:13 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/05 18:36:59 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/06 11:22:36 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,7 +416,10 @@ public:
 		}
 		else
 		{
+			std::cout << "node: " << pos->item.first << std::endl;
 			new_node = (--iterator(pos)).as_node();
+			std::cout << "new_node: " << new_node->item.first << std::endl;
+
 			new_node->right = pos->right;
 			pos->right->parent = new_node;
 			new_node->parent = pos->parent;
@@ -424,6 +427,16 @@ public:
 				pos->parent->right = new_node;
 			else
 				pos->parent->left = new_node;
+			//add
+			if (new_node->left != NULL)
+			{
+				new_node->parent->right = new_node->left;
+				if (new_node->left != pos->left)
+				{
+					new_node->left = pos->left;
+					pos->left->parent = new_node;
+				}
+			}
 		}
 		if (_tail->left == pos)
 		{
