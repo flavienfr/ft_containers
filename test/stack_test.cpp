@@ -98,7 +98,7 @@ static void std_push_pop()
 }
 static void ft_push_pop()
 {
-	ft::stack<int, ft::list<int>> mystack;	
+	ft::stack<int, ft::list<int> > mystack;	
 	for (int i=0; i<5; ++i) mystack.push(i);	
 	std::cout << "Popping out elements...";
 	while (!mystack.empty())
