@@ -6,13 +6,9 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/26 16:34:50 by user42            #+#    #+#             */
-/*   Updated: 2020/07/22 12:42:07 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/08 12:24:07 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** IMPORTANT GERER LES BOOL OU DELETE FUNCTION TEST BOOL
-*/
 
 #include "main.hpp"
 
@@ -207,8 +203,6 @@ static void	std_max_size()
 	std::cout << vec3.max_size() << std::endl;
 	std::vector<std::string>vec4;
 	std::cout << vec4.max_size() << std::endl;
-	//std::vector<bool>vec5;
-	//std::cout << vec5.max_size();
 }
 static void	ft_max_size()
 {
@@ -220,8 +214,6 @@ static void	ft_max_size()
 	std::cout << vec3.max_size() << std::endl;
 	ft::vector<std::string>vec4;
 	std::cout << vec4.max_size() << std::endl;
-	//ft::vector<bool>vec5;
-	//std::cout << vec5.max_size();
 }
 static void	std_resize()
 {
@@ -484,8 +476,7 @@ static void	std_at()
 	std::cout << "myvector contains:";
 	try
 	{
-		for (unsigned i=0; i<myvector.size() + 1; i++)
-			std::cout << ' ' << myvector.at(i);
+		std::cout << ' ' << myvector.at(15);
 	}
 	catch(const std::exception& e)
 	{
@@ -503,8 +494,7 @@ static void	ft_at()
 	std::cout << "myvector contains:";
 	try
 	{
-		for (unsigned i=0; i<myvector.size() + 1; i++)
-			std::cout << ' ' << myvector.at(i);	
+		std::cout << ' ' << myvector.at(15);	
 	}
 	catch(const std::exception& e)
 	{
@@ -1311,24 +1301,6 @@ static void	std_swap()
 		NEW_LINE;
 		PRINT_SIZE_CAPACITY(bar);
 	}
-	/*NEW_LINE;
-	{
-		std::vector<bool> foo;
-		std::vector<bool> bar;		
-		foo.push_back(false);
-		foo.push_back(true);
-		foo.push_back(false);		
-		bar.push_back(true);
-		bar.push_back(false);		
-		foo.swap (foo[0], foo[1]);
-		bar.swap (bar.front(), bar.back());		
-		foo.swap(bar);		
-		std::cout << std::boolalpha;
-		std::cout << "foo contains:";
-		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
-		std::cout << "\nbar contains:";
-		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
-	}*/
 }
 static void	ft_swap()
 {
@@ -1350,24 +1322,6 @@ static void	ft_swap()
 		NEW_LINE;
 		PRINT_SIZE_CAPACITY(bar);
 	}
-	/*NEW_LINE;
-	{
-		ft::vector<bool> foo;
-		ft::vector<bool> bar;	
-		foo.push_back(false);
-		foo.push_back(true);
-		foo.push_back(false);	
-		bar.push_back(true);
-		bar.push_back(false);	
-		foo.swap(foo[0], foo[1]);
-		bar.swap(bar.front(), bar.back());	
-		foo.swap(bar);	
-		std::cout << std::boolalpha;
-		std::cout << "foo contains:";
-		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
-		std::cout << "\nbar contains:";
-		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
-	}*/
 }
 
 static void	Modifiers()
@@ -1399,24 +1353,6 @@ static void	std_swap2()
 		std::cout << ' ' << bar[i];
 	NEW_LINE;
 	PRINT_SIZE_CAPACITY(bar);
-	/*NEW_LINE;
-	{
-		std::vector<bool> foo;
-		std::vector<bool> bar;		
-		foo.push_back(false);
-		foo.push_back(true);
-		foo.push_back(false);		
-		bar.push_back(true);
-		bar.push_back(false);		
-		foo.swap (foo[0], foo[1]);
-		bar.swap (bar.front(), bar.back());		
-		foo.swap(bar);		
-		std::cout << std::boolalpha;
-		std::cout << "foo contains:";
-		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
-		std::cout << "\nbar contains:";
-		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
-	}*/
 }
 static void	ft_swap2()
 {
@@ -1436,24 +1372,6 @@ static void	ft_swap2()
 		std::cout << ' ' << bar[i];
 	NEW_LINE;
 	PRINT_SIZE_CAPACITY(bar);
-	/*NEW_LINE; Bool class
-	{
-		ft::vector<bool> foo;
-		ft::vector<bool> bar;	
-		foo.push_back(false);
-		foo.push_back(true);
-		foo.push_back(false);	
-		bar.push_back(true);
-		bar.push_back(false);	
-		foo.swap(foo[0], foo[1]);
-		bar.swap(bar.front(), bar.back());	
-		foo.swap(bar);	
-		std::cout << std::boolalpha;
-		std::cout << "foo contains:";
-		for (unsigned i=0; i<foo.size(); i++) std::cout << ' ' << foo[i];
-		std::cout << "\nbar contains:";
-		for (unsigned i=0; i<bar.size(); i++) std::cout << ' ' << bar[i];
-	}*/
 }
 static void	std_relational_operators()
 {

@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/06 14:48:51 by froussel          #+#    #+#             */
-/*   Updated: 2020/08/06 17:16:29 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/08 12:24:00 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static void std_push_pop()
 }
 static void ft_push_pop()
 {
-	ft::queue<int> myqueue;
+	ft::queue<int, ft::list<int>> myqueue;
 	int myint = 0;		
 	do {
 	  myint += 5;

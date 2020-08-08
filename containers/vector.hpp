@@ -6,20 +6,16 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/28 16:34:52 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/23 18:52:09 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/08 12:24:06 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//LINUX VS MAC
-//-	max_size
-//IMPORTANT GERER LES BOOL OU DELETE FUNCTION TEST BOOL
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
 # include <memory>			// allocator
 # include <stdexcept>		// exeption throw
-# include <iostream>		// std::cout debug
+# include <sstream>			// ostringstream
 # include <limits>			// limits
 # include "utils.hpp"		// swap
 # include "iterators.hpp"	// iterators
@@ -377,7 +373,12 @@ template <typename T, typename Alloc>
 typename vector<T, Alloc>::reference		vector<T, Alloc>::at(size_type n)
 {
 	if (n >= _size)
-		throw std::out_of_range("vector: out of range");
+	{
+		std::ostringstream oss;
+		oss << "vector::_M_range_check: __n (which is " << n <<") >= this->size() (which is "<< _size <<")";
+		std::string str = oss.str();
+		throw std::out_of_range(str.c_str());
+	}
 	return (_vector[n]);
 }
 template <typename T, typename Alloc>

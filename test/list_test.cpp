@@ -6,7 +6,7 @@
 /*   By: froussel <froussel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/13 17:32:47 by froussel          #+#    #+#             */
-/*   Updated: 2020/07/22 17:23:49 by froussel         ###   ########.fr       */
+/*   Updated: 2020/08/08 12:24:02 by froussel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -581,10 +581,6 @@ static void std_reverse()
 	std::list<int> mylist;	
 	for (int i=1; i<9; ++i) mylist.push_back(i);	
 	mylist.reverse();
-	
-	//for (std::list<int>::const_iterator it = mylist.begin(); it != mylist.end(); ++it)
-	//	std::cout <<*it<< " ";
-	//LINE;
 	PRINT_LIST_CONST(std::list<int>, mylist);LINE;
 	PRINT_LIST_REVERSE(std::list<int>, mylist);
 }
@@ -593,9 +589,6 @@ static void ft_reverse()
 	ft::list<int> mylist;	
 	for (int i=1; i<9; ++i) mylist.push_back(i);
 	mylist.reverse();
-	//for (ft::list<int>::const_iterator it = mylist.begin(); it != mylist.end(); ++it)
-	//	std::cout <<*it<< " ";
-	//LINE;
 	PRINT_LIST(ft::list<int>, mylist);LINE;
 	PRINT_LIST_REVERSE(ft::list<int>, mylist);
 }
